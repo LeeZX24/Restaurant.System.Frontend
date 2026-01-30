@@ -2,8 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginComponent } from './login.component';
 import { provideHttpClient } from '@angular/common/http';
-import { provideAppInitializer, provideZonelessChangeDetection } from '@angular/core';
-import { loadAppConfig } from '../../app/utils/runtime-env';
+import { provideZonelessChangeDetection } from '@angular/core';
 import { APP_CONFIG } from '../../app/shared/configs/app-config.token';
 
 describe('LoginComponent', () => {
