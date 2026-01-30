@@ -1,0 +1,25 @@
+@reference 'tailwindcss';
+
+.dialog-header {
+ @apply px-3 py-1 border-b;
+}
+
+.dialog-content {
+  @apply px-4 py-2 flex justify-center max-h-full h-auto w-auto;
+}
+
+.dialog-footer {
+ @apply px-2 py-2 border-t flex justify-end gap-2;
+}
+
+.dialog-error .dialog-header {
+ @apply bg-red-100 text-red-800;
+}
+
+.dialog-error .dialog-content {
+ @apply border-l-4 border-red-800;
+}
+
+.dialog-error .dialog-footer {
+ @apply bg-red-200;
+}

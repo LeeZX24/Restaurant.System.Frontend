@@ -1,0 +1,13 @@
+@reference 'tailwindcss';
+
+.dialog-header {
+ @apply px-6 py-1 border-b;
+}
+
+.dialog-content {
+  @apply px-4 py-1 items-center justify-center max-h-full h-20;
+}
+
+.dialog-footer {
+ @apply px-4 py-2 border-t flex justify-end gap-2;
+}
