@@ -1,0 +1,46 @@
+{
+  "repositoryUrl": "https://github.com/LeeZX24/Restaurant.System",
+  "branches": [
+    "release",
+    { "name": "master", "channel": "dev", "prerelease": "build" }
+  ],
+  "tagFormat": "v${version}",
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer", {
+        "releaseRules": [
+          { "message": "/\\bui\\b/i", "release": "major" },
+          { "message": "*fix*", "release": "patch" },
+          { "message": "/\\bnew\\b/i", "release":"minor" },
+          { "message": "initial commit", "release": "minor" }
+        ],
+        "parserOpts": {
+          "headerPattern": "^(?:\\w*)(?:\\((.*)\\))?!? :\\s(.*)$"
+        },
+        "defaultRelease": "patch"
+      }
+    ],
+    "@semantic-release/release-notes-generator",
+    ["@semantic-release/changelog", { "changelogFile": "CHANGELOG.md" }],
+    ["@semantic-release/npm", { "npmPublish": false }],
+    [
+      "@semantic-release/exec", {
+        "prepareCmd": "echo 'NEXT_VERSION=${nextRelease.version}' >> $GITHUB_ENV"
+      }
+    ],
+    [
+      "@semantic-release/git", {
+        "assets": ["package.json", "package-lock.json", "CHANGELOG.md"],
+        "message": "chore(release): ${nextRelease.version} [skip ci]"
+      }
+    ],
+    [
+      "@semantic-release/github", {
+        "successComment": false,
+        "labels": false,
+        "releasedLabels": false
+      }
+    ]
+  ],
+  "preset": "angular"
+}

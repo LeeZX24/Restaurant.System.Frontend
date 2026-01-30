@@ -1,0 +1,11 @@
+@reference "tailwindcss";
+
+.frame {
+ @apply flex flex-col h-screen;
+}
+
+.content {
+ @apply flex h-[calc(100vh-30px)] justify-center items-center;
+}
+
+

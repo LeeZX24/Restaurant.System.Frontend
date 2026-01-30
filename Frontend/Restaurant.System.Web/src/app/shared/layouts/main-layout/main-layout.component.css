@@ -1,0 +1,13 @@
+@reference "tailwindcss";
+
+.footer {
+  @apply h-[30px];
+}
+
+.footer.footer {
+  @apply text-center w-full h-8 text-white bg-[#2b2e33] fixed right-0 bottom-0 left-0 z-30;
+}
+
+.footer-content {
+  @apply flex justify-center items-center gap-2;
+}

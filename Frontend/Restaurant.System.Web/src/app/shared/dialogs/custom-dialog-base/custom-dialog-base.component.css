@@ -1,0 +1,11 @@
+@reference "tailwindcss";
+
+.custom-dialog {
+ @apply fixed inset-0 flex justify-center items-center z-50 bg-black/50;
+}
+
+.custom-dialog-container {
+ @apply bg-white rounded-lg shadow-lg w-80 max-w-full;
+}
+
+
