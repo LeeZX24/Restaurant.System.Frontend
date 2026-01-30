@@ -1,0 +1,24 @@
+.formLabel {
+  @apply text-sm font-medium flex items-center py-1;
+}
+
+.col-label {
+  @apply w-full lg:w-2/5 px-4;
+}
+
+.col-input {
+  @apply w-full lg:w-3/5 px-4;
+}
+
+.formControl {
+  @apply w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm
+         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+}
+
+.formControl:disabled {
+  @apply disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed;
+}
+
+.formControl:invalid {
+  @apply required:border-red-500;
+}
