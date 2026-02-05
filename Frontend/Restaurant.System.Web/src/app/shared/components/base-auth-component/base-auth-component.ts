@@ -32,13 +32,14 @@ export abstract class BaseAuthComponent<TRequest extends UserDto> extends BaseCo
     });
 
     dialogRef.afterOpened().subscribe(() => {
-      setTimeout(() => {
+      setTimeout(async () => {
         dialogRef.close();
-        this.authService.login(req).subscribe({
+        const login$ = await this.authService.login(req);
+        login$.subscribe({
           next: (res) => this.handleLoginSuccess(res),
           error: (err) => this.handleLoginError(err)
         });
-      });
+      }, 5000);
     })
   }
 
