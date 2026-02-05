@@ -7,6 +7,8 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptors } fro
 import { AuthInterceptor, JwtInterceptor } from './core/interceptor/shared.inceptor';
 import { provideTranslateService } from '@ngx-translate/core';
 import { LoadingInterceptor } from './core/interceptor/loading.interceptor';
+import { loadAppConfig } from './utils/runtime-env';
+import { APP_CONFIG } from './shared/configs/app-config.state';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,6 +28,10 @@ export const appConfig: ApplicationConfig = {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
       multi: true
+    },
+    {
+      provide: APP_CONFIG,
+      useFactory: () => loadAppConfig()
     }
   ]
 };

@@ -14,7 +14,6 @@ export class MainLayoutComponent implements OnInit {
   private metaService = inject(AppMetaService);
 
   ngOnInit() {
-    this.version = this.metaService.meta.version
-    console.log('App version:', this.version);
+    this.version = this.metaService.meta.version;
   }
 }

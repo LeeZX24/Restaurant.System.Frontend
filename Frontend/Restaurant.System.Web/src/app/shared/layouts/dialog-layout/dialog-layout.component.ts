@@ -2,12 +2,14 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { firstValueFrom, timeout } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { CustomDialogService } from '../../../core/services/custom-dialog/custom-dialog.service';
 import { CustomDialogRef } from '../../dialogs/custom-dialog-base/custom-dialog.ref';
 import { ErrorDialogComponent } from '../../dialogs/customs-dialogs/error-dialog/error-dialog.component';
 import { InformationDialogComponent } from '../../dialogs/customs-dialogs/information-dialog/information-dialog.component';
 import { RouterService } from '../../services/router.service';
+import { APP_CONFIG } from '../../configs/app-config.state';
+import { AppConfig } from '../../configs/app-config.model';
 
 @Component({
   selector: 'rs-dialog-layout',
@@ -19,10 +21,14 @@ export class DialogLayoutComponent implements OnInit {
   private routerService = inject(RouterService);
   private httpClient = inject(HttpClient);
   private dialogService = inject(CustomDialogService);
+  private config = inject(APP_CONFIG);
+
+  appConfig!: AppConfig;
 
   error = signal(false);
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.appConfig = await this.config;
     setTimeout(() => {
       const ref = this.dialogService.open(InformationDialogComponent, {
         data: { title: 'Information', message: 'Checking Backend ...' },
@@ -43,7 +49,7 @@ export class DialogLayoutComponent implements OnInit {
 
   async checkBackend(ref: CustomDialogRef<void>) {
     try {
-      await firstValueFrom(this.httpClient.get('/api/ishealthy', { responseType: 'text' }).pipe(timeout(60000)));
+      await firstValueFrom(this.httpClient.get(`${this.appConfig.baseUrl}/api/ishealthy`, { responseType: 'text' }));
       this.setState();
 
       this.openSuccessDialog();
