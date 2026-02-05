@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { firstValueFrom, timeout } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { CustomDialogService } from '../../../core/services/custom-dialog/custom-dialog.service';
 import { CustomDialogRef } from '../../dialogs/custom-dialog-base/custom-dialog.ref';
 import { ErrorDialogComponent } from '../../dialogs/customs-dialogs/error-dialog/error-dialog.component';
@@ -43,7 +43,8 @@ export class DialogLayoutComponent implements OnInit {
 
   async checkBackend(ref: CustomDialogRef<void>) {
     try {
-      await firstValueFrom(this.httpClient.get('/api/ishealthy', { responseType: 'text' }).pipe(timeout(60000)));
+      console.log()
+      await firstValueFrom(this.httpClient.get(`/api/ishealthy`, { responseType: 'text' }));
       this.setState();
 
       this.openSuccessDialog();

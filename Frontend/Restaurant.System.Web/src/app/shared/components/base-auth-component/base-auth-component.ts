@@ -38,7 +38,7 @@ export abstract class BaseAuthComponent<TRequest extends UserDto> extends BaseCo
           next: (res) => this.handleLoginSuccess(res),
           error: (err) => this.handleLoginError(err)
         });
-      }, 10000);
+      });
     })
   }
 
