@@ -1,14 +1,4 @@
-import type { AppConfig } from './app-config.model';
+import { InjectionToken } from '@angular/core';
+import { AppConfig } from './app-config.model';
 
-let config: AppConfig | null = null;
-
-export function setAppConfig(value: AppConfig) {
-  config = value;
-}
-
-export function getAppConfig(): AppConfig {
-  if (!config) {
-    throw new Error('AppConfig not loaded yet');
-  }
-  return config;
-}
+export const APP_CONFIG = new InjectionToken<Promise<AppConfig>>('APP_CONFIG');

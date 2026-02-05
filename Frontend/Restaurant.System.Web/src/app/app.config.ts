@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideAppInitializer, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -8,8 +8,7 @@ import { AuthInterceptor, JwtInterceptor } from './core/interceptor/shared.incep
 import { provideTranslateService } from '@ngx-translate/core';
 import { LoadingInterceptor } from './core/interceptor/loading.interceptor';
 import { loadAppConfig } from './utils/runtime-env';
-import { APP_CONFIG } from './shared/configs/app-config.token';
-import { getAppConfig } from './shared/configs/app-config.state';
+import { APP_CONFIG } from './shared/configs/app-config.state';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,10 +29,9 @@ export const appConfig: ApplicationConfig = {
       useClass: LoadingInterceptor,
       multi: true
     },
-    provideAppInitializer(() => loadAppConfig()),
     {
       provide: APP_CONFIG,
-      useFactory: () => getAppConfig()
+      useFactory: () => loadAppConfig()
     }
   ]
 };

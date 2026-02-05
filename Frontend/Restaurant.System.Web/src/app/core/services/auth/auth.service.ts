@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserDto } from '../../../shared/models/dtos/user.dto';
-import { APP_CONFIG } from '../../../shared/configs/app-config.token';
+import { APP_CONFIG } from '../../../shared/configs/app-config.state';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +16,9 @@ export class AuthService {
   // Observable to subscribe
   currentUserObservable$ = this.currentUser$.asObservable();
 
-  login(user: UserDto): Observable<UserDto> {
-    console.log(`Login API Url: ${this.config.baseUrl}/api/auth/login`);
-    return this.http.post<UserDto>(`${this.config.baseUrl}/api/auth/login`, user);
+  async login(user: UserDto): Promise<Observable<UserDto>> {
+    const appConfig = await this.config;
+    return this.http.post<UserDto>(`${appConfig.baseUrl}/api/auth/login`, user);
   }
 
   // register(user: CustomerDto) {
