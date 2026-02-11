@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { CustomFormGroup, RSEmailFormControlComponent, RSPasswordFormControlComponent, RSTextFormControl } from '@rs/forms';
 import { BaseAuthComponent } from '../../app/shared/components/base-auth-component/base-auth-component';
 import { provideTranslateService, TranslateService } from '@ngx-translate/core';
+import { ActivityState } from '../../app/shared/enums/activity-state';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'rs-login',
@@ -25,6 +27,7 @@ import { provideTranslateService, TranslateService } from '@ngx-translate/core';
   ]
 })
 export class LoginComponent extends BaseAuthComponent<UserDto> {
+
   private translateService = inject(TranslateService);
 
   _request!: UserDto;
@@ -46,10 +49,13 @@ export class LoginComponent extends BaseAuthComponent<UserDto> {
     return this.form.get(name);
   }
 
-  getFormRequest(): UserDto {
+  RequestDetails(): UserDto {
     const req: UserDto =
     {
-      ...this.form.getRawValue()
+      ...this.form.getRawValue(),
+      identifier: this.emailFC.value,
+      state: ActivityState.Login,
+      customerId: uuidv4()
     };
     return req;
   }
