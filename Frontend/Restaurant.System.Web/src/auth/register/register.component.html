@@ -1,4 +1,4 @@
-<div class="w-[700px] mx-auto">
+<div class="w-175 mx-auto">
   <div class="mb-8 flex justify-center text-2xl font-semibold">
     <span>Register</span>
   </div>
@@ -6,7 +6,6 @@
     <form class="flex items-center border-b border-teal-50 justify-center" [formGroup]="form">
       <div class="flex flex-wrap">
         <div class="w-full mb-1">
-          <rs-label-text-form-control [fc]="fullNameFC" [labelSize]="'col-label'" [inputSize]="'col-input'" tabindex="0"></rs-label-text-form-control>
           <rs-label-email-form-control [fc]="emailFC" [labelSize]="'col-label'" [inputSize]="'col-input'" tabindex="1"></rs-label-email-form-control>
           <rs-label-password-form-control [fc]="passwordFC" [labelSize]="'col-label'" [inputSize]="'col-input'" tabindex="2"></rs-label-password-form-control>
           <rs-label-password-form-control [fc]="confirmPasswordFC" [labelSize]="'col-label'" [inputSize]="'col-input'" tabindex="3"></rs-label-password-form-control>

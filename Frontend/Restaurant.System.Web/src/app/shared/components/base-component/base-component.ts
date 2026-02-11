@@ -1,32 +1,35 @@
-import { Directive, OnDestroy } from '@angular/core';
+import { Directive, inject, OnDestroy } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { SubscriptionBase } from '../../../core/entities/subscription-base';
 import { BaseDto } from '../../models/dtos/base/base.dto';
+import { ActivityService } from '../../../core/services/activity.service';
 
 @Directive()
 export abstract class BaseComponent<TRequest extends BaseDto> extends SubscriptionBase implements OnDestroy {
   form!: FormGroup;
-  response$: Subject<TRequest> = new Subject<TRequest>();
+  private _response!: TRequest;
+  get response(): TRequest { return this._response; }
+  set response(value: TRequest) { this.response = value }
 
-  abstract get request(): TRequest;
-  abstract set request(value: TRequest);
+  // set item at here
+  public abstract get request(): TRequest;
+  public abstract set request(value: TRequest);
 
-  protected abstract submit(req: TRequest): void;
+  public abstract onValidateForm(): boolean;
+  public abstract RequestDetails(): TRequest;
+
+  activityService = inject(ActivityService);
 
   onSubmit(): void {
     if(!this.form.valid) return;
 
     if(this.onValidateForm()) {
-      const req = this.getFormRequest() as TRequest;
-      this.submit(req);
+      const req = this.RequestDetails() as TRequest;
+      this.activityService.submit(req, req.state);
     } else {
       this.showFormControlsValidationErrors();
     }
   }
-
-  protected abstract onValidateForm(): boolean;
-  protected abstract getFormRequest(): BaseDto;
 
   showFormControlsValidationErrors(): void {
     this._setFormControlsTouched(this.form.controls);

@@ -3,6 +3,7 @@ import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 import angular from "angular-eslint";
+import path from "node:path";
 
 export default defineConfig([
   js.configs.recommended,
@@ -17,6 +18,7 @@ export default defineConfig([
       parserOptions: {
         ecmaVersion: 2026,
         sourceType: "module",
+        tsconfigRootDir: path.dirname(),
       },
     },
     processor: angular.processInlineTemplates,
