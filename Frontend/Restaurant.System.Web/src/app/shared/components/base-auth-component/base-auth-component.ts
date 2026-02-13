@@ -1,5 +1,5 @@
 import { Directive, OnInit, OnDestroy, inject } from "@angular/core";
-import { CustomFormGroup } from "../../../../../dist/forms/types/rs-forms";
+import { CustomFormGroup } from "@rs/forms";
 import { AuthService } from "../../../core/services/auth/auth.service";
 import { CustomDialogService } from "../../../core/services/custom-dialog/custom-dialog.service";
 import { ErrorDialogComponent } from "../../dialogs/customs-dialogs/error-dialog/error-dialog.component";
@@ -136,11 +136,9 @@ export abstract class BaseAuthComponent<TRequest extends UserDto> extends BaseCo
 
   private handleRegisterError(err: unknown) {
     let errorMessage = '';
-    let errorCode = '';
 
     if(err instanceof HttpErrorResponse) {
       errorMessage = err.error.message;
-      errorCode = err.status.toString();
     }
 
     const dialogRef = this.dialogService.open(ErrorDialogComponent, {
@@ -157,11 +155,9 @@ export abstract class BaseAuthComponent<TRequest extends UserDto> extends BaseCo
 
   private handleLoginError(err: unknown) {
     let errorMessage = '';
-    let errorCode = '';
 
     if(err instanceof HttpErrorResponse) {
       errorMessage = err.error.message;
-      errorCode = err.status.toString();
     }
 
     const dialogRef = this.dialogService.open(ErrorDialogComponent, {

@@ -1,13 +1,9 @@
 .formLabel {
-  @apply text-sm font-medium flex items-center py-1;
-}
-
-.col-label {
-  @apply w-full lg:w-2/5 px-4;
+  @apply block text-sm font-medium mb-2;
 }
 
 .col-input {
-  @apply w-full lg:w-3/5 px-4;
+  @apply w-full;
 }
 
 .formControl {

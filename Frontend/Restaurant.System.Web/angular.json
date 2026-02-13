@@ -106,7 +106,10 @@
             "allowedHosts": [
               ".gitpod.dev",
               ".gitpod.io"
-            ]
+            ],
+            "headers": {
+              "Cache-Control": "no-cache"
+            }
           },
           "configurations": {
             "production": {
@@ -217,6 +220,10 @@
     "analytics": "fda32eca-2165-483e-89ed-06917fb98778",
     "schematicCollections": [
       "angular-eslint"
-    ]
+    ],
+    "cache": {
+      "enabled": false,
+      "path": ".angular/cache"
+    }
   }
 }

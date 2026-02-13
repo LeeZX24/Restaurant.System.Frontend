@@ -13,15 +13,20 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
+    "baseUrl": "./",
     "paths": {
       "auth": [
         "./dist/auth"
       ],
       "@rs/forms": [
-        "./dist/forms"
+        "dist/rs/forms"
+      ],
+      "@rs/forms/*": [
+        "dist/rs/forms/*"
       ]
     },
-    "module": "preserve",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "strictPropertyInitialization": true,
     "noImplicitAny": true,
     "noImplicitThis": true,

@@ -1,0 +1,19 @@
+{
+  "project": {
+    "controls": {
+      "errors" :
+      {
+        "required": "'{0}' is required.",
+        "minlength": "{0} required minimum length of {1} characters.",
+        "maxlength": "{0} required maximum length of {1} characters.",
+        "min": "{0} must be at least {1}.",
+        "max": "{0} must be maximum {1}.",
+        "pattern": "'{0}' has invalid input format.",
+        "nozero": "{0} cannot be zero.",
+        "email": "{0} must be a valid email address.",
+        "passwordMismatch": "password mismatch.",
+        "custom": "'{0}' is invalid."
+      }
+    }
+  }
+}

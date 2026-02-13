@@ -23,17 +23,17 @@ export class ActivityService implements OnDestroy {
   }
 
   _submit(req: BaseDto, state: ActivityState) {
-    // if(state == ActivityState.Login) {
-    //   this.http.post<BaseDto>(this.baseUrl('auth', 'login'), req);
-    // }
+    if(state == ActivityState.Login) {
+      this.http.post<BaseDto>(this.baseUrl('auth', 'login'), req);
+    }
 
-    // if(state == ActivityState.Register) {
-    //   this.http.post<BaseDto>(this.baseUrl('auth', 'register'), req);
-    // }
+    if(state == ActivityState.Register) {
+      this.http.post<BaseDto>(this.baseUrl('auth', 'register'), req);
+    }
   }
 
   baseUrl(domain: string, action: string): string {
-    var baseUrl = from(this.config).pipe(switchMap(appConfig => appConfig.baseUrl)) + 'api/';
+    const baseUrl = from(this.config).pipe(switchMap(appConfig => appConfig.baseUrl)) + 'api/';
     return `${baseUrl}/${domain}/${action}`;
   }
 }

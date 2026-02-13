@@ -4,6 +4,9 @@ import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 import angular from "angular-eslint";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig([
   js.configs.recommended,
@@ -18,7 +21,7 @@ export default defineConfig([
       parserOptions: {
         ecmaVersion: 2026,
         sourceType: "module",
-        tsconfigRootDir: path.dirname(),
+        tsconfigRootDir: __dirname,
       },
     },
     processor: angular.processInlineTemplates,

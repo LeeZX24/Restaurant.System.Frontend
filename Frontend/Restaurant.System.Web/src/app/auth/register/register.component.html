@@ -3,15 +3,13 @@
     <span>Register</span>
   </div>
   <div class="space-y-4">
-    <form class="flex items-center border-b border-teal-50 justify-center" [formGroup]="form">
-      <div class="flex flex-wrap">
-        <div class="w-full mb-1">
-          <rs-label-email-form-control [fc]="emailFC" [labelSize]="'col-label'" [inputSize]="'col-input'" tabindex="1"></rs-label-email-form-control>
-          <rs-label-password-form-control [fc]="passwordFC" [labelSize]="'col-label'" [inputSize]="'col-input'" tabindex="2"></rs-label-password-form-control>
-          <rs-label-password-form-control [fc]="confirmPasswordFC" [labelSize]="'col-label'" [inputSize]="'col-input'" tabindex="3"></rs-label-password-form-control>
-        </div>
+    <form class="flex items-center border-b border-teal-50 justify-center p-6" [formGroup]="form">
+      <div class="flex flex-col w-full mb-1 max-w-md">
+        <rs-label-email-form-control [fc]="emailFC" [inputSize]="'col-input'" tabindex="1"></rs-label-email-form-control>
+        <rs-label-password-form-control [fc]="passwordFC" [inputSize]="'col-input'" tabindex="2"></rs-label-password-form-control>
+        <rs-label-password-form-control [fc]="confirmPasswordFC" [inputSize]="'col-input'" tabindex="3"></rs-label-password-form-control>
 
-        <div class="button w-full btnRegister"
+        <div class="button btnRegister"
           [class.disabled]="form.invalid" (click)="form.invalid ? null : onSubmit()"
           (keyup.enter)="onSubmit()" role="button" tabindex="2">
           <div class="btnLabel">

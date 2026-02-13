@@ -1,5 +1,3 @@
-import { LoginRequest } from './../../../shared/models/dtos/requests/login-request';
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, from, Observable, switchMap } from 'rxjs';

@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
-import { PreloadAllModules, provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling, withPreloading } from '@angular/router';
+import { PreloadAllModules, provideRouter, withInMemoryScrolling, withPreloading } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
@@ -7,6 +7,7 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptors } fro
 import { AuthInterceptor, JwtInterceptor } from './core/interceptor/shared.inceptor';
 import { provideTranslateService } from '@ngx-translate/core';
 import { LoadingInterceptor } from './core/interceptor/loading.interceptor';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { loadAppConfig } from './utils/runtime-env';
 import { APP_CONFIG } from './shared/configs/app-config.state';
 
@@ -23,7 +24,6 @@ export const appConfig: ApplicationConfig = {
         JwtInterceptor,
       ])
     ),
-    provideTranslateService(),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
@@ -32,6 +32,11 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_CONFIG,
       useFactory: () => loadAppConfig()
-    }
+    },
+    provideTranslateService({
+      lang: 'en',
+      fallbackLang: 'en',
+      loader: provideTranslateHttpLoader({prefix:'/i18n/', suffix:'.json'})
+    })
   ]
 };

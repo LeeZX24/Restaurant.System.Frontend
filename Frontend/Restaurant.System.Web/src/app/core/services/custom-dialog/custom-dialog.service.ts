@@ -47,9 +47,12 @@ export class CustomDialogService {
 
     if(isPlatformBrowser(this.platformId))
     {
-      // Attach views
-      this.appRef.attachView(containerRef.hostView);
-      document.body.appendChild(containerRef.location.nativeElement);
+      queueMicrotask(() => {
+        // Attach views
+        this.appRef.attachView(containerRef.hostView);
+        document.body.appendChild(containerRef.location.nativeElement);
+      });
+
     }
 
     Promise.resolve().then(() => {
@@ -58,10 +61,8 @@ export class CustomDialogService {
 
     // Cleanup on close
     dialogRef.afterClosed().subscribe(() => {
-      this.appRef.detachView(contentRef.hostView);
       this.appRef.detachView(containerRef.hostView);
       containerRef.destroy();
-      contentRef.destroy();
     });
 
     return dialogRef;

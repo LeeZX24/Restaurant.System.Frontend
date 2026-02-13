@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegisterComponent } from './register.component';
+import { LoginComponent } from './login.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideZonelessChangeDetection } from '@angular/core';
-import { APP_CONFIG } from '../../app/shared/configs/app-config.state';
+import { APP_CONFIG } from 'src/app/shared/configs/app-config.state';
 
-describe('RegisterComponent', () => {
-  let component: RegisterComponent;
-  let fixture: ComponentFixture<RegisterComponent>;
+describe('LoginComponent', () => {
+  let component: LoginComponent;
+  let fixture: ComponentFixture<LoginComponent>;
 
   const mockAppConfig = {
     apiUrl: 'http://localhost:3000',
@@ -16,7 +16,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RegisterComponent],
+      imports: [LoginComponent],
       providers: [
         provideZonelessChangeDetection(),
         provideHttpClient(),
@@ -28,7 +28,7 @@ describe('RegisterComponent', () => {
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RegisterComponent);
+    fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

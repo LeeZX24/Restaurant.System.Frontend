@@ -16,7 +16,12 @@ export async function loadAppConfig(): Promise<AppConfig> {
 
     if (isDevMode()) {
       if(loc.port != '5000') {
-        cfg = { baseUrl: `https://${window.location.hostname.replace('4200.', '5000.')}`}
+        if(loc.hostname !== 'localhost'){
+          cfg = { baseUrl: `https://${window.location.hostname.replace('4200', '5000')}`}
+        } else {
+          cfg = { baseUrl: `${window.location.origin.replace('4200', '5000')}`};
+        }
+
       } else {
         const response = await firstValueFrom(http.get<AppConfig>('assets/config.json'));
         if (!response) throw new Error('Dev config not found or invalid');
