@@ -4,6 +4,7 @@ import { LoginComponent } from './login.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { APP_CONFIG } from 'src/app/shared/configs/app-config.state';
+import { provideTranslateService } from '@ngx-translate/core';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -23,7 +24,11 @@ describe('LoginComponent', () => {
         {
           provide: APP_CONFIG,
           useValue: mockAppConfig
-        }
+        },
+        provideTranslateService({
+          lang: 'en',
+          fallbackLang: 'en',
+        })
       ]
     })
     .compileComponents();
