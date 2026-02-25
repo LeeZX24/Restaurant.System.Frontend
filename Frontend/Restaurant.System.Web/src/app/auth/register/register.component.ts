@@ -2,11 +2,11 @@ import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { ReactiveFormsModule, FormsModule, Validators } from "@angular/forms";
 import { provideNgxMask } from "ngx-mask";
-import { RSLabelPasswordFormControlComponent, RSLabelEmailFormControlComponent, CustomFormGroup, RSLabelTextFormControl } from "@rs/forms";
-import { v4 as uuidv4 } from 'uuid';
 import { BaseAuthComponent } from "src/app/shared/components/base-auth-component/base-auth-component";
+import { CustomFormGroup, RSLabelEmailFormControlComponent, RSLabelPasswordFormControl, RSLabelPasswordFormControlComponent, RSLabelTextFormControl } from "@rs/forms";
 import { ActivityState } from "src/app/shared/enums/activity-state";
 import { UserDto } from "src/app/shared/models/dtos/user.dto";
+import { v7 as uuidv7 } from "uuid";
 
 @Component({
   selector: 'rs-register',
@@ -17,8 +17,8 @@ import { UserDto } from "src/app/shared/models/dtos/user.dto";
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    RSLabelPasswordFormControlComponent,
-    RSLabelEmailFormControlComponent
+    RSLabelEmailFormControlComponent,
+    RSLabelPasswordFormControlComponent
   ],
   providers: [
     provideNgxMask()
@@ -31,12 +31,10 @@ export class RegisterComponent extends BaseAuthComponent<UserDto> implements OnI
   get request(): UserDto { return this._request; }
   set request(value: UserDto) { this._request = value; }
 
+  fg = new CustomFormGroup();
+
   override ngOnInit() {
     super.ngOnInit();
-
-    this.passwordFC.valueChanges.subscribe(() => {
-      this.OnCheckingPasswordMismatch();
-    });
 
     this.confirmPasswordFC.valueChanges.subscribe(() => {
       this.OnCheckingPasswordMismatch();
@@ -44,17 +42,16 @@ export class RegisterComponent extends BaseAuthComponent<UserDto> implements OnI
   }
 
   createForm(): CustomFormGroup {
-    const fg = new CustomFormGroup();
+    this.fg._addCustomControl('email', new RSLabelTextFormControl('Email', { required: true, inputType:'email', autoComplete: 'username' }, '', [ Validators.required, Validators.email ]));
+    this.fg._addCustomControl('password', new RSLabelPasswordFormControl('Password', { required: true, inputType:'password', autoComplete: 'new-password' }, '', [ Validators.required ]));
+    this.fg._addCustomControl('confirmPassword', new RSLabelPasswordFormControl('Confirm Password', { required: true, inputType:'password', autoComplete: 'new-password' }, '', [ Validators.required ]));
 
-    fg._addCustomControl('email', new RSLabelTextFormControl('Email', { required: true, inputType:'email', autoComplete: 'username' }, '', [ Validators.required, Validators.email ]));
-    fg._addCustomControl('password', new RSLabelTextFormControl('Password', { required: true, inputType:'password', autoComplete: 'new-password' }, '', [ Validators.required ]));
-    fg._addCustomControl('confirmPassword', new RSLabelTextFormControl('Confirm Password', { required: true, inputType:'password', autoComplete: 'new-password' }, '', [ Validators.required ]));
-    return fg;
+    return this.fg;
   }
 
   get emailFC() { return this.getFormControl('email') as RSLabelTextFormControl; }
-  get passwordFC() { return this.getFormControl('password') as RSLabelTextFormControl; }
-  get confirmPasswordFC() { return this.getFormControl('confirmPassword') as RSLabelTextFormControl; }
+  get passwordFC() { return this.getFormControl('password') as RSLabelPasswordFormControl; }
+  get confirmPasswordFC() { return this.getFormControl('confirmPassword') as RSLabelPasswordFormControl; }
 
   getFormControl(name: string) {
     return this.form.get(name);
@@ -66,7 +63,7 @@ export class RegisterComponent extends BaseAuthComponent<UserDto> implements OnI
       ...this.form.getRawValue(),
       identifier: this.emailFC.value,
       state: ActivityState.Register,
-      customerId: uuidv4()
+      customerId: uuidv7(),
     };
 
     return req;
@@ -87,7 +84,7 @@ export class RegisterComponent extends BaseAuthComponent<UserDto> implements OnI
     }
   }
 
-  OnCheckingPasswordMismatch() {
+  OnCheckingPasswordMismatch(): void {
     if(!this.passwordFC || !this.confirmPasswordFC) {
       this.removeMismatchError();
       return;
@@ -105,10 +102,10 @@ export class RegisterComponent extends BaseAuthComponent<UserDto> implements OnI
     const errors = this.confirmPasswordFC.errors;
     if (!errors) return;
 
-    const { passwordMismatch, ...others } = errors;
+    if(errors['passwordMismatch']) delete errors['passwordMismatch'];
 
     this.confirmPasswordFC.setErrors(
-      Object.keys(others).length ? others : null
+      Object.keys(errors).length ? errors : null
     );
   }
 }

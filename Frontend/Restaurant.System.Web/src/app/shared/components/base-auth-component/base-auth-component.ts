@@ -43,7 +43,7 @@ export abstract class BaseAuthComponent<TRequest extends UserDto> extends BaseCo
 
   submitRegister(req:TRequest) {
     const dialogRef = this.dialogService.open(InformationDialogComponent, {
-      data: { title: 'Login', message: 'Registering user ...'},
+      data: { title: 'Register', message: 'Registering user ...'},
       variant: 'info',
       hasHeader: false,
       hasFooter: false,
@@ -101,7 +101,7 @@ export abstract class BaseAuthComponent<TRequest extends UserDto> extends BaseCo
         });
 
         dialogRef.afterOpened().subscribe(() => {
-          setTimeout(this.routerService.gotoLogin, 5000);
+          setTimeout(() => this.routerService.gotoLogin(), 5000);
         });
       }
     }

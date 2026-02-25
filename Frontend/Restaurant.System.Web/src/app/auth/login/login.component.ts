@@ -3,7 +3,7 @@ import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { provideNgxMask } from 'ngx-mask';
 import { CommonModule } from '@angular/common';
 import { CustomFormGroup, RSEmailFormControlComponent, RSPasswordFormControlComponent, RSTextFormControl } from '@rs/forms';
-import { v4 as uuidv4 } from 'uuid';
+import { v7 as uuidv7 } from 'uuid';
 import { BaseAuthComponent } from 'src/app/shared/components/base-auth-component/base-auth-component';
 import { ActivityState } from 'src/app/shared/enums/activity-state';
 import { UserDto } from 'src/app/shared/models/dtos/user.dto';
@@ -50,7 +50,7 @@ export class LoginComponent extends BaseAuthComponent<UserDto> {
       ...this.form.getRawValue(),
       identifier: this.emailFC.value,
       state: ActivityState.Login,
-      customerId: uuidv4()
+      customerId: uuidv7()
     };
     return req;
   }
