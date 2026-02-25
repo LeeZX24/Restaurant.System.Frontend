@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { afterNextRender, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -10,6 +10,7 @@ import { InformationDialogComponent } from '../../dialogs/customs-dialogs/inform
 import { RouterService } from '../../services/router.service';
 import { APP_CONFIG } from '../../configs/app-config.state';
 import { AppConfig } from '../../configs/app-config.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'rs-dialog-layout',
@@ -22,6 +23,27 @@ export class DialogLayoutComponent implements OnInit {
   private httpClient = inject(HttpClient);
   private dialogService = inject(CustomDialogService);
   private config = inject(APP_CONFIG);
+  private translate = inject(TranslateService);
+
+  private destroyRef = inject(DestroyRef);
+
+  private _init = afterNextRender(() => {
+    if (this.destroyRef.destroyed) return;
+
+    const ref = this.dialogService.open(InformationDialogComponent, {
+      data: { title: 'Information', message: 'Checking Backend ...' },
+      hasHeader: true,
+      hasFooter: false,
+      closeOnBackdropClick: false,
+      disableClose: true,
+      isLoading: true
+    });
+
+
+    ref.afterOpened().subscribe(() => {
+      this.checkBackend(ref);
+    });
+  });
 
   appConfig!: AppConfig;
 
@@ -29,22 +51,6 @@ export class DialogLayoutComponent implements OnInit {
 
   async ngOnInit() {
     this.appConfig = await this.config;
-    setTimeout(() => {
-      const ref = this.dialogService.open(InformationDialogComponent, {
-        data: { title: 'Information', message: 'Checking Backend ...' },
-        hasHeader: true,
-        hasFooter: false,
-        closeOnBackdropClick: false,
-        disableClose: true,
-        isLoading: true
-      });
-
-
-      ref.afterOpened().subscribe(() => {
-        this.checkBackend(ref);
-      });
-    });
-
   }
 
   async checkBackend(ref: CustomDialogRef<void>) {
@@ -71,7 +77,7 @@ export class DialogLayoutComponent implements OnInit {
     let errorMessage = '';
     let errorCode = '';
     if (T instanceof HttpErrorResponse) {
-      errorMessage = T.message;
+      errorMessage = T.error.message;
       errorCode = T.status.toString();
     }
     this.dialogService.open(ErrorDialogComponent, {

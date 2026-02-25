@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './shared/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -6,24 +7,45 @@ export const routes: Routes = [
     loadComponent: () => import('./shared/layouts/main-layout/main-layout.component').then(c => c.MainLayoutComponent),
     children: [
       {
-        path: '',loadComponent: () => import('./shared/layouts/dialog-layout/dialog-layout.component').then(c => c.DialogLayoutComponent),
+        path: '',
+        loadComponent: () => import('./shared/layouts/dialog-layout/dialog-layout.component').then(c => c.DialogLayoutComponent),
         children: [
           {
             path: '',
-            loadComponent: () => import('./shared/layouts/auth-layout/auth-layout.component').then(c => c.AuthLayoutComponent),
+            loadComponent: () => import('./shared/layouts/content-layout/content-layout.component').then(c => c.ContentLayoutComponent),
             children: [
-              {
-                path: 'redirect',
-                loadComponent: () => import('./shared/components/redirect/redirect.component').then(c=> c.RedirectComponent),
+              { // Auth
+                path: '',
+                loadComponent: () => import('./shared/layouts/auth-layout/auth-layout.component').then(c => c.AuthLayoutComponent),
+                children: [
+                  {
+                    path: 'redirect',
+                    loadComponent: () => import('./shared/components/redirect/redirect.component').then(c=> c.RedirectComponent),
+                  },
+                  {
+                    path: 'login',
+                    loadComponent: () => import('./auth/login/login.component').then(c => c.LoginComponent)
+                  },
+                  {
+                    path: 'register',
+                    loadComponent: () => import('./auth/register/register.component').then(c => c.RegisterComponent)
+                  }
+                ]
               },
-              {
-                path: 'login',
-                loadComponent: () => import('../auth/login/login.component').then(c => c.LoginComponent)
-              },
-              {
-                path: 'register',
-                loadComponent: () => import('../auth/register/register.component').then(c => c.RegisterComponent)
+              { // Admin
+                path: '',
+                loadComponent: () => import('./shared/layouts/admin-layout/admin-layout.component').then(c => c.AdminLayoutComponent),
+                canActivate: [ authGuard ],
+                children: [
+                  {
+                    path: '',
+                    loadComponent: () => import('./pages/dashboard/dashboard.component').then(c => c.DashboardComponent)
+                  }
+                ]
               }
+              //,
+              // { // Customer
+              // }
             ]
           }
         ]

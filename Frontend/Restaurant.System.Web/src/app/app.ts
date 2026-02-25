@@ -9,8 +9,10 @@ import { RouterService } from './shared/services/router.service';
   styleUrl: './app.css'
 })
 export class App {
+  //Declarations
   protected readonly title = signal('Restaurant.System.Web');
 
+  //Services
   private routerServ = inject(RouterService);
 
   go(path:string)

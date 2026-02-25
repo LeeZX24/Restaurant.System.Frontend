@@ -1,9 +1,9 @@
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, from, Observable, switchMap } from 'rxjs';
 import { UserDto } from '../../../shared/models/dtos/user.dto';
 import { APP_CONFIG } from '../../../shared/configs/app-config.state';
+import { BaseDto } from '../../../shared/models/dtos/base/base.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +16,25 @@ export class AuthService {
   // Observable to subscribe
   currentUserObservable$ = this.currentUser$.asObservable();
 
-  async login(user: UserDto): Promise<Observable<UserDto>> {
-    const appConfig = await this.config;
-    return this.http.post<UserDto>(`${appConfig.baseUrl}/api/auth/login`, user);
+  get isLoggedIn(): boolean {
+    return !!this.currentUser$.value;
   }
 
-  // register(user: CustomerDto) {
-  //   return this.http.post(this.baseUrl + '/api/auth/register', user); ;
-  // }
+  login<TRequest extends BaseDto>(login: TRequest): Observable<TRequest> {
+    return from(this.config).pipe(
+      switchMap(appConfig =>
+        this.http.post<TRequest>(`${appConfig.baseUrl}/api/auth/login`, login)
+      )
+    );
+  }
+
+  register<TRequest extends BaseDto>(register: TRequest): Observable<TRequest> {
+    return from(this.config).pipe(
+      switchMap(appConfig =>
+        this.http.post<TRequest>(`${appConfig.baseUrl}/api/auth/register`, register)
+      )
+    );
+  }
 
   setCurrentUser(user: UserDto) {
     this.currentUser$.next(user);
