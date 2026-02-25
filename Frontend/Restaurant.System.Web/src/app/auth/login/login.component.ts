@@ -1,11 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserDto } from '../../app/shared/models/dtos/user.dto';
 import { provideNgxMask } from 'ngx-mask';
 import { CommonModule } from '@angular/common';
 import { CustomFormGroup, RSEmailFormControlComponent, RSPasswordFormControlComponent, RSTextFormControl } from '@rs/forms';
-import { BaseAuthComponent } from '../../app/shared/components/base-auth-component/base-auth-component';
-import { provideTranslateService, TranslateService } from '@ngx-translate/core';
+import { v7 as uuidv7 } from 'uuid';
+import { BaseAuthComponent } from 'src/app/shared/components/base-auth-component/base-auth-component';
+import { ActivityState } from 'src/app/shared/enums/activity-state';
+import { UserDto } from 'src/app/shared/models/dtos/user.dto';
 
 @Component({
   selector: 'rs-login',
@@ -20,13 +21,10 @@ import { provideTranslateService, TranslateService } from '@ngx-translate/core';
     RSPasswordFormControlComponent
   ],
   providers: [
-    provideNgxMask(),
-    provideTranslateService()
+    provideNgxMask()
   ]
 })
 export class LoginComponent extends BaseAuthComponent<UserDto> {
-  private translateService = inject(TranslateService);
-
   _request!: UserDto;
   get request(): UserDto { return this._request; }
   set request(value: UserDto) { this._request = value; }
@@ -34,8 +32,8 @@ export class LoginComponent extends BaseAuthComponent<UserDto> {
   createForm(): CustomFormGroup {
     const fg = new CustomFormGroup();
 
-    fg._addCustomControl('email', new RSTextFormControl({ required: true,}, '', [ Validators.required, Validators.email ]));
-    fg._addCustomControl('password', new RSTextFormControl({ required: true,}, '', [ Validators.required ]));
+    fg._addCustomControl('email', new RSTextFormControl({ required: true, inputType: 'email', autoComplete: 'username' }, '', [ Validators.required, Validators.email ]));
+    fg._addCustomControl('password', new RSTextFormControl({ required: true, inputType: 'password', autoComplete: 'current-password' }, '', [ Validators.required ]));
     return fg;
   }
 
@@ -46,10 +44,13 @@ export class LoginComponent extends BaseAuthComponent<UserDto> {
     return this.form.get(name);
   }
 
-  getFormRequest(): UserDto {
+  RequestDetails(): UserDto {
     const req: UserDto =
     {
-      ...this.form.getRawValue()
+      ...this.form.getRawValue(),
+      identifier: this.emailFC.value,
+      state: ActivityState.Login,
+      customerId: uuidv7()
     };
     return req;
   }

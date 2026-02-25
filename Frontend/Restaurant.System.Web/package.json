@@ -1,6 +1,6 @@
 {
   "name": "restaurant.system.web",
-  "version": "0.0.2",
+  "version": "1.0.0-build.7",
   "type": "module",
   "scripts": {
     "ng": "ng",
@@ -12,9 +12,9 @@
     "lint": "ng lint",
     "build:tailwind": "node build-tailwind.js",
     "serve:dev": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng serve --configuration development",
-    "build:dev": "ng build --configuration development",
-    "build:production": "ng build --configuration production",
-    "build:beta": "ng build --configuration beta",
+    "build:dev": "ng build --configuration development --watch=false",
+    "build:production": "ng build --configuration production --watch=false --source-map=false",
+    "build:beta": "ng build --configuration beta --watch=false",
     "build:forms": "ng build forms --watch=false"
   },
   "prettier": {
@@ -42,12 +42,13 @@
     "@angular/router": "^21.0.4",
     "@angular/ssr": "^21.0.3",
     "@ngx-translate/core": "^17.0.0",
+    "@ngx-translate/http-loader": "^17.0.0",
     "bootstrap": "^5.3.8",
     "dayjs": "^1.11.19",
     "express": "^5.2.1",
     "ngx-mask": "^20.0.3",
     "ngx-toastr": "^19.1.0",
-    "ngx-translate": "^0.0.1-security",
+    "node": "^25.6.0",
     "rxjs": "^7.8.2",
     "tslib": "^2.8.1",
     "uuid": "^13.0.0"
@@ -72,6 +73,7 @@
     "@tailwindcss/postcss": "^4.1.18",
     "@types/express": "^5.0.6",
     "@types/node": "^25.0.0",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.53.1",
     "@typescript-eslint/parser": "^8.53.1",
     "angular-eslint": "^21.1.0",
