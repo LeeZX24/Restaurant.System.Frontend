@@ -166,16 +166,6 @@
           "options": {
             "tsConfig": "projects/libs/auth/tsconfig.spec.json"
           }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/libs/auth/**/*.ts",
-              "projects/libs/auth/**/*.html"
-            ],
-            "eslintConfig": "projects/libs/auth/eslint.config.js"
-          }
         }
       }
     },
