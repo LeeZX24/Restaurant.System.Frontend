@@ -15,7 +15,7 @@
     "build:dev": "ng build --configuration development --base-href /Restaurant.System/ --watch=false",
     "build:production": "ng build --configuration production --base-href /Restaurant.System/ --watch=false --source-map=false",
     "build:beta": "ng build --configuration beta --base-href /Restaurant.System/ --watch=false --source-map=false",
-    "build:forms": "ng build forms --watch=false --source-map=false"
+    "build:forms": "ng build forms --watch=false"
   },
   "prettier": {
     "printWidth": 100,
