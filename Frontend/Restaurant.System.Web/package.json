@@ -12,10 +12,10 @@
     "lint": "ng lint",
     "build:tailwind": "node build-tailwind.js",
     "serve:dev": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng serve --configuration development",
-    "build:dev": "ng build --configuration development --watch=false",
-    "build:production": "ng build --configuration production --watch=false --source-map=false",
-    "build:beta": "ng build --configuration beta --watch=false",
-    "build:forms": "ng build forms --watch=false"
+    "build:dev": "ng build --configuration development --base-href /Restaurant.System/ --watch=false",
+    "build:production": "ng build --configuration production --base-href /Restaurant.System/ --watch=false --source-map=false",
+    "build:beta": "ng build --configuration beta --base-href /Restaurant.System/ --watch=false --source-map=false",
+    "build:forms": "ng build forms --watch=false --source-map=false"
   },
   "prettier": {
     "printWidth": 100,
