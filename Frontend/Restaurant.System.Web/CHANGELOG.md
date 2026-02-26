@@ -1,3 +1,5 @@
+# [1.0.0-build.19](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.18...v1.0.0-build.19) (2026-02-26)
+
 # [1.0.0-build.18](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.17...v1.0.0-build.18) (2026-02-26)
 
 # [1.0.0-build.17](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.16...v1.0.0-build.17) (2026-02-26)
