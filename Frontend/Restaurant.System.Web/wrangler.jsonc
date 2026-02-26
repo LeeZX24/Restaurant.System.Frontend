@@ -1,6 +1,7 @@
 {
   "name": "restaurant-system-web",
   "compatibility_date": "2026-02-26",
+  "pages_build_output_dir": "./site",
   "assets": {
     "directory": "./site"
   }
