@@ -1,3 +1,15 @@
+# [1.0.0-build.13](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.12...v1.0.0-build.13) (2026-02-26)
+
+# [1.0.0-build.12](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.11...v1.0.0-build.12) (2026-02-25)
+
+# [1.0.0-build.11](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.10...v1.0.0-build.11) (2026-02-25)
+
+# [1.0.0-build.10](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.9...v1.0.0-build.10) (2026-02-25)
+
+# [1.0.0-build.9](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.8...v1.0.0-build.9) (2026-02-25)
+
+# [1.0.0-build.8](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.7...v1.0.0-build.8) (2026-02-25)
+
 ## [0.0.4](https://github.com/LeeZX24/Restaurant.System/compare/v0.0.3...v0.0.4) (2026-02-25)
 
 ## [0.0.3](https://github.com/LeeZX24/Restaurant.System/compare/v0.0.2...v0.0.3) (2026-02-25)
