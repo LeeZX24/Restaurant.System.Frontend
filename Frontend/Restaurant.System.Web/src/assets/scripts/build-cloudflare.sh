@@ -1,5 +1,5 @@
 [ -f src/assets/app-meta.js ] && rm src/assets/app-meta.js
-git fetch origin master && git checkout origin/master
+git checkout origin/master
 git fetch --tags --force
 META_VERSION=$(git describe --tags --match "v*-build.*" --abbrev=0 || echo "0.0.0-build.0")
 BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -12,10 +12,10 @@ window.APP_META = {
   buildTime: "$BUILD_TIME"
 };
 EOF
-CI=true npm run build:beta -- --deploy-url=/Restaurant.System/beta/ --output-path=dist/beta
+CI=true npm run build:beta -- --output-path=dist/beta
 
 [ -f src/assets/app-meta.js ] && rm src/assets/app-meta.js
-git fetch origin release && git checkout origin/release
+git checkout origin/release
 git fetch --tags --force
 META_VERSION=$(git describe --tags --abbrev=0 || echo "0.0.0")
 BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -28,7 +28,7 @@ window.APP_META = {
   buildTime: "$BUILD_TIME"
 };
 EOF
-CI=true npm run build:production -- --deploy-url=/Restaurant.System/ --output-path=dist/release
+CI=true npm run build:production -- --output-path=dist/release
 
 mkdir -p site;
 mkdir -p site/beta;
