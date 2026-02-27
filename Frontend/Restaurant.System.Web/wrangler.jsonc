@@ -2,6 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "restaurant-system",
   "main": "./dist/release/server/main.server.mjs",
+  "compatibility_flags": [ "nodejs_compat_v2" ],
   "assets": {
     "directory": "./dist/release/browser"
   },
@@ -12,6 +13,13 @@
       "assets": {
         "directory": "./dist/beta/browser"
       },
-    }
+    },
+    "dev": {
+      "name": "restaurant-system-dev",
+      "main": "./dist/Restaurant.System.Web/server/main.server.mjs",
+      "assets": {
+        "directory": "./dist/Restaurant.System.Web/browser"
+      },
+    },
   }
 }

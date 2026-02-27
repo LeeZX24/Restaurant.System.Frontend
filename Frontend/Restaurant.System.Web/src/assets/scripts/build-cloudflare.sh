@@ -1,4 +1,3 @@
-npm run build:forms;
 [ -f src/assets/app-meta.js ] && rm src/assets/app-meta.js
 git fetch origin master && git checkout origin/master
 git fetch --tags --force
