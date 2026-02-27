@@ -12,10 +12,10 @@
     "lint": "ng lint",
     "build:tailwind": "node build-tailwind.js",
     "serve:dev": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng serve --configuration development",
-    "build:dev": "ng build --configuration development --watch=false",
-    "build:production": "ng build --configuration production --watch=false --source-map=false",
-    "build:beta": "ng build --configuration beta --watch=false --source-map=false",
-    "build:forms": "ng build forms --watch=false",
+    "build:dev": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng build --configuration development --watch=false --progress=false",
+    "build:production": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng build --configuration production --watch=false --source-map=false  --progress=false",
+    "build:beta": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng build --configuration beta --watch=false --source-map=false  --progress=false",
+    "build:forms": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng build forms --watch=false --progress=false",
     "build:cloudflare": "bash src/assets/scripts/build-cloudflare.sh"
   },
   "prettier": {
