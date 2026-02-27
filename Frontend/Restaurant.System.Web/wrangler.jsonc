@@ -1,8 +1,17 @@
 {
-  "name": "restaurant-system-web",
-  "main": "./dist/server/server.mjs",
-  "compatibility_date": "2026-02-26",
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "restaurant-system",
+  "main": "./dist/release/server/main.server.mjs",
   "assets": {
-    "directory": "./dist/browser"
+    "directory": "./dist/release/browser"
+  },
+  "env": {
+    "beta": {
+      "name": "restaurant-system-beta",
+      "main": "./dist/beta/server/main.server.mjs",
+      "assets": {
+        "directory": "./dist/beta/browser"
+      },
+    }
   }
 }
