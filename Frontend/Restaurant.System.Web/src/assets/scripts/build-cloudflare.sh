@@ -1,5 +1,5 @@
 [ -f src/assets/app-meta.js ] && rm src/assets/app-meta.js
-git fetch origin master && git checkout origin/master
+git checkout origin/master
 git fetch --tags --force
 META_VERSION=$(git describe --tags --match "v*-build.*" --abbrev=0 || echo "0.0.0-build.0")
 BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -15,7 +15,7 @@ EOF
 CI=true npm run build:beta -- --output-path=dist/beta
 
 [ -f src/assets/app-meta.js ] && rm src/assets/app-meta.js
-git fetch origin release && git checkout origin/release
+git checkout origin/release
 git fetch --tags --force
 META_VERSION=$(git describe --tags --abbrev=0 || echo "0.0.0")
 BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
