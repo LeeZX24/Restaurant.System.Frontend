@@ -103,10 +103,7 @@
           "options": {
             "proxyConfig": "src/proxy.conf.json",
             "host": "0.0.0.0",
-            "allowedHosts": [
-              ".gitpod.dev",
-              ".gitpod.io"
-            ],
+            "allowedHosts": [".gitpod.dev", ".gitpod.io", ".app.github.dev"],
             "headers": {
               "Cache-Control": "no-cache"
             }
@@ -135,10 +132,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
@@ -196,10 +190,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/libs/forms/**/*.ts",
-              "projects/libs/forms/**/*.html"
-            ],
+            "lintFilePatterns": ["projects/libs/forms/**/*.ts", "projects/libs/forms/**/*.html"],
             "eslintConfig": "projects/libs/forms/eslint.config.js"
           }
         }
@@ -208,9 +199,7 @@
   },
   "cli": {
     "analytics": "fda32eca-2165-483e-89ed-06917fb98778",
-    "schematicCollections": [
-      "angular-eslint"
-    ],
+    "schematicCollections": ["angular-eslint"],
     "cache": {
       "enabled": false,
       "path": ".angular/cache"

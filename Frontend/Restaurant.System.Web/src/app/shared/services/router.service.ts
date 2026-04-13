@@ -12,10 +12,10 @@ export class RouterService {
   }
 
   public gotoLogin(): void {
-    this.go('/login');
+    this.go('/login', { skipLocationChange: true });
   }
 
   public gotoRegister(): void {
-    this.go('/register');
+    this.go('/register', { skipLocationChange: true });
   }
 }
