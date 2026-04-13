@@ -1,5 +1,14 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
-import { PreloadAllModules, provideRouter, withInMemoryScrolling, withPreloading } from '@angular/router';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection,
+} from '@angular/core';
+import {
+  PreloadAllModules,
+  provideRouter,
+  withInMemoryScrolling,
+  withPreloading,
+} from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
@@ -15,28 +24,26 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideRouter(routes, withPreloading(PreloadAllModules), withInMemoryScrolling({ scrollPositionRestoration: 'enabled' })),
-    provideClientHydration(withEventReplay()),
-    provideHttpClient(
-      withFetch(),
-      withInterceptors([
-        AuthInterceptor,
-        JwtInterceptor,
-      ])
+    provideRouter(
+      routes,
+      withPreloading(PreloadAllModules),
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
     ),
+    provideClientHydration(withEventReplay()),
+    provideHttpClient(withFetch(), withInterceptors([AuthInterceptor, JwtInterceptor])),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
-      multi: true
+      multi: true,
     },
     {
       provide: APP_CONFIG,
-      useFactory: () => loadAppConfig()
+      useFactory: () => loadAppConfig(),
     },
     provideTranslateService({
       lang: 'en',
       fallbackLang: 'en',
-      loader: provideTranslateHttpLoader({ prefix: '/i18n/', suffix: '.json' })
-    })
-  ]
+      loader: provideTranslateHttpLoader({ prefix: '/i18n/', suffix: '.json' }),
+    }),
+  ],
 };
