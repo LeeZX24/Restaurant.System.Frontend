@@ -64,6 +64,8 @@
               "aot": true
             },
             "beta": {
+              "ssr": false,
+              "prerender": false,
               "baseHref": "/beta/",
               "budgets": [
                 {
