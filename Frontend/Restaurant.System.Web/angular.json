@@ -29,10 +29,9 @@
               "src/styles/material/custom-theme.scss",
               "src/styles.css"
             ],
-            "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {
-              "entry": "src/server.ts"
+              "entry": "src/main.server.ts"
             },
             "outputPath": "dist/Restaurant.System.Web"
           },
