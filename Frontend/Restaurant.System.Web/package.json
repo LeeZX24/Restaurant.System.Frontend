@@ -8,7 +8,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:Restaurant.System.Web": "node dist/Restaurant.System.Web/server/server.mjs",
+    "serve:ssr": "node dist/Restaurant.System.Web/server/server.mjs",
     "lint": "ng lint",
     "build:tailwind": "node build-tailwind.js",
     "serve:dev": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng serve --configuration development",
