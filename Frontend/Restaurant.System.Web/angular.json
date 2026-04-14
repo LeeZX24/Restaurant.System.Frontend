@@ -32,7 +32,7 @@
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {
-              "entry": "src/main.server.ts"
+              "entry": "src/server.ts"
             },
             "outputPath": "dist/Restaurant.System.Web"
           },
@@ -64,8 +64,6 @@
               "aot": true
             },
             "beta": {
-              "ssr": false,
-              "prerender": false,
               "baseHref": "/beta/",
               "budgets": [
                 {
@@ -95,7 +93,8 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "outputPath": "dist/Restaurant.System.Web"
             }
           },
           "defaultConfiguration": "production"
