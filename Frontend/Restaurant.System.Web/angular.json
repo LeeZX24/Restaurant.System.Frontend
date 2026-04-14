@@ -39,6 +39,9 @@
           "configurations": {
             "production": {
               "outputMode": "server",
+              "ssr": {
+                "entry": "src/server.ts"
+              },
               "prerender": false,
               "budgets": [
                 {
@@ -67,6 +70,9 @@
             },
             "beta": {
               "outputMode": "server",
+              "ssr": {
+                "entry": "src/server.ts"
+              },
               "prerender": false,
               "baseHref": "/beta/",
               "budgets": [
