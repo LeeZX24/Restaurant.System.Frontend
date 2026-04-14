@@ -38,6 +38,8 @@
           },
           "configurations": {
             "production": {
+              "outputMode": "server",
+              "prerender": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -61,10 +63,11 @@
               "sourceMap": false,
               "extractLicenses": true,
               "namedChunks": false,
-              "aot": true,
-              "prerender": false
+              "aot": true
             },
             "beta": {
+              "outputMode": "server",
+              "prerender": false,
               "baseHref": "/beta/",
               "budgets": [
                 {
@@ -89,8 +92,7 @@
               "sourceMap": true,
               "extractLicenses": true,
               "namedChunks": false,
-              "aot": true,
-              "prerender": false
+              "aot": true
             },
             "development": {
               "optimization": false,
