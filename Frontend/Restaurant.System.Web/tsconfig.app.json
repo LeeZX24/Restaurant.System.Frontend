@@ -2,12 +2,19 @@
 /* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "extends": "./tsconfig.json",
+  "compileOnSave": false,
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./out-tsc/app",
     "types": [
       "node"
-    ]
+    ],
+    "sourceMap": true,
+    "paths": {
+      "auth": ["./dist/auth"],
+      "@rs/forms": ["./dist/rs/forms"],
+      "@rs/forms/*": ["./dist/rs/forms/*"]
+    },
   },
   "include": [
     "src/**/*.ts"
