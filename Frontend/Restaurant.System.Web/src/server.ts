@@ -36,14 +36,28 @@ app.use(
 );
 
 /**
+ * Handle i18n translation files
+ */
+app.get('/i18n/:lang.json', (req, res, next) => {
+  const { lang } = req.params;
+  const filePath = join(browserDistFolder, 'i18n', `${lang}.json`);
+
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Cache-Control', '1d');
+  res.sendFile(filePath, (err) => {
+    if (err && !res.headersSent) {
+      next();
+    }
+  });
+});
+
+/**
  * Handle all other requests by rendering the Angular application.
  */
 app.use((req, res, next) => {
   angularApp
     .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
+    .then((response) => (response ? writeResponseToNodeResponse(response, res) : next()))
     .catch(next);
 });
 

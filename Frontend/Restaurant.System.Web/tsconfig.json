@@ -13,17 +13,17 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "baseUrl": "./",
     "paths": {
       "auth": [
         "./dist/auth"
       ],
       "@rs/forms": [
-        "dist/rs/forms"
+        "./dist/rs/forms"
       ],
       "@rs/forms/*": [
-        "dist/rs/forms/*"
-      ]
+        "./dist/rs/forms/*"
+      ],
+      "*": ["./*"]
     },
     "module": "ESNext",
     "moduleResolution": "bundler",
@@ -31,15 +31,15 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "typeCheckHostBindings": true,
-    "strictTemplates": true,
-    "enableIve": false
+    "strictTemplates": true
   },
   "files": [],
   "references": [

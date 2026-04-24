@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, isDevMode, PLATFORM_ID } from '@angular/core';
 import { AppConfig } from '../shared/configs/app-config.model';
 import { environment } from '../../environments/environment';
-import { firstValueFrom } from 'rxjs';
+import { inject, isDevMode, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 export async function loadAppConfig(): Promise<AppConfig> {
   const platformId = inject(PLATFORM_ID);
@@ -13,18 +13,17 @@ export async function loadAppConfig(): Promise<AppConfig> {
 
   if (isPlatformBrowser(platformId)) {
     const loc = window.location;
-
     if (isDevMode()) {
-      if(loc.port != '5000') {
-        if(loc.hostname !== 'localhost'){
-          cfg = { baseUrl: `https://${window.location.hostname.replace('4200', '5000')}`}
+      if (loc.port != '5000') {
+        if (loc.hostname !== 'localhost') {
+          cfg = { baseUrl: `https://${window.location.hostname.replace('4200', '5000')}` };
         } else {
-          cfg = { baseUrl: `${window.location.origin.replace('4200', '5000')}`};
+          cfg = { baseUrl: `${window.location.origin.replace('4200', '5000')}` };
         }
-
       } else {
         const response = await firstValueFrom(http.get<AppConfig>('assets/config.json'));
         if (!response) throw new Error('Dev config not found or invalid');
+
         cfg = response;
       }
     }
