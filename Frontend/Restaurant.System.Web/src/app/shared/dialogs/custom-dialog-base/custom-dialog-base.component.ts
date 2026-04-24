@@ -1,15 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { Component, ComponentRef, ElementRef, inject, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { CustomDialogConfig } from './custom-dialog.config';
 import { DIALOG_VARIANT } from './custom-dialog-variant';
 import { CustomDialogRef } from './custom-dialog.ref';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'rs-dialog-base',
   templateUrl: './custom-dialog-base.component.html',
   styleUrls: ['./custom-dialog-base.component.css'],
-  imports: [CommonModule]
+  imports: [CommonModule, MatDialogModule],
 })
 export class CustomDialogBaseComponent implements OnInit, OnDestroy {
   @ViewChild('contentHost', { read: ViewContainerRef, static: true })
@@ -18,6 +28,8 @@ export class CustomDialogBaseComponent implements OnInit, OnDestroy {
   config = inject(CustomDialogConfig);
   private dialogRef = inject(CustomDialogRef);
   private variant = inject(DIALOG_VARIANT);
+
+  private dialog = inject(MatDialog);
 
   @ViewChild('dialogBody') dialogBody!: ElementRef;
 
@@ -45,7 +57,7 @@ export class CustomDialogBaseComponent implements OnInit, OnDestroy {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onBackdropClick(_event: PointerEvent) {
-    if(this.config.closeOnBackdropClick, this.config.disableClose) return;
+    if ((this.config.closeOnBackdropClick, this.config.disableClose)) return;
     this.dialogRef.close();
   }
 
@@ -53,7 +65,7 @@ export class CustomDialogBaseComponent implements OnInit, OnDestroy {
     queueMicrotask(() => {
       const el = this.dialogBody.nativeElement;
       const focusable = el.querySelector(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
       ) as HTMLElement | null;
       (focusable ?? el).focus();
     });
