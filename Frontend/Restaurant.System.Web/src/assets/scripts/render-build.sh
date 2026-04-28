@@ -15,5 +15,3 @@ EOF
 echo "Stamped version $VERSION"
 
 npm run build:${1:-release} -- --output-path=dist/${1:-release}
-
-mv dist/${1:-release}/index.csr.html dist/${1:-release}/index.html
