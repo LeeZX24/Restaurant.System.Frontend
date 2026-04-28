@@ -16,6 +16,14 @@ echo "Stamped version $VERSION"
 
 npm run build:${1:-release} -- --output-path=dist/${1:-release}
 
+echo "Creating Folder 'Site' ..."
+mkdir -p site
+echo "Creating Folder 'Site' ... Done"
+
+echo "Copying build files to 'Site' ..."
+cp -r dist/${1:-release}/browser/* site/
+echo "Copying build files to 'Site' ... Done"
+
 echo "Renaming index.csr.html to index.html ..."
-mv dist/${1:-release}/browser/index.csr.html dist/${1:-release}/browser/index.html
+mv site/index.csr.html site/index.html
 echo "Renaming index.csr.html to index.html ... Done"
