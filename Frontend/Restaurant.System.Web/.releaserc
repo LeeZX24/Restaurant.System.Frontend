@@ -2,21 +2,23 @@
   "repositoryUrl": "https://github.com/LeeZX24/Restaurant.System",
   "branches": [
     "release",
-    { "name": "master", "channel": "dev", "prerelease": "build" }
+    { "name": "release-beta", "prerelease": "rc" },
+    { "name": "master", "prerelease": "stable" },
+    { "name": "master-beta", "prerelease": "beta" }
   ],
   "tagFormat": "v${version}",
   "plugins": [
     [
-      "@semantic-release/commit-analyzer", {
+      "@semantic-release/commit-analyzer", { 
+        "preset": "angular", 
         "releaseRules": [
-          { "message": "/\\bui\\b/i", "release": "major" },
-          { "message": "*fix*", "release": "patch" },
-          { "message": "/\\bnew\\b/i", "release":"minor" },
+          { "message": "/\\bui-break\\b/i", "release": "major" },
+          { "message": "/\\bnew\\b/i", "release": "minor" },
+          { "message": "/\\bfeat\\b/i", "release": "minor"},
+          { "message": "/\\bfix\\b/i", "release": "patch" },
+          { "message": "/\\bupdate\\b/i", "release": "patch" },
           { "message": "initial commit", "release": "minor" }
         ],
-        "parserOpts": {
-          "headerPattern": "^(?:\\w*)(?:\\((.*)\\))?!? :\\s(.*)$"
-        },
         "defaultRelease": "patch"
       }
     ],
@@ -25,14 +27,15 @@
     ["@semantic-release/npm", { "npmPublish": false }],
     [
       "@semantic-release/exec", {
-        "prepareCmd": "echo 'NEXT_VERSION=${nextRelease.version}' >> $GITHUB_ENV"
-      }
+        "prepareCmd": "echo 'NEXT_VERSION=${nextRelease.version}' >> $GITHUB_ENV",
+        "successCmd": "bash src/assets/scripts/release-cleanup.sh ${nextRelease.gitTag}"
+      } 
     ],
-    [
-      "@semantic-release/git", {
+    [ 
+      "@semantic-release/git", { 
         "assets": ["package.json", "package-lock.json", "CHANGELOG.md"],
         "message": "chore(release): ${nextRelease.version} [skip ci]"
-      }
+      } 
     ],
     [
       "@semantic-release/github", {
@@ -41,6 +44,5 @@
         "releasedLabels": false
       }
     ]
-  ],
-  "preset": "angular"
+  ]
 }
