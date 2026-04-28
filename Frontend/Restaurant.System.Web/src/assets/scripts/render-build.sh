@@ -15,3 +15,8 @@ EOF
 echo "Stamped version $VERSION"
 
 npm run build:${1:-release} -- --output-path=dist/${1:-release}
+
+mkdir -p site
+cp -r dist/${1:release}/browser/* site/
+
+mv site/index.csr.html site/index.html
