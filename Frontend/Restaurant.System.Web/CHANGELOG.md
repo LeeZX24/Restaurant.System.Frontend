@@ -1,3 +1,31 @@
+# [1.0.0-build.62](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.61...v1.0.0-build.62) (2026-04-28)
+
+# [1.0.0-build.61](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.60...v1.0.0-build.61) (2026-04-28)
+
+# [1.0.0-build.60](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.59...v1.0.0-build.60) (2026-04-28)
+
+# [1.0.0-build.59](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.58...v1.0.0-build.59) (2026-04-28)
+
+# [1.0.0-build.58](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.57...v1.0.0-build.58) (2026-04-28)
+
+# [1.0.0-build.57](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.56...v1.0.0-build.57) (2026-04-28)
+
+# [1.0.0-build.56](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.55...v1.0.0-build.56) (2026-04-27)
+
+# [1.0.0-build.55](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.54...v1.0.0-build.55) (2026-04-27)
+
+# [1.0.0-build.54](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.53...v1.0.0-build.54) (2026-04-27)
+
+# [1.0.0-build.53](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.52...v1.0.0-build.53) (2026-04-27)
+
+# [1.0.0-build.52](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.51...v1.0.0-build.52) (2026-04-27)
+
+# [1.0.0-build.51](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.50...v1.0.0-build.51) (2026-04-27)
+
+# [1.0.0-build.50](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.49...v1.0.0-build.50) (2026-04-27)
+
+# [1.0.0-build.49](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.48...v1.0.0-build.49) (2026-04-27)
+
 ## [0.0.6](https://github.com/LeeZX24/Restaurant.System/compare/v0.0.5...v0.0.6) (2026-04-24)
 
 # [1.0.0-build.48](https://github.com/LeeZX24/Restaurant.System/compare/v1.0.0-build.47...v1.0.0-build.48) (2026-04-24)
