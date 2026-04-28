@@ -1,6 +1,6 @@
 {
   "name": "restaurant.system.web",
-  "version": "1.0.0-build.64",
+  "version": "0.0.9",
   "type": "module",
   "scripts": {
     "ng": "ng",
