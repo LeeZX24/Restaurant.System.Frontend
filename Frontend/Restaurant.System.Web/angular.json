@@ -71,7 +71,6 @@
               },
               "server": "src/main.server.ts",
               "prerender": false,
-              "baseHref": "/beta/",
               "budgets": [
                 {
                   "type": "initial",
