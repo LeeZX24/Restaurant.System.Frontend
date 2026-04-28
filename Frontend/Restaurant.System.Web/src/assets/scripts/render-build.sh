@@ -1,3 +1,5 @@
+npm run build:forms; 
+
 #!/bin/bash
 # Get version from package.json
 VERSION=$(node -p "require('./package.json').version")
@@ -11,3 +13,7 @@ window.APP_META = {
 };
 EOF
 echo "Stamped version $VERSION"
+
+npm run build:${1:-release} -- --output-path=dist/${1:-release}
+
+mv dist/${1:-release}/index.csr.html dist/${1:-release}/index.html
