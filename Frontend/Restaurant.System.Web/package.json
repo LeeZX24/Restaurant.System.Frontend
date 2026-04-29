@@ -15,7 +15,8 @@
     "build:dev": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng build --configuration development --watch=false --progress=false",
     "build:release": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng build --configuration production --watch=false --source-map=false  --progress=false",
     "build:beta": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng build --configuration beta --watch=false --source-map=false  --progress=false",
-    "build:forms": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng build forms --watch=false"
+    "build:forms": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng build forms --watch=false",
+    "build:dialogs": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng build dialogs --watch=false"
   },
   "prettier": {
     "printWidth": 100,
@@ -43,6 +44,7 @@
     "@angular/ssr": "^21.2.0",
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
+    "@rs/dialogs": "file:dist/@rs/dialogs",
     "@rs/forms": "file:dist/@rs/forms",
     "bootstrap": "^5.3.8",
     "dayjs": "^1.11.19",
