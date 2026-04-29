@@ -1,4 +1,24 @@
-<!-- @if(dialog.isVisible) { -->
+<div [class]="'dialog-wrapper variant-' + variant">
+  @if(data.hasHeader) {
+    <div mat-dialog-title class="dialog-header mb-2 border-b pb-2">
+      <ng-content select="[dialog-header]"></ng-content>
+    </div>
+  }
+
+  <mat-dialog-content class="!m-0 !p-0">
+    <ng-content></ng-content>
+    
+    <ng-template #contentHost></ng-template>
+  </mat-dialog-content>
+
+  @if (data.hasFooter) {
+    <div mat-dialog-actions class="dialog-footer mt-4 flex justify-end gap-2">
+      <ng-content select="[dialog-footer]"></ng-content>
+    </div>
+  }
+</div>
+
+<!-- @if(dialog.isVisible) {
   <div class="custom-dialog" role="button" tabindex="0" (click)="onBackdropClick($event)">
     <div class="custom-dialog-container" #dialogBody
       [ngClass]="variantClass"
@@ -24,4 +44,4 @@
         </ng-container>
       }
     </div>
-  </div>
+  </div> -->

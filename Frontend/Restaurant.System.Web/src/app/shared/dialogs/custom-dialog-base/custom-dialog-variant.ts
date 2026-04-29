@@ -1,4 +1,7 @@
-import { InjectionToken } from "@angular/core";
-import { DialogVariant } from "./custom-dialog.config";
-
-export const DIALOG_VARIANT = new InjectionToken<DialogVariant>('DIALOG_VARIANT');
+export enum DialogVariant {
+  Error = 'error',
+  Info = 'info',
+  Success = 'success',
+  Warning = 'warning',
+  Confirmation = 'confirmation'
+}
