@@ -1,0 +1,65 @@
+@reference "tailwindcss";
+
+.dialog-wrapper {
+  @apply bg-white rounded-lg shadow-xl overflow-hidden;
+}
+
+.variant-info {
+  .dialog-header {
+    @apply border-2 border-blue-500 bg-blue-50;
+  }
+  button.btn-confirm {
+    @apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded;
+  }
+}
+
+.variant-error {
+  .dialog-header {
+    @apply border-2 border-red-600 bg-red-50;
+  }
+  button.btn-confirm {
+    @apply bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded;
+  }
+}
+
+.variant-success {
+  .dialog-header {
+    @apply border-2 border-green-600 bg-green-50;
+  }
+  button.btn-confirm {
+    @apply bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded;
+  }
+}
+
+.variant-warning {
+  .dialog-header {
+    @apply border-2 border-yellow-500 bg-yellow-50;
+  }
+  button.btn-confirm {
+    @apply bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded;
+  }
+}
+
+.variant-confirmation {
+  .dialog-header {
+    @apply border-2 border-purple-600 bg-purple-50;
+  }
+  button.btn-confirm {
+    @apply bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded;
+  }
+}
+
+/* 3. Your Custom Confirmation Classes */
+.dialog-header {
+  @apply px-6 py-1 border-b flex items-center;
+}
+
+.dialog-content {
+  @apply flex flex-col items-center justify-center w-full;
+  min-height: fit-content;
+  padding: 2rem 1.5rem; /* Standard modern spacing */
+}
+
+.dialog-footer {
+  @apply px-4 py-2 border-t flex justify-end gap-2 bg-gray-50/50;
+}

@@ -202,6 +202,75 @@
           }
         }
       }
+    },
+    "dialogs": {
+      "projectType": "library",
+      "root": "projects/libs/dialogs",
+      "sourceRoot": "projects/libs/dialogs/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/libs/dialogs/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/libs/dialogs/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/libs/dialogs/tsconfig.spec.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/libs/dialogs/**/*.ts",
+              "projects/libs/dialogs/**/*.html"
+            ],
+            "eslintConfig": "projects/libs/dialogs/eslint.config.js"
+          }
+        }
+      }
+    },
+    "core": {
+      "projectType": "library",
+      "root": "projects/libs/core",
+      "sourceRoot": "projects/libs/core/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/libs/core/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/libs/core/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/libs/core/tsconfig.spec.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/libs/core/**/*.ts", "projects/libs/forms/**/*.html"],
+            "eslintConfig": "projects/libs/core/eslint.config.js"
+          }
+        }
+      }
     }
   },
   "cli": {

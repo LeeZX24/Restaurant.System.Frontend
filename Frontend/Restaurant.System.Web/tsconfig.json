@@ -66,6 +66,18 @@
     },
     {
       "path": "./projects/libs/forms/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/libs/dialogs/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/libs/dialogs/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/libs/core/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/libs/core/tsconfig.spec.json"
     }
   ]
 }

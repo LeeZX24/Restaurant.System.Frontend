@@ -1,18 +1,13 @@
-<div class="w-75 mx-auto">
-  <div class="mb-8 flex justify-center text-2xl font-semibold">
-    <span>Login</span>
-  </div>
-  <div class="space-y-4">
-    <form class="flex items-center border-b border-teal-50" [formGroup]="form">
-      <div class="flex flex-wrap">
-          <!-- <div class="w-full flex justify-center">
+<div class="flex-1 flex items-center justify-center p-6">
+  <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-slate-200">
+    <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
 
-          </div> -->
-          <!-- <rs-label-email-form-control [fc]="emailFC" [labelSize]="'col-label'" [inputSize]="'col-input'" tabindex="0"></rs-label-email-form-control>
-          <rs-label-password-form-control [fc]="passwordFC" [labelSize]="'col-label'" [inputSize]="'col-input'" tabindex="1"></rs-label-password-form-control> -->
+    <div class="space-y-4">
+      <form class="flex items-center border-b border-teal-50" [formGroup]="form">
+        <div class="flex flex-wrap">
           <div class="w-full mb-1">
-              <rs-email-form-control [fc]="emailFC" tabindex="0"></rs-email-form-control>
-              <rs-password-form-control [fc]="passwordFC" tabindex="1"></rs-password-form-control>
+            <rs-email-form-control [fc]="emailFC" tabindex="0"></rs-email-form-control>
+            <rs-password-form-control [fc]="passwordFC" tabindex="1"></rs-password-form-control>
           </div>
 
           <div class="w-full btn-login"
@@ -22,22 +17,19 @@
               <span>Login</span>
             </div>
           </div>
-
         </div>
-    </form>
+      </form>
 
-    <div class="flex flex-col space-y-4 h-full">
-      <p class="text-center text-sm mt-4">
-        No account?
-        <!-- <a href="/register" class="text-blue-600 underline">Register</a> -->
-        <span class="link" (click)="redirectRegister()" (keydown.enter)="redirectRegister()"
-  (keydown.space)="redirectRegister()"role="button"
-  tabindex="3">Register</span>
-      </p>
+      <div class="flex flex-col space-y-4 h-full">
+        <p class="text-center text-sm mt-4">
+          No account?
+          <span class="link" (click)="redirectRegister()" (keydown.enter)="redirectRegister()" 
+          (keydown.space)="redirectRegister()"role="button"
+          tabindex="3">Register</span>
+        </p>
+      </div>
     </div>
-
   </div>
-
 </div>
 
 

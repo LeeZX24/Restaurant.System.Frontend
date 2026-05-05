@@ -1,0 +1,24 @@
+<header class="flex items-center h-16 border-b bg-white dark:bg-slate-900 top-0 z-50 w-full">
+    <div class="w-16 flex items-center justify-center flex-shrink-0"> 
+        <button (click)="toggle.emit()" class="flex items-center justify-center p-2 hover:bg-slate-100 rounded-md">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </div>
+
+    <h1 class="flex-1 px-4 font-bold text-xl">
+        Vision<span class="text-blue-600">Dash</span>
+    </h1>
+
+    <div class="ml-auto flex items-center space-x-2">
+        <!-- Search Bar (Tailwind styling) -->
+        <div class="hidden md:flex items-center bg-gray-100 px-3 py-1.5 rounded-full mr-4">
+        <mat-icon class="text-gray-400 scale-75">search</mat-icon>
+        <input type="text" placeholder="Search..." class="bg-transparent border-none focus:ring-0 text-sm">
+        </div>
+
+        <div class="flex-1"></div>
+
+        <button mat-icon-button class="text-gray-600"><mat-icon>notifications</mat-icon></button>
+        <div class="h-8 w-8 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">JD</div>
+    </div>
+</header>

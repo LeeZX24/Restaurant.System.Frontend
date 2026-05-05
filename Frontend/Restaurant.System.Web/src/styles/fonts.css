@@ -9,3 +9,8 @@
 *::after {
   font-family: var(--font-titillium-web) !important;
 }
+
+.material-icons,
+mat-icon {
+  font-family: 'Material Icons' !important;
+}

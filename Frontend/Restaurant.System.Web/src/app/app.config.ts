@@ -1,5 +1,7 @@
 import {
   ApplicationConfig,
+  inject,
+  provideAppInitializer,
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
@@ -24,9 +26,14 @@ import { LoadingInterceptor } from './core/interceptor/loading.interceptor';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { loadAppConfig } from './utils/runtime-env';
 import { APP_CONFIG } from './shared/configs/app-config.state';
+import { AppInitializeService } from './core/services/app-initialize.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAppInitializer(() => {
+      const appInitializeService = inject(AppInitializeService);
+      appInitializeService.init();
+    }),
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(

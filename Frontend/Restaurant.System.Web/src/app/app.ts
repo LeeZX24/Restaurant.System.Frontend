@@ -1,22 +1,20 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { RouterService } from './shared/services/router.service';
+import { MatIconRegistry } from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
-export class App {
+export class App implements OnInit {
   //Declarations
   protected readonly title = signal('Restaurant.System.Web');
 
-  //Services
-  private routerServ = inject(RouterService);
+  private matIconReg = inject(MatIconRegistry);
 
-  go(path:string)
-  {
-    this.routerServ.go(path);
+  ngOnInit() {
+    this.matIconReg.setDefaultFontSetClass('material-symbols-outlined');
   }
 }

@@ -1,0 +1,13 @@
+mat-icon {
+  /* This ensures the icon box is a perfect square and contents are centered */
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  margin: 0px;
+  padding: 0px;
+
+  /* Fixes the "cut off" issue by ensuring the font-size matches the container */
+  width: 24px !important;
+  height: 24px !important;
+  font-size: 24px !important;
+}

@@ -1,14 +1,12 @@
 import { Directive, OnInit, OnDestroy, inject } from '@angular/core';
 import { CustomFormGroup } from '@rs/forms';
 import { AuthService } from '../../../core/services/auth/auth.service';
-import { CustomDialogService } from '../../../core/services/custom-dialog/custom-dialog.service';
-import { ErrorDialogComponent } from '../../dialogs/customs-dialogs/error-dialog/error-dialog.component';
-import { InformationDialogComponent } from '../../dialogs/customs-dialogs/information-dialog/information-dialog.component';
 import { RouterService } from '../../services/router.service';
 import { BaseComponent } from '../base-component/base-component';
 import { UserDto } from '../../models/dtos/user.dto';
 import { ActivityState } from '../../enums/activity-state';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DialogService } from '@rs/dialogs';
 
 @Directive()
 export abstract class BaseAuthComponent<TRequest extends UserDto>
@@ -17,7 +15,7 @@ export abstract class BaseAuthComponent<TRequest extends UserDto>
 {
   private routerService = inject(RouterService);
   private authService = inject(AuthService);
-  private dialogService = inject(CustomDialogService);
+  private dialogService = inject(DialogService);
 
   protected abstract createForm(): CustomFormGroup;
 
@@ -43,65 +41,55 @@ export abstract class BaseAuthComponent<TRequest extends UserDto>
   }
 
   submitRegister(req: TRequest) {
-    const dialogRef = this.dialogService.open(InformationDialogComponent, {
-      data: { title: 'Register', message: 'Registering user ...' },
-      variant: 'info',
-      hasHeader: false,
-      hasFooter: false,
-      disableClose: true,
-      closeOnBackdropClick: false,
-      isLoading: true,
+    const ref = this.dialogService.showInfoDialog('Registering User...', 'Register', false, false, {
+      loading: true,
     });
 
-    dialogRef.afterOpened().subscribe(() => {
+    ref.afterOpened().subscribe(() => {
       setTimeout(async () => {
-        dialogRef.close();
         const register$ = this.authService.register(req);
         register$.subscribe({
           next: (res) => this.handleRegisterSuccess(res),
           error: (err) => this.handleRegisterError(err),
         });
-      }, 5000);
+        ref.close();
+      }, 1000);
     });
   }
 
   submitLogin(req: TRequest) {
-    const dialogRef = this.dialogService.open(InformationDialogComponent, {
-      data: { title: 'Login', message: 'Login the user ...' },
-      variant: 'info',
-      hasHeader: false,
-      hasFooter: false,
-      disableClose: true,
-      closeOnBackdropClick: false,
-      isLoading: true,
+    const ref = this.dialogService.showInfoDialog('Login User...', 'Login', false, false, {
+      loading: true,
     });
 
-    dialogRef.afterOpened().subscribe(() => {
+    ref.afterOpened().subscribe(() => {
       setTimeout(async () => {
-        dialogRef.close();
         const login$ = this.authService.login(req);
         login$.subscribe({
           next: (res) => this.handleLoginSuccess(res),
           error: (err) => this.handleLoginError(err),
         });
-      }, 5000);
+        ref.close();
+      }, 1000);
     });
   }
 
   private handleRegisterSuccess(res: TRequest) {
     if (res != null) {
       if (res.token) {
-        const dialogRef = this.dialogService.open(InformationDialogComponent, {
-          data: { title: 'Register Success', message: 'Register success.' },
-          variant: 'success',
-          hasHeader: false,
-          hasFooter: true,
-          disableClose: true,
-          closeOnBackdropClick: false,
-        });
+        const ref = this.dialogService.showSuccessDialog(
+          'Register Success. Please proceed Login',
+          'Register Success',
+          false,
+          false,
+          { success: true },
+        );
 
-        dialogRef.afterOpened().subscribe(() => {
-          setTimeout(() => this.routerService.gotoLogin(), 5000);
+        ref.afterOpened().subscribe(() => {
+          setTimeout(() => {
+            this.routerService.gotoLogin();
+            ref.close();
+          }, 1000);
         });
       }
     }
@@ -112,21 +100,24 @@ export abstract class BaseAuthComponent<TRequest extends UserDto>
       if (res.token) {
         // 1. Save token (if backend returned it)
         localStorage.setItem('token', res.token);
+        localStorage.setItem('user', JSON.stringify(res));
 
         // 2. Tell the auth service the user is logged in
         this.authService.setCurrentUser(res);
 
-        const dialogRef = this.dialogService.open(InformationDialogComponent, {
-          data: { title: 'Login Success', message: 'Login success.' },
-          variant: 'success',
-          hasHeader: false,
-          hasFooter: true,
-          disableClose: true,
-          closeOnBackdropClick: false,
-        });
+        const ref = this.dialogService.showSuccessDialog(
+          'Login Success. Redirecting to dashboard',
+          'Login Success',
+          false,
+          true,
+          { success: true },
+        );
 
-        dialogRef.afterClosed().subscribe(() => {
-          this.routerService.go('/dashboard', { skipLocationChange: true });
+        ref.afterOpened().subscribe(() => {
+          setTimeout(() => {
+            this.routerService.navigateTo('/admin/dashboard', { skipLocationChange: true });
+            ref.close();
+          }, 1000);
         });
       }
     }
@@ -141,16 +132,7 @@ export abstract class BaseAuthComponent<TRequest extends UserDto>
       errorMessage = err.error.message;
     }
 
-    const dialogRef = this.dialogService.open(ErrorDialogComponent, {
-      data: { title: 'Register Error', message: errorMessage },
-      variant: 'error',
-      hasHeader: false,
-      hasFooter: true,
-      disableClose: true,
-      closeOnBackdropClick: false,
-    });
-
-    dialogRef.afterOpened().subscribe();
+    this.dialogService.showErrorDialog(errorMessage, 'Register Error', false, true);
   }
 
   private handleLoginError(err: unknown) {
@@ -160,16 +142,7 @@ export abstract class BaseAuthComponent<TRequest extends UserDto>
       errorMessage = err.error.message;
     }
 
-    const dialogRef = this.dialogService.open(ErrorDialogComponent, {
-      data: { title: 'Login Error', message: errorMessage },
-      variant: 'error',
-      hasHeader: false,
-      hasFooter: true,
-      disableClose: true,
-      closeOnBackdropClick: false,
-    });
-
-    dialogRef.afterOpened().subscribe();
+    this.dialogService.showErrorDialog(errorMessage, 'Login Error', false, true);
   }
 
   protected redirectRegister() {

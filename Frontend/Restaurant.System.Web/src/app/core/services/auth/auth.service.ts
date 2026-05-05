@@ -6,7 +6,7 @@ import { APP_CONFIG } from '../../../shared/configs/app-config.state';
 import { BaseDto } from '../../../shared/models/dtos/base/base.dto';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private http = inject(HttpClient);
@@ -17,22 +17,32 @@ export class AuthService {
   currentUserObservable$ = this.currentUser$.asObservable();
 
   get isLoggedIn(): boolean {
+    console.log('Current User -> ', this.currentUser$.value);
     return !!this.currentUser$.value;
+  }
+
+  init() {
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+
+    if (token && user) {
+      this.currentUser$.next(JSON.parse(user));
+    }
   }
 
   login<TRequest extends BaseDto>(login: TRequest): Observable<TRequest> {
     return from(this.config).pipe(
-      switchMap(appConfig =>
-        this.http.post<TRequest>(`${appConfig.baseUrl}/api/auth/login`, login)
-      )
+      switchMap((appConfig) =>
+        this.http.post<TRequest>(`${appConfig.baseUrl}/api/auth/login`, login),
+      ),
     );
   }
 
   register<TRequest extends BaseDto>(register: TRequest): Observable<TRequest> {
     return from(this.config).pipe(
-      switchMap(appConfig =>
-        this.http.post<TRequest>(`${appConfig.baseUrl}/api/auth/register`, register)
-      )
+      switchMap((appConfig) =>
+        this.http.post<TRequest>(`${appConfig.baseUrl}/api/auth/register`, register),
+      ),
     );
   }
 
