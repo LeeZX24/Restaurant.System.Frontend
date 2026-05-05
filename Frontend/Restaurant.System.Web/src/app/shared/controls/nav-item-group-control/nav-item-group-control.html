@@ -1,0 +1,14 @@
+<mat-expansion-panel [hideToggle]="!isExpanded()" 
+[disabled]="!isExpanded()" 
+class="!shadow-none !bg-transparent !m-0 !rounded-none">
+    <mat-expansion-panel-header 
+    class="!h-12 !px-0 flex items-center !mt-0 !mb-0">
+        <rs-nav-item-control [navItem]="navItem()" [isExpanded]="isExpanded()"></rs-nav-item-control>
+    </mat-expansion-panel-header>
+    
+    <div class="flex flex-col bg-slate-50/50">
+    @for (child of navItem()?.children; track child.label) {
+        <rs-nav-item-control [navItem]="child" [isExpanded]="isExpanded()"></rs-nav-item-control>    
+    }
+    </div>
+</mat-expansion-panel>

@@ -12,95 +12,70 @@ export const routes: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('./shared/layouts/dialog-layout/dialog-layout.component').then(
-            (c) => c.DialogLayoutComponent,
+          import('./shared/components/redirect/redirect.component').then(
+            (c) => c.RedirectComponent,
           ),
+      },
+      {
+        // Auth
+        path: 'auth',
+        loadComponent: () =>
+          import('./shared/layouts/auth-layout/auth-layout.component').then(
+            (c) => c.AuthLayoutComponent,
+          ),
+        children: [
+          {
+            path: 'login',
+            loadComponent: () =>
+              import('./auth/login/login.component').then((c) => c.LoginComponent),
+          },
+          {
+            path: 'register',
+            loadComponent: () =>
+              import('./auth/register/register.component').then((c) => c.RegisterComponent),
+          },
+        ],
+      },
+      {
+        // Admin
+        path: 'admin',
+        loadComponent: () =>
+          import('./shared/layouts/admin-layout/admin-layout.component').then(
+            (c) => c.AdminLayoutComponent,
+          ),
+        canActivate: [authGuard],
         children: [
           {
             path: '',
             loadComponent: () =>
-              import('./shared/layouts/content-layout/content-layout.component').then(
-                (c) => c.ContentLayoutComponent,
+              import('./shared/components/redirect/redirect.component').then(
+                (c) => c.RedirectComponent,
               ),
-            children: [
-              {
-                // Auth
-                path: '',
-                loadComponent: () =>
-                  import('./shared/layouts/auth-layout/auth-layout.component').then(
-                    (c) => c.AuthLayoutComponent,
-                  ),
-                children: [
-                  {
-                    path: 'redirect',
-                    loadComponent: () =>
-                      import('./shared/components/redirect/redirect.component').then(
-                        (c) => c.RedirectComponent,
-                      ),
-                  },
-                  {
-                    path: 'login',
-                    loadComponent: () =>
-                      import('./auth/login/login.component').then((c) => c.LoginComponent),
-                  },
-                  {
-                    path: 'register',
-                    loadComponent: () =>
-                      import('./auth/register/register.component').then((c) => c.RegisterComponent),
-                  },
-                ],
-              },
-              {
-                // Admin
-                path: '',
-                loadComponent: () =>
-                  import('./shared/layouts/admin-layout/admin-layout.component').then(
-                    (c) => c.AdminLayoutComponent,
-                  ),
-                canActivate: [authGuard],
-                children: [
-                  {
-                    path: '',
-                    loadComponent: () =>
-                      import('./pages/admin-staff/dashboard/dashboard.component').then(
-                        (c) => c.DashboardComponent,
-                      ),
-                  },
-                ],
-              },
-              //,
-              // { // Customer
-              // }
-            ],
+            data: { redirectTo: '/admin/dashboard' },
+          },
+          {
+            path: 'dashboard',
+            loadComponent: () =>
+              import('./pages/admin-staff/dashboard/dashboard.component').then(
+                (c) => c.DashboardComponent,
+              ),
+          },
+          {
+            path: 'settings',
+            loadComponent: () =>
+              import('./pages/admin-staff/settings/settings.component').then(
+                (c) => c.SettingsComponent,
+              ),
           },
         ],
       },
+      //,
+      // { // Customer
+      // }
     ],
   },
   {
     path: '**',
     redirectTo: '',
   },
-  // default route
-  // {
-  //   path: '',
-  //   component: LayoutComponent,
-  //   children: [
-  //     {
-  //       path: 'auth',
-  //       loadChildren: () => import('../auth/auth.routes').then(c => c.AuthRoutes),
-  //     },
-  //   ],
-  // },
-
-  // {
-  //   path: '',
-  //   children: [
-  //     {
-  //       path: '',
-  //       redirectTo: '/login',
-  //       pathMatch: 'full'
-  //     }
-  //   ]
-  // },
 ];

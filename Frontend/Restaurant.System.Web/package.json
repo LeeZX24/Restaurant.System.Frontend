@@ -49,6 +49,7 @@
     "bootstrap": "^5.3.8",
     "dayjs": "^1.11.19",
     "express": "^5.2.1",
+    "material-symbols": "^0.44.4",
     "ngx-mask": "^21.0.1",
     "ngx-toastr": "^20.0.5",
     "node": "^24.14.1",

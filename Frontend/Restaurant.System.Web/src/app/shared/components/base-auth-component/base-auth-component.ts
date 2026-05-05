@@ -47,13 +47,13 @@ export abstract class BaseAuthComponent<TRequest extends UserDto>
 
     ref.afterOpened().subscribe(() => {
       setTimeout(async () => {
-        ref.close();
         const register$ = this.authService.register(req);
         register$.subscribe({
           next: (res) => this.handleRegisterSuccess(res),
           error: (err) => this.handleRegisterError(err),
         });
-      }, 5000);
+        ref.close();
+      }, 1000);
     });
   }
 
@@ -64,13 +64,13 @@ export abstract class BaseAuthComponent<TRequest extends UserDto>
 
     ref.afterOpened().subscribe(() => {
       setTimeout(async () => {
-        ref.close();
         const login$ = this.authService.login(req);
         login$.subscribe({
           next: (res) => this.handleLoginSuccess(res),
           error: (err) => this.handleLoginError(err),
         });
-      }, 5000);
+        ref.close();
+      }, 1000);
     });
   }
 
@@ -80,13 +80,16 @@ export abstract class BaseAuthComponent<TRequest extends UserDto>
         const ref = this.dialogService.showSuccessDialog(
           'Register Success. Please proceed Login',
           'Register Success',
-          true,
-          true,
+          false,
+          false,
           { success: true },
         );
 
-        ref.afterClosed().subscribe(() => {
-          setTimeout(() => this.routerService.gotoLogin(), 5000);
+        ref.afterOpened().subscribe(() => {
+          setTimeout(() => {
+            this.routerService.gotoLogin();
+            ref.close();
+          }, 1000);
         });
       }
     }
@@ -97,6 +100,7 @@ export abstract class BaseAuthComponent<TRequest extends UserDto>
       if (res.token) {
         // 1. Save token (if backend returned it)
         localStorage.setItem('token', res.token);
+        localStorage.setItem('user', JSON.stringify(res));
 
         // 2. Tell the auth service the user is logged in
         this.authService.setCurrentUser(res);
@@ -104,13 +108,16 @@ export abstract class BaseAuthComponent<TRequest extends UserDto>
         const ref = this.dialogService.showSuccessDialog(
           'Login Success. Redirecting to dashboard',
           'Login Success',
-          true,
+          false,
           true,
           { success: true },
         );
 
-        ref.afterClosed().subscribe(() => {
-          setTimeout(() => this.routerService.go('/dashboard', { skipLocationChange: true }), 5000);
+        ref.afterOpened().subscribe(() => {
+          setTimeout(() => {
+            this.routerService.navigateTo('/admin/dashboard', { skipLocationChange: true });
+            ref.close();
+          }, 1000);
         });
       }
     }
