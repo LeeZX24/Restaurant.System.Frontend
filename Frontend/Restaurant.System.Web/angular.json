@@ -161,12 +161,6 @@
             }
           },
           "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "tsConfig": "projects/libs/auth/tsconfig.spec.json"
-          }
         }
       }
     },
@@ -187,12 +181,6 @@
             }
           },
           "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "tsConfig": "projects/libs/forms/tsconfig.spec.json"
-          }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
@@ -220,12 +208,6 @@
             }
           },
           "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "tsConfig": "projects/libs/dialogs/tsconfig.spec.json"
-          }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
@@ -256,12 +238,6 @@
             }
           },
           "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "tsConfig": "projects/libs/core/tsconfig.spec.json"
-          }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
