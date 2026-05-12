@@ -1,0 +1,38 @@
+<button [disabled]="!isExpanded()" 
+[class.font-bold]="isChildActive()"
+[class.is-active]="isChildActive()"
+class="w-full flex items-center justify-between py-3 rounded-xl group nav-group-link" (click)="toggle()">
+    <div class="grid grid-cols-6 nav-item relative z-10 w-full flex items-center !m-0">    
+        <div class="col-span-5">
+            <rs-nav-item-control
+            [navItem]="navItem()" 
+            [isExpanded]="isExpanded()">
+            </rs-nav-item-control>
+        </div>
+        <div class="chevron">
+            <mat-icon  class="transition-transform duration-300 flex items-center" [hidden]="!isExpanded()">@if(!isGroupExpanded()){ keyboard_arrow_down } @else { keyboard_arrow_up }</mat-icon>
+        </div>
+    </div>
+</button>
+
+<div
+  class="overflow-hidden pl-4 ml-4 border-l border-zinc-800 transition-all duration-300 ease-in-out"
+  [class.max-h-0]="!isGroupExpanded()"
+  [class.opacity-0]="!isGroupExpanded()"
+  [class.-translate-y-2]="!isGroupExpanded()"
+  [class.max-h-96]="isGroupExpanded()"
+  [class.opacity-100]="isGroupExpanded()"
+  [class.translate-y-0]="isGroupExpanded()"
+>
+
+    @if(isGroupExpanded()) {
+        @for (child of navItem()?.children; track child.label) {
+            <rs-nav-item-control 
+            [navItem]="child" 
+            [isExpanded]="isExpanded()" 
+            (navigationClicked)="onNavigationClicked()">
+            </rs-nav-item-control>    
+        }
+    }
+</div>
+    

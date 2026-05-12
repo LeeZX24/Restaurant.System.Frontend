@@ -1,0 +1,10 @@
+@if(showNav()){
+<nav class="mb-6 flex items-center space-x-2 text-sm">
+    @for (step of navTreeService.currentTree(); track step.path; let last = $last) {
+        <span class="text-gray-500">{{ step.label }}</span>
+        @if (!last) {
+            <span class="text-gray-400">/</span>
+        }
+    }
+</nav>
+}

@@ -1,6 +1,8 @@
 import { Location } from '@angular/common';
 import { inject, Injectable, signal } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, NavigationExtras, Router } from '@angular/router';
+import { filter, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +12,16 @@ export class RouterService {
   private location = inject(Location);
 
   currentPath = signal<string>('');
+  parentPath = signal<string>('');
   navOptn: NavigationExtras = { skipLocationChange: true, replaceUrl: true };
+
+  currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map((event) => (event as NavigationEnd).urlAfterRedirects),
+    ),
+    { initialValue: this.router.url },
+  );
 
   private go(path: string, options: NavigationExtras = this.navOptn) {
     this.currentPath.set(path);
@@ -20,11 +31,11 @@ export class RouterService {
   }
 
   public gotoLogin(): void {
-    this.go('/login');
+    this.navigateTo('/admin/auth/login');
   }
 
   public gotoRegister(): void {
-    this.go('/register');
+    this.navigateTo('/admin/auth/register');
   }
 
   public navigateTo(path: string, options?: NavigationExtras) {

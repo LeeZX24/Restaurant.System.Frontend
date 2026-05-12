@@ -39,18 +39,72 @@ mat-icon {
 }
 
 .nav-item-link {
-  @apply flex items-center h-12 w-full cursor-pointer bg-transparent text-inherit 
-    hover:bg-transparent active:bg-transparent focus:bg-transparent outline-none;
+  @apply relative flex items-center !h-12 w-full overflow-hidden !bg-transparent
+    before:absolute before:inset-0 before:bg-blue-600 before:origin-left 
+    before:scale-x-0 before:transition-transform before:duration-300 
+    hover:before:scale-x-100;
 }
 
-.is-active {
+.nav-group-link {
+  @apply relative flex items-center !h-12 w-full overflow-hidden !bg-transparent 
+  before:absolute before:inset-0 before:bg-blue-600 before:origin-left 
+    before:scale-x-0 before:transition-transform before:duration-300 
+    hover:before:scale-x-100;
+}
+
+.is-active div {
   @apply cursor-default pointer-events-none bg-transparent;
 }
 
 .is-active mat-icon {
-  @apply font-bold;
+  @apply font-bold text-white bg-blue-600;
 }
 
 .is-active span {
-  @apply font-bold;
+  @apply font-bold text-white bg-blue-600;
+}
+
+.is-active mat-expansion-panel-header {
+  @apply bg-blue-600;
+}
+
+.is-active .nav-item {
+  @apply w-full bg-blue-600;
+}
+
+.nav-group-item {
+  @apply p-0;
+}
+
+.chevron {
+  @apply items-center;
+}
+
+th.mat-mdc-header-cell {
+  @apply font-bold text-center;
+}
+
+.action-grp {
+  @apply flex justify-end items-center gap-2;
+}
+
+.action-btn {
+  @apply relative w-9 h-9 flex items-center justify-center rounded-md
+         hover:bg-gray-100 transition
+         hover:[&>span]:opacity-100 hover:[&>span]:translate-y-0;
+}
+
+.action-label {
+  @apply absolute left-1/2 -translate-x-1/2 bottom-full mb-2
+           px-2 py-1 text-xs text-white bg-gray-800 rounded
+           opacity-0 translate-y-1 transition-all
+           pointer-events-none whitespace-nowrap;
+}
+
+.action-header {
+  @apply text-center w-24;
+}
+
+.action-row {
+  @apply w-24 text-right;
 }

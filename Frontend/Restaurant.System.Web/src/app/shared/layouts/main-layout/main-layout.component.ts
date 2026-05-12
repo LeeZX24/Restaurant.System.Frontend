@@ -1,8 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterOutlet } from "@angular/router";
+import { RouterOutlet } from '@angular/router';
 import { AppMetaService } from '../../../core/services/app-meta/app-meta.service';
 import { TranslateService } from '@ngx-translate/core';
-
 
 @Component({
   selector: 'rs-main-layout',
