@@ -24,34 +24,36 @@ export class ActivityService implements OnDestroy {
     this._submit(req, state);
   }
 
-  async _submit(req: BaseDto, state: ActivityState) {
-    const ref = this.dialogService.showLoadingDialog('Submitting request ...', false, false, {
-      loading: true,
-    });
+  async _submit(req: BaseDto, state: ActivityState = ActivityState.Others) {
+    if (state === ActivityState.Others) {
+      const ref = this.dialogService.showLoadingDialog('Submitting request ...', false, false, {
+        loading: true,
+      });
 
-    // Wait for the dialog to open, then trigger the URL resolution and POST
-    ref.afterOpened().subscribe(() => {
-      // We don't need "base" here. We use the "url" from the pipe.
-      this.baseUrl(req.route, req.action)
-        .pipe(
-          switchMap((url) => {
-            if (!url.startsWith('http')) {
-              console.error('URL is invalid:', url);
-            }
-            return this.http.post<BaseDto>(url, req);
-          }),
-        )
-        .subscribe({
-          next: (res) => {
-            console.log('Success', res);
-            ref.close();
-          },
-          error: (err) => {
-            console.error('Error', err);
-            ref.close();
-          },
-        });
-    });
+      // Wait for the dialog to open, then trigger the URL resolution and POST
+      ref.afterOpened().subscribe(() => {
+        // We don't need "base" here. We use the "url" from the pipe.
+        this.baseUrl(req.route, req.action)
+          .pipe(
+            switchMap((url) => {
+              if (!url.startsWith('http')) {
+                console.error('URL is invalid:', url);
+              }
+              return this.http.post<BaseDto>(url, req);
+            }),
+          )
+          .subscribe({
+            next: (res) => {
+              console.log('Success', res);
+              ref.close();
+            },
+            error: (err) => {
+              console.error('Error', err);
+              ref.close();
+            },
+          });
+      });
+    }
   }
 
   baseUrl(domain: string, action: string) {
