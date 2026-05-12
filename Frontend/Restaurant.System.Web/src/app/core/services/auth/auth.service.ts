@@ -17,7 +17,6 @@ export class AuthService {
   currentUserObservable$ = this.currentUser$.asObservable();
 
   get isLoggedIn(): boolean {
-    console.log('Current User -> ', this.currentUser$.value);
     return !!this.currentUser$.value;
   }
 
@@ -31,6 +30,7 @@ export class AuthService {
   }
 
   login<TRequest extends BaseDto>(login: TRequest): Observable<TRequest> {
+    console.log('Login Details -> ', login);
     return from(this.config).pipe(
       switchMap((appConfig) =>
         this.http.post<TRequest>(`${appConfig.baseUrl}/api/auth/login`, login),
@@ -42,6 +42,14 @@ export class AuthService {
     return from(this.config).pipe(
       switchMap((appConfig) =>
         this.http.post<TRequest>(`${appConfig.baseUrl}/api/auth/register`, register),
+      ),
+    );
+  }
+
+  private logout_<TRequest extends BaseDto>(logout: TRequest): Observable<TRequest> {
+    return from(this.config).pipe(
+      switchMap((appConfig) =>
+        this.http.post<TRequest>(`${appConfig.baseUrl}/api/auth/logout`, logout),
       ),
     );
   }
@@ -59,6 +67,14 @@ export class AuthService {
   }
 
   logout() {
-    this.currentUser$.next(null);
+    const user = this.getCurrentUserValue() as UserDto;
+    this.logout_(user).subscribe({
+      next: (res) => {
+        if (res) {
+          localStorage.clear();
+          this.currentUser$.next(null);
+        }
+      },
+    });
   }
 }

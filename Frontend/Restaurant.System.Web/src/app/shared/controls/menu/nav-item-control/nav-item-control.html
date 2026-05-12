@@ -1,0 +1,43 @@
+<div 
+(mouseenter)="isHovered.set(true)" 
+(mouseleave)="isHovered.set(false)"
+>
+    @if(!navItem()?.children) {
+        <div (click)="handleNavigate()"
+        (keydown.enter)="handleNavigate()"
+        tabindex="0"
+        [class.font-bold]="isActive()"
+        [class.is-active]="isActive()"
+        [ngClass]="isChild() ? 'py-3' : 'py-4'"
+        class="group nav-item-link">
+
+            <!-- @if (!isActive()) {
+                <div class="absolute inset-y-0 left-0 w-0 bg-blue-50 transition-all duration-300 ease-out group-hover:w-full -z-10"></div>
+            } -->
+            <div class="nav-item relative z-10 flex items-center !m-0">
+                <ng-container [ngTemplateOutlet]="navContent"></ng-container>
+            </div>
+        </div>
+    } @else {
+        <ng-container [ngTemplateOutlet]="navContent"></ng-container>
+    }
+</div>
+
+<ng-template #navContent>
+
+    <div class="grid flex items-center justify-center h-12 w-full min-w-0 transition-colors duration-300 group-hover:text-white"
+    [class.grid-cols-5]="!navItem()?.children"
+    [class.grid-cols-4]="navItem()?.children">
+        <div class="w-16 flex-shrink-0 flex items-center justify-center text-center">
+            <mat-icon>{{navItem()?.icon}}</mat-icon>
+        </div>
+
+        @if(isExpanded()){
+            <span class="ml-2 font-medium truncate uppercase text-xs tracking-wider flex-1 font-[inherit] text-left"
+            [class.col-span-4]="!navItem()?.children"
+            [class.col-span-3]="navItem()?.children">
+                {{navItem()?.label}}
+            </span>
+        }
+    </div>
+</ng-template>

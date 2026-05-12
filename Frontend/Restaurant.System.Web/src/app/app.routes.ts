@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './shared/guards/auth.guard';
+// import { authGuard } from './shared/guards/auth.guard';
+// import { initGuard } from './shared/guards/init.guard';
+// import { roleGuard } from './shared/guards/role.guard';
+import { UserType } from './shared/models/dtos/user.dto';
 
 export const routes: Routes = [
   {
@@ -8,74 +11,113 @@ export const routes: Routes = [
       import('./shared/layouts/main-layout/main-layout.component').then(
         (c) => c.MainLayoutComponent,
       ),
+    // canActivate: [initGuard],
     children: [
-      {
-        path: '',
-        loadComponent: () =>
-          import('./shared/components/redirect/redirect.component').then(
-            (c) => c.RedirectComponent,
-          ),
-      },
-      {
-        // Auth
-        path: 'auth',
-        loadComponent: () =>
-          import('./shared/layouts/auth-layout/auth-layout.component').then(
-            (c) => c.AuthLayoutComponent,
-          ),
-        children: [
-          {
-            path: 'login',
-            loadComponent: () =>
-              import('./auth/login/login.component').then((c) => c.LoginComponent),
-          },
-          {
-            path: 'register',
-            loadComponent: () =>
-              import('./auth/register/register.component').then((c) => c.RegisterComponent),
-          },
-        ],
-      },
       {
         // Admin
         path: 'admin',
         loadComponent: () =>
-          import('./shared/layouts/admin-layout/admin-layout.component').then(
-            (c) => c.AdminLayoutComponent,
+          import('./shared/layouts/content-layout/content-layout.component').then(
+            (c) => c.ContentLayoutComponent,
           ),
-        canActivate: [authGuard],
         children: [
+          {
+            path: 'auth',
+            loadComponent: () =>
+              import('./shared/layouts/auth-layout/auth-layout.component').then(
+                (c) => c.AuthLayoutComponent,
+              ),
+            children: [
+              {
+                path: 'login',
+                loadComponent: () =>
+                  import('./pages/admin-staff/auth/login/login.component').then(
+                    (c) => c.LoginComponent,
+                  ),
+              },
+            ],
+          },
           {
             path: '',
             loadComponent: () =>
-              import('./shared/components/redirect/redirect.component').then(
-                (c) => c.RedirectComponent,
+              import('./shared/layouts/admin-layout/admin-layout.component').then(
+                (c) => c.AdminLayoutComponent,
               ),
-            data: { redirectTo: '/admin/dashboard' },
-          },
-          {
-            path: 'dashboard',
-            loadComponent: () =>
-              import('./pages/admin-staff/dashboard/dashboard.component').then(
-                (c) => c.DashboardComponent,
-              ),
-          },
-          {
-            path: 'settings',
-            loadComponent: () =>
-              import('./pages/admin-staff/settings/settings.component').then(
-                (c) => c.SettingsComponent,
-              ),
+            // canActivate: [authGuard, roleGuard],
+            data: { title: 'Main', roles: [UserType.Staff.toString()] },
+            children: [
+              {
+                path: 'dashboard',
+                loadComponent: () =>
+                  import('./pages/admin-staff/dashboard/dashboard.component').then(
+                    (c) => c.DashboardComponent,
+                  ),
+              },
+              {
+                path: 'settings',
+                loadComponent: () =>
+                  import('./pages/admin-staff/settings/settings.component').then(
+                    (c) => c.SettingsComponent,
+                  ),
+                data: { title: 'Settings' },
+              },
+              {
+                path: 'maintenance',
+                data: { title: 'Maintenance' },
+                children: [
+                  {
+                    path: ':module',
+                    loadComponent: () =>
+                      import('./shared/controls/maintenance/maintenance/maintenance.component').then(
+                        (c) => c.MaintenanceComponent,
+                      ),
+                    data: { title: '' },
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
-      //,
-      // { // Customer
-      // }
+      {
+        // Customer
+        path: 'member',
+        loadComponent: () =>
+          import('./shared/layouts/content-layout/content-layout.component').then(
+            (c) => c.ContentLayoutComponent,
+          ),
+        // canActivate: [authGuard, roleGuard],
+        data: { roles: [UserType.Member.toString()] },
+        children: [
+          {
+            path: 'auth',
+            loadComponent: () =>
+              import('./shared/layouts/auth-layout/auth-layout.component').then(
+                (c) => c.AuthLayoutComponent,
+              ),
+            children: [
+              {
+                path: 'login',
+                loadComponent: () =>
+                  import('./pages/customers/auth/login/login.component').then(
+                    (c) => c.LoginComponent,
+                  ),
+              },
+              {
+                path: 'register',
+                loadComponent: () =>
+                  import('./pages/customers/auth/register/register.component').then(
+                    (c) => c.RegisterComponent,
+                  ),
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: 'error/404',
   },
 ];

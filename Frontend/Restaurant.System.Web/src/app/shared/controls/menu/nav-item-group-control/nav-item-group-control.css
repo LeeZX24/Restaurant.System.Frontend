@@ -1,0 +1,5 @@
+@reference "tailwindcss";
+
+.mat-mdc-expansion-panel-body {
+  @apply p-0;
+}

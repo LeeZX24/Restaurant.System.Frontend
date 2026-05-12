@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { DestroyRef, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { DialogService } from '@rs/dialogs';
 import { firstValueFrom } from 'rxjs';
 import { AppConfig } from '../../shared/configs/app-config.model';
@@ -17,21 +17,30 @@ export class AppInitializeService {
   private authService = inject(AuthService);
   private config = inject(APP_CONFIG);
 
-  private destroyRef = inject(DestroyRef);
+  private initPromise?: Promise<void>;
+  private hasShownUI = false;
 
-  isInitialized = signal(false);
+  init(): Promise<void> {
+    if (!this.initPromise) {
+      this.initPromise = this.runInit();
+    }
 
-  async init() {
+    return this.initPromise;
+  }
+
+  private async runInit(): Promise<void> {
+    if (this.hasShownUI) return;
+    this.hasShownUI = true;
+
     const appConfig = await this.config;
 
     const ref = this.dialogService.showLoadingDialog('Loading...', false, false, { loading: true });
 
-    ref.afterOpened().subscribe(() => {
-      setTimeout(() => {
-        this.checkBackend(appConfig);
-        ref.close();
-      }, 1000);
-    });
+    await this.wait(1000);
+
+    ref.close();
+
+    await this.checkBackend(appConfig);
   }
 
   async checkBackend(appConfig: AppConfig) {
@@ -46,16 +55,13 @@ export class AppInitializeService {
         success: true,
       });
 
-      ref.afterOpened().subscribe(() => {
-        setTimeout(() => {
-          this.authService.init();
-          if (!this.authService.isLoggedIn) {
-            this.goRedirect();
-          }
+      this.authService.init();
 
-          ref.close();
-        }, 1000);
-      });
+      await this.wait(1000);
+
+      ref.close();
+
+      this.goRedirect();
     } catch (e) {
       this.openErrorDialog(e);
     }
@@ -76,20 +82,29 @@ export class AppInitializeService {
     this.dialogService.showErrorDialog(errorMessage, `Error (${errorCode})`, false, false);
   }
 
-  goRedirect() {
+  async goRedirect() {
+    const path = !this.authService.isLoggedIn ? 'Login' : 'Admin Dashboard';
+
     const ref = this.dialogService.showInfoDialog(
-      'Redirect to Login ...',
+      `Redirect to ${path} ...`,
       'Redirect',
       false,
       false,
       { loading: true },
     );
 
-    ref.afterOpened().subscribe(() => {
-      setTimeout(() => {
-        this.routerService.gotoLogin();
-        ref.close();
-      }, 1000);
-    });
+    await this.wait(1000);
+
+    ref.close();
+
+    if (!this.authService.isLoggedIn) {
+      this.routerService.gotoLogin();
+    } else {
+      this.routerService.navigateTo('/admin/dashboard');
+    }
+  }
+
+  private wait(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }

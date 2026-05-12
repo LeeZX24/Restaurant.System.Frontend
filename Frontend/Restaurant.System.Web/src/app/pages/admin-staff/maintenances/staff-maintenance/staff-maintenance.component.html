@@ -1,0 +1,27 @@
+<!-- <rs-maintenance-table
+  [columns]="columns"
+  [rows]="rows()"
+  [loading]= "loading()"
+  [actions]="actions"
+></rs-maintenance-table> -->
+
+<form [formGroup]="form">
+    <div>
+        <rs-label-text-form-control [fc]="usernameFC" [inputSize]="'col-input'" tabindex="0"></rs-label-text-form-control>
+        <rs-label-password-form-control [fc]="passwordFC" [inputSize]="'col-input'" tabindex="1"></rs-label-password-form-control>
+    </div>
+
+    <div>
+        <rs-label-text-form-control [fc]="firstNameFC" [inputSize]="'col-input'" tabindex="2"></rs-label-text-form-control>
+        <rs-label-text-form-control [fc]="lastNameFC" [inputSize]="'col-input'" tabindex="3"></rs-label-text-form-control>
+        <rs-label-text-form-control [fc]="emailFC" [inputSize]="'col-input'" tabindex="4"></rs-label-text-form-control>
+    </div>
+
+    <div class="w-full btn-login"
+    [class.disabled]="form.invalid" (click)="form.invalid ? null : onSubmit()"
+    (keyup.enter)="onSubmit()" role="button" tabindex="2">
+        <div class="btn-label">
+            <span>OK</span>
+        </div>
+    </div>
+</form>

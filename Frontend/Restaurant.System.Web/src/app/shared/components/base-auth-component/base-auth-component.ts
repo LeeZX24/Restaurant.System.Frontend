@@ -2,7 +2,7 @@ import { Directive, OnInit, OnDestroy, inject } from '@angular/core';
 import { CustomFormGroup } from '@rs/forms';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { RouterService } from '../../services/router.service';
-import { BaseComponent } from '../base-component/base-component';
+import { BaseComponent } from '../base-component';
 import { UserDto } from '../../models/dtos/user.dto';
 import { ActivityState } from '../../enums/activity-state';
 import { HttpErrorResponse } from '@angular/common/http';
