@@ -11,7 +11,7 @@
           [ngClass]="isChild() ? 'py-3' : 'py-4'"
           class="nav-item-link"
         >
-          <div #flipItem class="nav-item relative z-10 flex items-center !m-0">
+          <div class="nav-item relative z-10 flex items-center m-0!">
             <ng-container [ngTemplateOutlet]="navContent"></ng-container>
           </div>
         </div>
@@ -24,7 +24,7 @@
   <div
     class="absolute left-full top-1/2 z-50 ml-4 -translate-y-1/2 transition-all duration-300"
     [class]="
-      !isExpanded() && isHovered()
+      !isExpanded() && isHovered() && !isGroup()
         ? 'group-hover:visible group-hover:opacity-100 group-hover:translate-x-0 -translate-x-2'
         : 'invisible opacity-0'
     "
@@ -44,11 +44,11 @@
 
 <ng-template #navContent>
   <div
-    class="grid flex items-center justify-center h-12 w-full min-w-0 transition-all duration-300 group-hover:text-white"
+    class="grid items-center justify-center h-12 w-full min-w-0 transition-all duration-300 group-hover:text-white"
     [class.grid-cols-5]="!navItem()?.children"
     [class.grid-cols-4]="navItem()?.children"
   >
-    <div class="w-16 flex-shrink-0 flex items-center justify-center text-center">
+    <div class="w-16 shrink-0 flex items-center justify-center text-center">
       <mat-icon>{{ navItem()?.icon }}</mat-icon>
     </div>
 

@@ -4,7 +4,6 @@ import { NavItem } from '../navigation';
 import { NavItemControl } from '../nav-item-control/nav-item-control';
 import { RouterService } from '../../../services/router.service';
 import { MatIconModule } from '@angular/material/icon';
-import { FlipService } from '../flip.service';
 
 @Component({
   selector: 'rs-nav-item-group-control',
@@ -14,12 +13,13 @@ import { FlipService } from '../flip.service';
 })
 export class NavItemGroupControl {
   private routerService = inject(RouterService);
-  private flip = inject(FlipService);
   navItem = input<NavItem>();
   isExpanded = model(false);
   isHovered = signal(false);
 
   isGroupExpanded = signal(false);
+
+  hasSecondLayer = signal(false);
 
   constructor() {
     effect(() => {
@@ -30,13 +30,21 @@ export class NavItemGroupControl {
           this.isGroupExpanded.set(true);
         }
       }
+
+      if (!this.navItem()?.children) {
+        this.hasSecondLayer.set(true);
+      } else {
+        this.hasSecondLayer.set(false);
+      }
     });
   }
 
   navigationClicked = output();
 
   toggle() {
-    this.isGroupExpanded.update((v) => !v);
+    if (this.isExpanded()) {
+      this.isGroupExpanded.update((v) => !v);
+    }
   }
 
   isChildActive = computed(() => {
@@ -50,5 +58,9 @@ export class NavItemGroupControl {
     this.isExpanded.set(false);
     this.isGroupExpanded.set(false);
     this.navigationClicked.emit();
+  }
+
+  onItemHovered() {
+    this.isHovered.set(true);
   }
 }

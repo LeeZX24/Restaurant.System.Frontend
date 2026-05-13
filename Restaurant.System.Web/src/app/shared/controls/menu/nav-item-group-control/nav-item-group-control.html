@@ -1,15 +1,14 @@
-<div class="group relative">
+<div class="group relative overflow-visible">
   <div (mouseenter)="isHovered.set(true)" (mouseleave)="isHovered.set(false)">
-    <button
-      [disabled]="!isExpanded()"
-      [class.font-bold]="isChildActive()"
+    <div [class.font-bold]="isChildActive()"
       [class.is-active]="isChildActive()"
-      class="w-full flex items-center justify-between py-3 rounded-xl group nav-group-link"
+      class="nav-group-link"
       (click)="toggle()"
-    >
-      <div class="grid grid-cols-6 nav-item relative z-10 w-full flex items-center !m-0">
+      (keydown.enter)="toggle()"
+      tabindex="0">
+      <div class="grid grid-cols-6 nav-item relative z-10 w-full items-center m-0!">
         <div class="col-span-5">
-          <rs-nav-item-control [navItem]="navItem()" [isExpanded]="isExpanded()">
+          <rs-nav-item-control [navItem]="navItem()" [isGroup]="true" [isExpanded]="isExpanded()">
           </rs-nav-item-control>
         </div>
         <div class="chevron">
@@ -22,25 +21,30 @@
           </mat-icon>
         </div>
       </div>
-    </button>
-  </div>
+    </div>
 
-  <div
-    class="absolute left-full top-3 z-50 ml-4 transition-all duration-500"
-    [class]="
-      !isExpanded() && isHovered()
-        ? 'group-hover:visible group-hover:opacity-100 translate-x-0 -translate-x-2'
-        : 'invisible opacity-0'
-    "
-  >
-    <div
-      class="whitespace-nowrap rounded bg-gray-900 px-3 py-1.5 text-xs font-medium text-white shadow-xl ring-1 ring-white/10"
-    >
-      {{ navItem()?.label }}
-      <!-- Arrow -->
-      <div
-        class="absolute right-full top-1/2 -mr-1 h-2 w-2 -translate-y-1/2 rotate-45 bg-gray-900"
-      ></div>
+    <div class="absolute left-full top-0 z-50 transition-all duration-300"
+        [class.opacity-100]="!isExpanded() && isHovered()"
+        [class.translate-x-0]="!isExpanded() && isHovered()"
+        [class.pointer-events-auto]="!isExpanded() && isHovered()"
+        [class.pointer-events-none]="isExpanded() || !isHovered()"
+        [class.invisible]="isExpanded() || !isHovered()"
+        [class.visible]="!isExpanded() && isHovered()">
+        <div class="relative w-16 bg-white border transition-all duration-300 ease-out flex flex-col"
+        [class]="!hasSecondLayer() ? 'rounded-r-xl' : 'rounded-tr-xl'">
+          @for (child of navItem()?.children; track child.label) {
+            <div class="flex nav-item relative w-full items-center m-0!">
+              @if(child.children) {
+                <rs-nav-item-group-control [navItem]="child" [isExpanded]="isExpanded()">
+                </rs-nav-item-group-control>
+              }
+              @else {
+                <rs-nav-item-control [navItem]="child" [isExpanded]="isExpanded()">
+                </rs-nav-item-control>
+              }
+            </div>
+          }
+        </div>
     </div>
   </div>
 </div>

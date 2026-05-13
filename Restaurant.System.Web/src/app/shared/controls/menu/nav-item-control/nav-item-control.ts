@@ -15,8 +15,11 @@ export class NavItemControl {
   navItem = input<NavItem>();
   isExpanded = input(false);
   isChild = input(false);
+  isGroup = input(false);
 
   isHovered = signal(false);
+
+  isItemHovered = output<boolean>();
 
   routerService = inject(RouterService);
   navigationClicked = output();
@@ -33,5 +36,9 @@ export class NavItemControl {
       this.routerService.navigateTo(path, { skipLocationChange: true });
       this.navigationClicked.emit();
     }
+  }
+
+  onItemHovered() {
+    this.isItemHovered.emit(this.isHovered());
   }
 }

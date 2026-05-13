@@ -5,24 +5,22 @@
   class="overflow-visible! fixed z-50 bg-white border-r transition-all duration-500 ease-out flex flex-col justify-between py-4 h-full"
 >
   <nav class="space-y-1 px-0">
-    @for (item of displayedNavItems(); track item.label) {
-      <div #flipItem [attr.data-id]="item.route ?? item.label">
-        @if (item.children && isExpanded()) {
-          <rs-nav-item-group-control
-            [navItem]="item"
-            [isExpanded]="isExpanded()"
-            (navigationClicked)="onNavigationClicked()"
-          >
-          </rs-nav-item-group-control>
-        } @else {
-          <rs-nav-item-control
-            [navItem]="item"
-            [isExpanded]="isExpanded()"
-            (navigationClicked)="onNavigationClicked()"
-          >
-          </rs-nav-item-control>
-        }
-      </div>
+    @for (item of navItems; track item.label) {
+      @if (item.children) {
+        <rs-nav-item-group-control
+          [navItem]="item"
+          [isExpanded]="isExpanded()"
+          (navigationClicked)="onNavigationClicked()"
+        >
+        </rs-nav-item-group-control>
+      } @else {
+        <rs-nav-item-control
+          [navItem]="item"
+          [isExpanded]="isExpanded()"
+          (navigationClicked)="onNavigationClicked()"
+        >
+        </rs-nav-item-control>
+      }
     }
   </nav>
 </aside>
