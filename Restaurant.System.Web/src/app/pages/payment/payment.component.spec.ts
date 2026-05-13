@@ -11,9 +11,8 @@ describe('PaymentComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PaymentComponent],
-      providers: [provideZonelessChangeDetection(), provideHttpClient()]
-    })
-    .compileComponents();
+      providers: [provideZonelessChangeDetection(), provideHttpClient()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PaymentComponent);
     component = fixture.componentInstance;

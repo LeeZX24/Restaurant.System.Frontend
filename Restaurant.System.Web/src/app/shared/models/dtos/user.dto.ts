@@ -1,4 +1,4 @@
-import { BaseDto } from "./base/base.dto";
+import { BaseDto } from './base/base.dto';
 
 export interface UserDto extends BaseDto {
   identifier: string;
@@ -10,6 +10,6 @@ export interface UserDto extends BaseDto {
 }
 
 export enum UserType {
-    Member,
-    Staff
+  Member,
+  Staff,
 }

@@ -1,43 +1,65 @@
-<div 
-(mouseenter)="isHovered.set(true)" 
-(mouseleave)="isHovered.set(false)"
->
-    @if(!navItem()?.children) {
-        <div (click)="handleNavigate()"
-        (keydown.enter)="handleNavigate()"
-        tabindex="0"
-        [class.font-bold]="isActive()"
-        [class.is-active]="isActive()"
-        [ngClass]="isChild() ? 'py-3' : 'py-4'"
-        class="group nav-item-link">
-
-            <!-- @if (!isActive()) {
-                <div class="absolute inset-y-0 left-0 w-0 bg-blue-50 transition-all duration-300 ease-out group-hover:w-full -z-10"></div>
-            } -->
-            <div class="nav-item relative z-10 flex items-center !m-0">
-                <ng-container [ngTemplateOutlet]="navContent"></ng-container>
-            </div>
+<div class="group relative">
+  <div (mouseenter)="isHovered.set(true)" (mouseleave)="isHovered.set(false)">
+    <div>
+      @if (!navItem()?.children) {
+        <div
+          (click)="handleNavigate()"
+          (keydown.enter)="handleNavigate()"
+          tabindex="0"
+          [class.font-bold]="isActive()"
+          [class.is-active]="isActive()"
+          [ngClass]="isChild() ? 'py-3' : 'py-4'"
+          class="nav-item-link"
+        >
+          <div #flipItem class="nav-item relative z-10 flex items-center !m-0">
+            <ng-container [ngTemplateOutlet]="navContent"></ng-container>
+          </div>
         </div>
-    } @else {
+      } @else {
         <ng-container [ngTemplateOutlet]="navContent"></ng-container>
-    }
+      }
+    </div>
+  </div>
+
+  <div
+    class="absolute left-full top-1/2 z-50 ml-4 -translate-y-1/2 transition-all duration-300"
+    [class]="
+      !isExpanded() && isHovered()
+        ? 'group-hover:visible group-hover:opacity-100 group-hover:translate-x-0 -translate-x-2'
+        : 'invisible opacity-0'
+    "
+  >
+    <div
+      class="relative whitespace-nowrap rounded bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white shadow-2xl ring-1 ring-white/10"
+    >
+      {{ navItem()?.label }}
+
+      <!-- Tooltip Arrow (pointing left) -->
+      <div
+        class="absolute right-full top-1/2 -mr-1 h-2 w-2 -translate-y-1/2 rotate-45 bg-zinc-900 ring-b ring-l ring-white/10"
+      ></div>
+    </div>
+  </div>
 </div>
 
 <ng-template #navContent>
-
-    <div class="grid flex items-center justify-center h-12 w-full min-w-0 transition-colors duration-300 group-hover:text-white"
+  <div
+    class="grid flex items-center justify-center h-12 w-full min-w-0 transition-all duration-300 group-hover:text-white"
     [class.grid-cols-5]="!navItem()?.children"
-    [class.grid-cols-4]="navItem()?.children">
-        <div class="w-16 flex-shrink-0 flex items-center justify-center text-center">
-            <mat-icon>{{navItem()?.icon}}</mat-icon>
-        </div>
-
-        @if(isExpanded()){
-            <span class="ml-2 font-medium truncate uppercase text-xs tracking-wider flex-1 font-[inherit] text-left"
-            [class.col-span-4]="!navItem()?.children"
-            [class.col-span-3]="navItem()?.children">
-                {{navItem()?.label}}
-            </span>
-        }
+    [class.grid-cols-4]="navItem()?.children"
+  >
+    <div class="w-16 flex-shrink-0 flex items-center justify-center text-center">
+      <mat-icon>{{ navItem()?.icon }}</mat-icon>
     </div>
+
+    @if (isExpanded()) {
+      <span
+        class="ml-2 font-medium truncate uppercase text-xs tracking-wider flex-1 font-[inherit] text-left transition-all ease-out"
+        [class.col-span-4]="!navItem()?.children"
+        [class.col-span-3]="navItem()?.children"
+      >
+        {{ navItem()?.label }}
+      </span>
+    }
+  </div>
 </ng-template>

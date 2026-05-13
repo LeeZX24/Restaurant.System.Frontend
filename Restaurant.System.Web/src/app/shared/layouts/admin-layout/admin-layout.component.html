@@ -1,14 +1,16 @@
 <rs-header-control (toggle)="toggle()"></rs-header-control>
 
 <div class="flex flex-1 overflow-hidden h-[calc(100vh-64px)] relative">
-  
   <!-- Main Content Area -->
   <rs-nav-menu-control [isExpanded]="isExpanded()" (toggle)="toggle()"></rs-nav-menu-control>
 
   @if (isExpanded()) {
-    <div class="fixed inset-0 bg-black/50 z-40 transition-opacity"
-      (click)="isExpanded.set(!isExpanded())" (keyup.enter)="isExpanded.set(!isExpanded())" tabindex="0">
-    </div>
+    <div
+      class="fixed inset-0 bg-black/50 z-40 transition-all"
+      (click)="isExpanded.set(!isExpanded())"
+      (keyup.enter)="isExpanded.set(!isExpanded())"
+      tabindex="0"
+    ></div>
   }
 
   <main class="flex-1 overflow-y-auto bg-gray-50/50 p-6 md:p-10 pl-20 md:pl-30">

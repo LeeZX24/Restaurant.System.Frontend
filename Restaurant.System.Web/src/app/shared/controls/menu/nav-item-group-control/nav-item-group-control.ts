@@ -4,6 +4,7 @@ import { NavItem } from '../navigation';
 import { NavItemControl } from '../nav-item-control/nav-item-control';
 import { RouterService } from '../../../services/router.service';
 import { MatIconModule } from '@angular/material/icon';
+import { FlipService } from '../flip.service';
 
 @Component({
   selector: 'rs-nav-item-group-control',
@@ -13,8 +14,10 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class NavItemGroupControl {
   private routerService = inject(RouterService);
+  private flip = inject(FlipService);
   navItem = input<NavItem>();
   isExpanded = model(false);
+  isHovered = signal(false);
 
   isGroupExpanded = signal(false);
 

@@ -18,6 +18,6 @@ export function getAppMeta(): AppMeta {
   return {
     version: 'DEV',
     channel: 'dev',
-    buildTime: new Date().toISOString()
+    buildTime: new Date().toISOString(),
   };
 }

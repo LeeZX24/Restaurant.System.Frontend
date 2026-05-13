@@ -30,10 +30,10 @@ import { AppInitializeService } from './core/services/app-initialize.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideAppInitializer(() => {
-      const appInitializeService = inject(AppInitializeService);
-      appInitializeService.init();
-    }),
+    // provideAppInitializer(() => {
+    //   const appInitializeService = inject(AppInitializeService);
+    //   appInitializeService.init();
+    // }),
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(

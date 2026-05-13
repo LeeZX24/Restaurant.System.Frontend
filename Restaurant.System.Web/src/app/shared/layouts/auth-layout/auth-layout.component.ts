@@ -9,9 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
   styleUrl: './auth-layout.component.css',
 })
 export class AuthLayoutComponent {
-
   // private routeService = inject(RouterService);
-
   // ngOnInit(): void {
   //   this.routeService.gotoLogin();
   // }

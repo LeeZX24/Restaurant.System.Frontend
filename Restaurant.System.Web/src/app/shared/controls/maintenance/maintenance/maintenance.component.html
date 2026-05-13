@@ -10,7 +10,7 @@
 <rs-maintenance-table
   [columns]="config.columns"
   [rows]="rows()"
-  [loading]= "loading()"
+  [loading]="loading()"
   [actions]="config.actions"
   (actionClicked)="onActionClicked($event)"
 ></rs-maintenance-table>

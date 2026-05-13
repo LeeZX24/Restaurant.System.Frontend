@@ -23,15 +23,14 @@ describe('RegisterComponent', () => {
         provideHttpClient(),
         {
           provide: APP_CONFIG,
-          useValue: mockAppConfig
+          useValue: mockAppConfig,
         },
         provideTranslateService({
           lang: 'en',
           fallbackLang: 'en',
-        })
-      ]
-    })
-    .compileComponents();
+        }),
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;

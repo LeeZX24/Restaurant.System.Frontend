@@ -11,7 +11,7 @@
 }
 
 .link {
-  @apply text-blue-600 underline font-semibold transition-colors duration-200;
+  @apply text-blue-600 underline font-semibold transition-all duration-200;
 }
 
 .link:hover {
@@ -39,16 +39,16 @@ mat-icon {
 }
 
 .nav-item-link {
-  @apply relative flex items-center !h-12 w-full overflow-hidden !bg-transparent
-    before:absolute before:inset-0 before:bg-blue-600 before:origin-left 
-    before:scale-x-0 before:transition-transform before:duration-300 
+  @apply relative flex items-center !h-12 w-full overflow-hidden 
+  !bg-transparent before:absolute before:inset-0 before:bg-blue-600 before:origin-left 
+    before:scale-x-0 before:transition-all before:duration-300 
     hover:before:scale-x-100;
 }
 
 .nav-group-link {
   @apply relative flex items-center !h-12 w-full overflow-hidden !bg-transparent 
   before:absolute before:inset-0 before:bg-blue-600 before:origin-left 
-    before:scale-x-0 before:transition-transform before:duration-300 
+    before:scale-x-0 before:transition-all before:duration-300 
     hover:before:scale-x-100;
 }
 
@@ -78,6 +78,10 @@ mat-icon {
 
 .chevron {
   @apply items-center;
+}
+
+.nav-tooltip {
+  @apply absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-red-600 bg-black rounded opacity-0;
 }
 
 th.mat-mdc-header-cell {
