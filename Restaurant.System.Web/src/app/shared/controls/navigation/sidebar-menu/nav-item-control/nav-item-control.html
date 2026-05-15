@@ -1,0 +1,89 @@
+<div class="expanded">
+  <div class="group relative">
+    <div (mouseenter)="isHovered.set(true)" (mouseleave)="isHovered.set(false)">
+      <div>
+        <div
+          (click)="handleNavigate()"
+          (keydown.enter)="handleNavigate()"
+          tabindex="0"
+          [class.font-bold]="isActive()"
+          [class.is-active]="isActive()"
+          class="nav-item-link">
+          <div class="nav-item relative z-10 flex items-center m-0!">
+            <div class="grid grid-cols-5 items-center justify-center h-12 w-full min-w-0 transition-all duration-300 group-hover:text-white">
+              <div class="w-16 shrink-0 flex items-center justify-center text-center">
+                <mat-icon>{{ item()?.icon }}</mat-icon>
+              </div>
+
+              @if (isExpanded()) {
+                <span
+                  class="ml-2 font-medium truncate uppercase text-xs tracking-wider flex-1 font-[inherit] text-left transition-all ease-out"
+                [class.col-span-3]="isExpanded()">
+                  {{ item()?.label }}
+                </span>
+
+                @if(hasChildren()) {
+                  <div class="flex items-center justify-center">
+                    <mat-icon class="transition-all duration-300"
+                      [class.rotate-180]="isGroupExpanded()"
+                      [hidden]="!isExpanded()">
+                        keyboard_arrow_down
+                    </mat-icon>
+                  </div>
+                }
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    @if(!isExpanded() && depth() === 0) {
+      <div
+        class="absolute left-full top-1/2 z-50 ml-4 -translate-y-1/2 transition-all duration-300"
+        [class]="!isExpanded() && isHovered()
+            ? 'group-hover:visible group-hover:opacity-100 group-hover:translate-x-0 -translate-x-2'
+            : 'invisible opacity-0'">
+        <div class="relative whitespace-nowrap rounded bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white shadow-2xl ring-1 ring-white/10">
+          {{ item()?.label }}
+
+          <!-- Tooltip Arrow (pointing left) -->
+          <div
+            class="absolute right-full top-1/2 -mr-1 h-2 w-2 -translate-y-1/2 rotate-45 bg-zinc-900 ring-b ring-l ring-white/10"
+          ></div>
+        </div>
+      </div>
+    }
+
+  </div>
+
+  @if(hasChildren()) {
+    <div
+      class="overflow-hidden pl-4 ml-4 border-l border-zinc-800 transition-[max-height, opacity] duration-300 ease-in-out will-change-[max-height, opacity]"
+      [class.max-h-0]="!isGroupExpanded()"
+      [class.opacity-0]="!isGroupExpanded()"
+      [class.max-h-96]="isGroupExpanded()"
+      [class.opacity-100]="isGroupExpanded()"
+    >
+      @for (child of item()?.children; track child.label; let i = $index) {
+        <div
+          class="transform-gpu transition-all duration-300 ease-out will-change-transform"
+          [class.opacity-0]="!isGroupExpanded()"
+          [class.translate-y-[-6px]]="!isGroupExpanded()"
+          [class.opacity-100]="isGroupExpanded()"
+          [class.translate-y-0]="isGroupExpanded()"
+          [style.transition-delay.ms]="isGroupExpanded() ? i * 35 : 0"
+        >
+          <rs-nav-item-control
+          [item]="child"
+          [isExpanded]="isExpanded()"
+          [depth]="depth() + 1"
+          [class.mt-1]="depth() > 0"
+          [class.mt-4]="depth() === 0"
+          ></rs-nav-item-control>
+
+        </div>
+      }
+    </div>
+  }
+</div>

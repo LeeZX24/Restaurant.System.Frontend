@@ -1,0 +1,98 @@
+<div class="relative overflow-visible">
+  <div (mouseenter)="onMouseEntered()" (mouseleave)="onMouseLeave()">
+    <div
+      class="group nav-group-link"
+      [class.font-bold]="isInActivePath() && isCurrentRoute"
+      [class.is-active]="isInActivePath() && isCurrentRoute"
+      (click)="toggle()" (keydown.enter)="toggle()" tabindex="0">
+
+      <div
+        class="nav-group-item"
+        [class.scale-x-100]="isInActivePath()"
+        [class.bg-blue-600]="isCurrentRoute"
+        [class.bg-blue-100]="isInActivePath() && !isCurrentRoute"
+        [class]="!isInActivePath() ? 'hover:bg-blue-500': ''"
+        ></div>
+
+      <div class="grid grid-cols-6 nav-item relative z-10 w-full items-center m-0!">
+        <div class="col-span-5">
+          <rs-nav-item-control [item]="item()" [isExpanded]="isExpanded()">
+          </rs-nav-item-control>
+        </div>
+        <div class="chevron">
+          <mat-icon class="transition-all duration-300 flex items-center" [hidden]="!isExpanded()">
+            @if (!isGroupExpanded()) {
+              keyboard_arrow_down
+            } @else {
+              keyboard_arrow_up
+            }
+          </mat-icon>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- flyout sub menu -->
+    <div class="absolute left-full top-0 z-50 transition-all duration-300"
+        [class.opacity-100]="!isExpanded() && isHovered()"
+        [class.translate-x-0]="!isExpanded() && isHovered()"
+        [class.pointer-events-auto]="!isExpanded() && isHovered()"
+        [class.pointer-events-none]="isExpanded() || !isHovered()"
+        [class.invisible]="isExpanded() || !isHovered()"
+        [class.visible]="!isExpanded() && isHovered()">
+
+        <div class="relative w-16 bg-white border rounded-r-xl transition-all duration-300 ease-out flex flex-col
+                    has-[div.last-group-row:hover]:rounded-br-none"
+          [class.rounded-br-xl]="hasSecondLayer()">
+
+          @for (child of item()?.children; track child.label; let last = $last) {
+            <div class="flex nav-item relative w-full items-center m-0!"
+            [class.last-group-row]="last && child.type === itemType.group">
+
+            @if(child.type === itemType.group) {
+                <rs-nav-item-group-control [item]="child" [isExpanded]="isExpanded()">
+                </rs-nav-item-group-control>
+              }
+              @else {
+                <rs-nav-item-control [item]="child" [isExpanded]="isExpanded()">
+                </rs-nav-item-control>
+              }
+            </div>
+          }
+        </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="overflow-hidden pl-4 ml-4 border-l border-zinc-800 transition-[max-height, opacity] duration-300 ease-in-out will-change-[max-height, opacity]"
+  [class.max-h-0]="!isGroupExpanded()"
+  [class.opacity-0]="!isGroupExpanded()"
+  [class.max-h-96]="isGroupExpanded()"
+  [class.opacity-100]="isGroupExpanded()"
+>
+  @for (child of item()?.children; track child.label; let i = $index) {
+    <div
+      class="transform-gpu transition-all duration-300 ease-out will-change-transform"
+      [class.opacity-0]="!isGroupExpanded()"
+      [class.translate-y-[-6px]]="!isGroupExpanded()"
+      [class.opacity-100]="isGroupExpanded()"
+      [class.translate-y-0]="isGroupExpanded()"
+      [style.transition-delay.ms]="isGroupExpanded() ? i * 35 : 0"
+    >
+      @if(child.type === itemType.group) {
+        <rs-nav-item-group-control [item]="child" [isExpanded]="isExpanded()">
+        </rs-nav-item-group-control>
+      }
+      @else {
+        <rs-nav-item-control
+          [item]="child"
+          [isExpanded]="isExpanded()"
+          (navigationClicked)="onNavigationClicked()"
+        >
+        </rs-nav-item-control>
+      }
+
+    </div>
+  }
+</div>

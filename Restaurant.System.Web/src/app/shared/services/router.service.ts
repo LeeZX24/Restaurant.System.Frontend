@@ -41,4 +41,8 @@ export class RouterService {
   public navigateTo(path: string, options?: NavigationExtras) {
     this.go(path, options);
   }
+
+  public isCurrentRoute(route: string) {
+    return this.router.url === route;
+  }
 }

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderControl } from '../../controls/header-control/header-control';
-import { NavMenuControl } from '../../controls/menu/nav-menu-control/nav-menu-control';
-import { NavigationTreeComponent } from '../../controls/menu/navigation-tree/navigation-tree.component';
+import { NavMenuControl } from '../../controls/navigation/sidebar-menu/nav-menu-control/nav-menu-control';
+import { NavigationTreeComponent } from '../../controls/navigation/navigation-tree/navigation-tree.component';
 import { RouterService } from '../../services/router.service';
 
 @Component({

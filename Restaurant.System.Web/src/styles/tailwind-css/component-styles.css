@@ -42,15 +42,18 @@ mat-icon {
   @apply relative flex items-center h-12! w-full overflow-hidden
   bg-transparent! before:absolute before:inset-0 before:bg-blue-600 before:origin-left
     before:scale-x-0 before:transition-all before:duration-300
-    hover:before:scale-x-100 before:rounded-r-xl;
+    hover:before:scale-x-100 before:rounded-r-xl hover:before:text-white;
 }
 
 .nav-group-link {
-  @apply relative flex items-center h-12! w-full overflow-hidden
-  bg-transparent! before:content-['']
-  before:absolute before:inset-0 before:bg-blue-600 before:origin-left
-    before:scale-x-0 before:transition-all before:duration-300
-    hover:before:scale-x-100 before:rounded-r-xl;
+  @apply relative flex items-center h-12 w-full overflow-hidden bg-transparent text-black transition-all duration-300;
+}
+
+.nav-group-item {
+  @apply before:content-[''] before:absolute before:inset-0 before:bg-blue-600;
+  @apply before:origin-left before:scale-x-0 before:transition-all before:duration-300;
+  @apply before:rounded-r-xl before:z-[-1] group-hover:before:scale-x-100;
+  @apply group-hover:before:rounded-r-none;
 }
 
 .is-active div {
