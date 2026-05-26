@@ -2,24 +2,30 @@
 <aside
   [class.w-64]="isExpanded()"
   [class.w-16]="!isExpanded()"
-  class="overflow-visible! fixed z-50 bg-white border-r transition-all duration-500 ease-out flex flex-col justify-between py-4 h-full"
+  class="nav-menu"
 >
   <nav class="space-y-1 px-0">
-    @for (item of navItems; track item.label) {
-      <rs-nav-item-control
-        [item]="item"
-        [isExpanded]="isExpanded()"
-        (navigationClicked)="onNavigationClicked()">
-      </rs-nav-item-control>
-      <!-- @if (item.type === itemType.group) {
-        <rs-nav-item-group-control
-          [navItem]="item"
-          [isExpanded]="isExpanded()"
-          (navigationClicked)="onNavigationClicked()">
-        </rs-nav-item-group-control>
-      } @else if (item.type === itemType.item) {
+    <!-- <ul> -->
+      @for (item of navItems; track item.label) {
+        <!-- <li> -->
+          <rs-nav-item-control
+            [item]="item"
+            [isExpanded]="isExpanded()"
+            [hoveredItem]="hoveredItem()"
+            (hoveredItemChange)="hoveredItem.set($event)"
+            (navigationClicked)="onNavigationClicked()">
+          </rs-nav-item-control>
+          <!-- @if (item.type === itemType.group) {
+            <rs-nav-item-group-control
+              [navItem]="item"
+              [isExpanded]="isExpanded()"
+              (navigationClicked)="onNavigationClicked()">
+            </rs-nav-item-group-control>
+          } @else if (item.type === itemType.item) {
 
-      } -->
-    }
+          } -->
+        <!-- </li> -->
+      }
+    <!-- </ul> -->
   </nav>
 </aside>

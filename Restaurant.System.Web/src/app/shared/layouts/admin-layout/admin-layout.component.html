@@ -6,14 +6,14 @@
 
   @if (isExpanded()) {
     <div
-      class="fixed inset-0 bg-black/50 z-40 transition-all"
+      class="menu-backdrop"
       (click)="isExpanded.set(!isExpanded())"
       (keyup.enter)="isExpanded.set(!isExpanded())"
       tabindex="0"
     ></div>
   }
 
-  <main class="flex-1 overflow-y-auto bg-gray-50/50 p-6 md:p-10 pl-20 md:pl-30">
+  <main class="flex-1 overflow-y-auto p-6 md:p-10 pl-23 md:pl-23">
     <rs-navigation-tree></rs-navigation-tree>
     <router-outlet></router-outlet>
   </main>

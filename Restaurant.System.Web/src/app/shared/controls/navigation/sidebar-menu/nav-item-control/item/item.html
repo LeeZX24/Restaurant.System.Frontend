@@ -1,33 +1,23 @@
-<div class="nav-item-link">
-  <div class="grid" [class.grid-rows-2]="hasChildren()">
-  <div class="nav-item grid grid-cols-5 items-center justify-center h-12 w-full min-w-0 transition-all duration-300 group-hover:text-white">
-    <div class="w-16 shrink-0 flex items-center justify-center text-center">
-      <mat-icon>{{ item()?.icon }}</mat-icon>
-    </div>
-
-    @if (isExpanded()) {
-      <span
-        class="ml-2 font-medium truncate uppercase text-xs tracking-wider flex-1 font-[inherit] text-left transition-all ease-out"
-      [class.col-span-3]="isExpanded()">
-        {{ item()?.label }}
-      </span>
-
-      @if(hasChildren()) {
-        <div class="chevron">
-          <mat-icon class="transition-all duration-300 flex items-center" [hidden]="!isExpanded()">
-              keyboard_arrow_down
-          </mat-icon>
-        </div>
-      }
-    }
+<div class="grid grid-cols-5 items-center justify-center h-12 w-full min-w-0 transition-all duration-300 group-hover:text-white">
+  <div class="w-16 shrink-0 flex items-center justify-center text-center">
+    <mat-icon>{{ item()?.icon }}</mat-icon>
   </div>
 
-  @if(hasChildren()) {
-    @for (child of item()?.children; track child.label) {
-      <div>
-        <rs-nav-item [item]="child" [isExpanded]="isExpanded()" [depth]="depth() + 1"></rs-nav-item>
+  @if (isExpanded()) {
+    <span
+      class="ml-2 font-medium truncate uppercase text-xs tracking-wider flex-1 font-[inherit] text-left transition-all ease-out"
+    [class.col-span-3]="isExpanded()">
+      {{ item()?.label }}
+    </span>
+
+    @if(hasChildren()) {
+      <div class="flex items-center justify-center">
+        <mat-icon class="transition-all duration-300"
+          [class.rotate-180]="isGroupExpanded()"
+          [hidden]="!isExpanded()">
+            keyboard_arrow_down
+        </mat-icon>
       </div>
     }
   }
-  </div>
 </div>

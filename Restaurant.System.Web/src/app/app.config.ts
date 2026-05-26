@@ -8,6 +8,7 @@ import {
 import {
   PreloadAllModules,
   provideRouter,
+  withComponentInputBinding,
   withInMemoryScrolling,
   withPreloading,
 } from '@angular/router';
@@ -27,19 +28,23 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { loadAppConfig } from './utils/runtime-env';
 import { APP_CONFIG } from './shared/configs/app-config.state';
 import { AppInitializeService } from './core/services/app-initialize.service';
+import { ThemeService } from './core/services/theme.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    // provideAppInitializer(() => {
-    //   const appInitializeService = inject(AppInitializeService);
-    //   appInitializeService.init();
-    // }),
+    provideAppInitializer(() => {
+      // const appInitializeService = inject(AppInitializeService);
+      // appInitializeService.init();
+      const themeService = inject(ThemeService);
+      themeService.init();
+    }),
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(
       routes,
       withPreloading(PreloadAllModules),
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
+      withComponentInputBinding()
     ),
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch(), withInterceptors([AuthInterceptor, JwtInterceptor])),

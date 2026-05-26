@@ -1,30 +1,71 @@
-import { inject, Injectable } from '@angular/core';
-import { RouterService } from '../../services/router.service';
+import { Injectable, signal } from '@angular/core';
 import { NavItem } from './navigation';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NavigationService {
-  private routerService = inject(RouterService);
+  private expanded = signal<Set<string>>(new Set());
+  private hovered = signal<NavItem | null>(null);
 
-  public hasParentNavigation(item: NavItem): boolean {
-    return item.children?.some((child) =>
-      this.isRouteInTree(child)
-    ) ?? false;
+  isExpanded(key: string): boolean {
+    return this.expanded().has(key);
   }
 
-  private isRouteInTree(item: NavItem): boolean {
-    if (this.routerService.isCurrentRoute(item.route.toString())) {
-      return true;
+  toggle(key: string) {
+    console.log('TOGGLE BEFORE:', key, this.expanded());
+
+    const set = new Set(this.expanded());
+
+    if (set.has(key)) {
+      set.delete(key);
+    } else {
+      set.add(key);
     }
 
-    return item.children?.some((child) =>
-      this.isRouteInTree(child)
-    ) ?? false;
+    this.expanded.set(set);
+
+    console.log('TOGGLE AFTER:', this.expanded());
   }
 
-  public getFullRoute(item: NavItem, parents: NavItem[] = []): string {
-    return [...parents.map(p => p.route), item.route].join('/');
+  collapseAll() {
+    this.expanded.set(new Set());
+  }
+
+  setHovered(item: NavItem | null) {
+    this.hovered.set(item);
+  }
+
+  hoveredItem() {
+    return this.hovered.asReadonly();
+  }
+
+  findRoutePath(
+    nodes: NavItem[],
+    target: NavItem,
+    base = '/admin'
+  ): string | null {
+
+    const dfs = (node: NavItem, path: string[]): string | null => {
+      const nextPath = node.route ? [...path, node.route] : path;
+
+      if (node === target) {
+        return base + '/' + nextPath.join('/');
+      }
+
+      for (const child of node.children ?? []) {
+        const result = dfs(child, nextPath);
+        if (result) return result;
+      }
+
+      return null;
+    };
+
+    for (const root of nodes) {
+      const result = dfs(root, []);
+      if (result) return result;
+    }
+
+    return null;
   }
 }

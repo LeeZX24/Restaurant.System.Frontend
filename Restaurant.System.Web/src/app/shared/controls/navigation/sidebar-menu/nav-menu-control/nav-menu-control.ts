@@ -1,6 +1,6 @@
-import { Component, input, model, output } from '@angular/core';
+import { Component, input, model, output, signal } from '@angular/core';
 import { NavItemControl } from '../nav-item-control/nav-item-control';
-import { NAV_DATA, NavMenuType } from '../../navigation';
+import { NAV_DATA, NavItem, NavMenuType } from '../../navigation';
 
 @Component({
   selector: 'rs-nav-menu-control',
@@ -13,6 +13,8 @@ export class NavMenuControl {
   isHovered = input(false);
   navItems = NAV_DATA;
   itemType = NavMenuType;
+
+  hoveredItem = signal<NavItem | null>(null);
 
   // eslint-disable-next-line @angular-eslint/no-output-native
   toggle = output();

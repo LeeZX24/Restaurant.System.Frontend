@@ -1,38 +1,37 @@
-<h2 mat-dialog-title>{{ this.data.action === 'create' ? 'Create' : 'Update' }}</h2>
-<mat-dialog-content class="p-4 overflow-y-auto max-h-[85vh]">
-  <form
-    [formGroup]="form"
-    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 w-full min-w-0"
-  >
-    @for (control of form.controls | keyvalue: originalOrder; track control.key) {
-      @if (isTextControl(control.value)) {
-        <rs-label-text-form-control
-          [fc]="control.value"
-          [inputSize]="'col-input'"
-        ></rs-label-text-form-control>
-      } @else if (isEmailControl(control.value)) {
-        <rs-label-email-form-control
-          [fc]="control.value"
-          [inputSize]="'col-input'"
-        ></rs-label-email-form-control>
-      } @else if (isPasswordControl(control.value)) {
-        <rs-label-password-form-control
-          [fc]="control.value"
-          [inputSize]="'col-input'"
-        ></rs-label-password-form-control>
-      }
-    }
+<div class="form-container">
+  <div class="form-title">
+    <h2>{{ this.data.action === 'create' ? 'Create' : 'Update' }}</h2>
+  </div>
 
-    <mat-dialog-actions class="sticky bottom-0 bg-white border-t px-4 py-3 flex justify-end gap-2">
-      <button (click)="processSubmit()" [class]="'text-sm transition btn-confirm'">
-        {{ this.data.action === 'create' ? 'Create' : 'Update' }}
-      </button>
-      <button
-        (click)="close()"
-        class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded text-sm transition"
-      >
-        Cancel
-      </button>
-    </mat-dialog-actions>
+  <form [formGroup]="form" class="form-body">
+    <div class="form-content">
+      @for (control of form.controls | keyvalue: originalOrder; track control.key) {
+        @if (isTextControl(control.value)) {
+          <rs-label-text-form-control
+            [fc]="control.value"
+            [labelSize]="'w-4/12'"
+            [inputSize]="'w-full'"
+          ></rs-label-text-form-control>
+        } @else if (isEmailControl(control.value)) {
+          <rs-label-email-form-control
+            [fc]="control.value"
+            [labelSize]="'w-4/12'"
+            [inputSize]="'w-full'"
+          ></rs-label-email-form-control>
+        } @else if (isPasswordControl(control.value)) {
+          <rs-label-password-form-control
+            [fc]="control.value"
+            [labelSize]="'w-4/12'"
+            [inputSize]="'w-full'"
+          ></rs-label-password-form-control>
+        }
+      }
+    </div>
+
+    <div class="form-actions">
+      <rs-button-control [cssClass]="'btn-primary'" [label]="this.data.action === 'create' ? 'Create' : 'Update'" (buttonClicked)="processSubmit()"></rs-button-control>
+      <rs-button-control [cssClass]="'btn-secondary'"[label]="'Close'"  (buttonClicked)="close()"></rs-button-control>
+    </div>
   </form>
-</mat-dialog-content>
+</div>
+

@@ -1,3 +1,3 @@
-export interface LayoutRef<T = unknown> {
-  close(result?: T): void;
+export interface LayoutRef<R = unknown> {
+  close(result?: R): void;
 }

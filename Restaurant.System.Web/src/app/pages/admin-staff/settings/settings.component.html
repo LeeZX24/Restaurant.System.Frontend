@@ -1,1 +1,10 @@
-<p>settings works!</p>
+<div class="flex items-center justify-between p-4">
+  <span>Dark Mode</span>
+
+  <button
+    (click)="themeService.toggle()"
+    class="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700"
+  >
+    {{ themeService.current() }}
+  </button>
+</div>

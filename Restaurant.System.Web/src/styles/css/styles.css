@@ -17,3 +17,10 @@ mat-icon {
   min-width: 120px;
   max-width: 120px;
 }
+
+.rs-bottom-sheet-form {
+  .mat-mdc-bottom-sheet-container {
+    padding: 0;
+  }
+}
+

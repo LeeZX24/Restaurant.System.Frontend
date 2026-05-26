@@ -17,6 +17,7 @@ import {
   RSLabelTextFormControl,
   RSLabelPasswordFormControl,
 } from '@rs/forms';
+import { CustomButtonControl } from '../../../custom-button-control/custom-button-control';
 
 @Component({
   selector: 'app-maintenance-form',
@@ -27,6 +28,7 @@ import {
     RSLabelTextFormControlComponent,
     RSLabelPasswordFormControlComponent,
     RSLabelEmailFormControlComponent,
+    CustomButtonControl,
     MatDialogModule,
   ],
   templateUrl: './form.component.html',

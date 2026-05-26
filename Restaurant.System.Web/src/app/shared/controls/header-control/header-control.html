@@ -1,7 +1,7 @@
 <header
-  class="relative flex items-center h-16 border-b bg-white dark:bg-slate-900 top-0 z-50 w-full"
+  class="layout-header"
 >
-  <div class="w-16 flex items-center justify-center flex-shrink-0">
+  <div class="w-16 flex items-center justify-center shrink-0">
     <button
       (click)="toggle.emit()"
       class="flex items-center justify-center p-2 hover:bg-slate-100 rounded-md"
@@ -14,7 +14,7 @@
 
   <div class="ml-auto flex items-center space-x-2">
     <!-- Search Bar (Tailwind styling) -->
-    <div class="hidden md:flex items-center bg-gray-100 px-3 py-1.5 rounded-full mr-4">
+    <div class="hidden md:flex items-center px-3 py-1.5 rounded-full mr-4">
       <mat-icon class="text-gray-400 scale-75">search</mat-icon>
       <input
         type="text"

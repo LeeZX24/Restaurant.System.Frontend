@@ -1,35 +1,39 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, input, output, signal } from '@angular/core';
+import { Component, computed, inject, input, model, output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { NavItem, NavMenuType } from '../../navigation';
+import { NAV_DATA, NavItem, NavMenuType } from '../../navigation';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterService } from '../../../../services/router.service';
+import { ItemView } from "./item/item";
+import { NavigationService } from '../../navigation.service';
 
 @Component({
   selector: 'rs-nav-item-control',
-  imports: [CommonModule, MatIconModule, MatExpansionModule],
+  imports: [CommonModule, MatIconModule, MatExpansionModule, ItemView],
   templateUrl: './nav-item-control.html',
   styleUrl: './nav-item-control.css',
 })
 export class NavItemControl {
-  //#region : Input / Output
-  item = input<NavItem>();
-  isExpanded = input(false);
-  depth = input(0);
 
-  isItemHovered = output<boolean>();
-  navigationClicked = output();
+  //#region : Input / Output
+  item = input<NavItem | null>(null);
+  items = input<NavItem[]>([]);
+  isExpanded = model(false);
+  depth = input(0);
+  hoveredItem = input<NavItem | null>(null);
+  closeNav = input(false);
+
+  navigationClicked = output<void>();
+  hoveredItemChange = output<NavItem | null>();
   //#endregion
 
   //#region : State
-  isHovered = signal(false);
-  isGroupHovered = signal(false);
 
-  isGroupExpanded = signal(false);
   //#endregion
 
   // #region : Dedependencies Injection
   routerService = inject(RouterService);
+  navService = inject(NavigationService);
   // #endregion
 
   //#region : Helper
@@ -37,15 +41,38 @@ export class NavItemControl {
   //#endregion
 
   //#region : Getter & Setter
-  get isChild() { return this.item()?.type === this.itemType.item; }
   //#endregion
 
   //#region : Computed
+  private safeItem = computed(() => this.item());
+
   isActive = computed(() => {
-    return this.routerService.currentPath() === this.item()?.route;
+    const item = this.safeItem();
+    if(!item) return false;
+
+    return this.routerService.currentPath() === item.route;
   });
 
-  hasChildren = computed(() => !!this.item()?.children?.length);
+  hasChildren = computed(() => {
+    const item = this.safeItem();
+    return (item?.children?.length ?? 0) > 0;
+  });
+
+  children = computed(() => {
+    return this.safeItem()?.children ?? [];
+  });
+
+  isHovered = computed(() => {
+    const hovered = this.hoveredItem();
+    const item = this.item();
+
+    return !!hovered && !!item && hovered === item;
+  });
+
+  itemKey = computed(() => {
+    const item = this.safeItem();
+    return item?.route ?? item?.label ?? null;
+  });
   //#endregion
 
   //#region : Lifecycle
@@ -53,21 +80,42 @@ export class NavItemControl {
   //#endregion
 
   //#region : Logic
+  onMouseEnter() {
+    const item = this.safeItem();
+    if(!item) return;
+
+    this.hoveredItemChange.emit(item);
+  }
+
+  onMouseLeave() {
+    this.hoveredItemChange.emit(null);
+  }
+
+  getKey(item: NavItem): string {
+    return item.route || item.label;
+  }
+
   handleNavigate() {
-    const path = this.item()?.route;
+    const item = this.safeItem();
+    if(!item) return;
 
     if (this.isActive()) return;
 
     if(this.hasChildren()) {
-      if(!this.isExpanded()) return;
-      this.isGroupExpanded.update(v => !v);
+      const key = this.itemKey();
+      if (!key) return;
+
+      this.navService.toggle(this.getKey(item));
       return;
     }
 
-    if (path) {
-      this.routerService.navigateTo(path, { skipLocationChange: true });
-      this.navigationClicked.emit();
-    }
+    const fullRoute = this.navService.findRoutePath(NAV_DATA, item);
+
+    if(!fullRoute) return;
+
+    this.routerService.navigateTo(fullRoute, { skipLocationChange: true });
+
+    this.navigationClicked.emit();
   }
   //#endregion
 }
