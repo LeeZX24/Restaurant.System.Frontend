@@ -12,9 +12,9 @@
     </div>
   </div>
 
-  @if(!isExpanded() && depth() === 0) {
+  @if(!isExpanded() && depth() === 0 && isHovered()) {
     <div
-      class="absolute left-full top-1/2 z-50 ml-4 -translate-y-1/2 transition-all duration-300"
+      class="fixed left-18 top-auto pb-12 z-50 ml-2 -translate-y-1/2 pointer-events-none animate-in fade-in slide-in-from-left-1 duration-150"
       [class]="!isExpanded() && isHovered()
           ? 'group-hover:visible group-hover:opacity-100 group-hover:translate-x-0 -translate-x-2'
           : 'invisible opacity-0'">

@@ -2,9 +2,11 @@
 <aside
   [class.w-64]="isExpanded()"
   [class.w-16]="!isExpanded()"
-  class="nav-menu"
+  [class]="isExpanded() ? 'max-md:translate-x00' : ''"
+  [class]="!isExpanded() ? 'max-md:-translate-x-full' : ''"
+  class="navigation"
 >
-  <nav class="space-y-1 px-0">
+  <nav class="nav-menu">
     <!-- <ul> -->
       @for (item of navItems; track item.label) {
         <!-- <li> -->

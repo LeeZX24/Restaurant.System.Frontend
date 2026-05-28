@@ -1,35 +1,36 @@
-<header
-  class="layout-header"
->
-  <div class="w-16 flex items-center justify-center shrink-0">
+<header class="layout-header">
+  <div class="flex items-center gap-1">
     <button
       (click)="toggle.emit()"
-      class="flex items-center justify-center p-2 hover:bg-slate-100 rounded-md"
+      class="flex w-10 items-center justify-center rounded-md hover:bg-slate-100 dark:hover:bg-gray-700/50"
     >
       <mat-icon>menu</mat-icon>
     </button>
   </div>
 
-  <h1 class="flex-1 px-4 font-bold text-xl">Vision<span class="text-blue-600">Dash</span></h1>
+  <h1 class="text-lg font-bold tracking-right select-none">Vision<span class="text-blue-600">Dash</span></h1>
 
-  <div class="ml-auto flex items-center space-x-2">
-    <!-- Search Bar (Tailwind styling) -->
-    <div class="hidden md:flex items-center px-3 py-1.5 rounded-full mr-4">
-      <mat-icon class="text-gray-400 scale-75">search</mat-icon>
-      <input
-        type="text"
-        placeholder="Search..."
-        class="bg-transparent border-none focus:ring-0 text-sm"
-      />
+  <div class="flex items-center gap-2.5">
+    <div class="relative hidden items-center md:flex">
+      <mat-icon class="absolute left-2.5 pointer-events-none text-base">search</mat-icon>
+      <div class="w-2/3">
+        <input #searchInput class="w-40 rounded-full border py-1.5 pr-4 pl-10 text-sm tline-hidden transition-all" type="search" [placeholder]="'Search ...'"/>
+      </div>
     </div>
 
-    <div class="flex-1"></div>
+    <button class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full transition-colors md:hidden">
+      <mat-icon>search</mat-icon>
+    </button>
 
-    <button mat-icon-button class="text-gray-600"><mat-icon>notifications</mat-icon></button>
-    <div
-      class="h-8 w-8 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold"
-    >
-      JD
+    <div class="flex items-center scale-90 origin-right"
+    [class.hidden]="this.routerService.isSettingsRoute(this.routerService.currentUrl())">
+      <rs-toggle [toggle]="darkMode()" [isCheck]="themeService.isDarkMode()" (toggleChecked)="themeService.toggle()"></rs-toggle>
+    </div>
+
+    <button class="dark:text-white flex h-9 w-9 items-center justify-center rounded-full"><mat-icon>notifications</mat-icon></button>
+
+    <div class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">
+        JD
     </div>
   </div>
 </header>

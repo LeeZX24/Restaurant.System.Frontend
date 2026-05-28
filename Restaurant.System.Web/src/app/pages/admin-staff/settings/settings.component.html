@@ -1,10 +1,14 @@
-<div class="flex items-center justify-between p-4">
-  <span>Dark Mode</span>
+<h2>Settings</h2>
+<div class="py-1">
+  <div class="group">
+    <h5 class="group-title">Group</h5>
 
-  <button
-    (click)="themeService.toggle()"
-    class="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700"
-  >
-    {{ themeService.current() }}
-  </button>
+    <div class="group-content">
+      <div class="flex items-center justify-between">
+        <span>Dark Mode</span>
+        <rs-toggle [toggle]="darkMode()" [isCheck]="themeService.isDarkMode()" (toggleChecked)="themeService.toggle()"></rs-toggle>
+      </div>
+    </div>
+  </div>
 </div>
+

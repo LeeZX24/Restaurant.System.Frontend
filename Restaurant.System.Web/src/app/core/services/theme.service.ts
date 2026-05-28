@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 
 type Theme = 'light' | 'dark';
 
@@ -21,6 +21,8 @@ export class ThemeService {
     localStorage.setItem('theme', theme);
     this.applyTheme(theme);
   }
+
+  isDarkMode = computed(() => this.theme() === 'dark');
 
   private applyTheme(theme: Theme) {
     document.documentElement.classList.toggle('dark', theme === 'dark' ||

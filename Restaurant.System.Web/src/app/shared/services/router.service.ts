@@ -45,4 +45,8 @@ export class RouterService {
   public isCurrentRoute(route: string) {
     return this.router.url === route;
   }
+
+  public isSettingsRoute(route: string) {
+    return this.router.url.includes('settings') && this.router.url === route;
+  }
 }
