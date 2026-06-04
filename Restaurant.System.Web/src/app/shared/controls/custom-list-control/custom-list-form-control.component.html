@@ -1,0 +1,33 @@
+<div class="flex">
+  <span [class]="labelSize()" class="form-label">Role List</span>
+  <ul [class]="inputSize()" class="relative grow">
+    @for(form of formList(); track $index) {
+      <li class="border rounded">
+        <div class="flex items-center justify-center p-1">
+          <div class="grow">
+            @if(this.isCombobox()) {
+              <rs-combobox-form-control [fc]="comboboxFC()" [items]="this.items()"></rs-combobox-form-control>
+            }
+            <!-- <rs-label-dropdown-form-control
+            [fc]="dropdownFC"
+            [labelSize]="'w-4/12'"
+            [inputSize]="'w-6/12'"
+            [items]="this.items"></rs-label-dropdown-form-control> -->
+            <!-- <rs-dropdown-form-control [fc]="dropdownFC" [items]="this.items"></rs-dropdown-form-control> -->
+
+          </div>
+          <div>
+            <rs-button-control [icon]="'do_not_disturb_on'" (buttonClicked)="removeListItem($index)"></rs-button-control>
+          </div>
+        </div>
+      </li>
+    }
+
+    <li>
+      <div class="flex items-center justify-center p-1 rounded hover:bg-gray-400 transition-all duration-300 dark:hover:bg-white/50">
+        <rs-button-control [icon]="'add'" [label]="'Add Item'" (buttonClicked)="addListItem()"></rs-button-control>
+      </div>
+    </li>
+  </ul>
+
+</div>

@@ -2,17 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
 import { provideNgxMask } from 'ngx-mask';
-import {
-  CustomFormGroup,
-  RSLabelEmailFormControlComponent,
-  RSLabelPasswordFormControl,
-  RSLabelPasswordFormControlComponent,
-  RSLabelTextFormControl,
-} from '@rs/forms';
 import { v7 as uuidv7 } from 'uuid';
 import { BaseAuthComponent } from '../../../../shared/components/base-auth-component/base-auth-component';
 import { ActivityState } from '../../../../shared/enums/activity-state';
 import { UserDto } from '../../../../shared/models/dtos/user.dto';
+import { CustomFormGroup, RSLabelEmailFormControlComponent, RSLabelPasswordFormControl, RSLabelPasswordFormControlComponent, RSLabelTextFormControl } from '@rs/forms';
 
 @Component({
   selector: 'rs-register',
@@ -24,7 +18,7 @@ import { UserDto } from '../../../../shared/models/dtos/user.dto';
     ReactiveFormsModule,
     FormsModule,
     RSLabelEmailFormControlComponent,
-    RSLabelPasswordFormControlComponent,
+    RSLabelPasswordFormControlComponent
   ],
   providers: [provideNgxMask()],
 })

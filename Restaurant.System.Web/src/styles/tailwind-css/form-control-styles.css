@@ -33,8 +33,33 @@
   @apply required:border-red-500;
 }
 
+.combobox-form-control {
+  @apply block w-full py-2 px-3 text-base leading-5 text-gray-600 bg-white;
+  @apply transition duration-150 ease-in-out outline-none border-none;
+  @apply dark:text-white dark:bg-transparent dark:border-gray-600;
+  @apply dark:placeholder:text-gray-600;
+}
+
+.combobox-input {
+  @apply flex items-center gap-1 border-b border-gray-400 rounded transition duration-150 ease-in-out;
+}
+
+.combobox-input :focus {
+  @apply border-none rounded-b-none;
+}
+
+.combobox-form-control :disabled {
+  @apply bg-gray-200 opacity-100 cursor-not-allowed;
+}
+
+.combobox-form-control :invalid {
+  @apply required:border-red-500;
+}
+
 .btn {
   @apply px-4 py-2 rounded focus:outline-none inline-flex items-center gap-1;
+  @apply text-black! dark:text-white!;
+  @apply hover:text-white! dark:hover:text-black!;
 }
 
 .btn-sm {
@@ -44,6 +69,9 @@
 /* btn-primary */
 .btn-primary {
   @apply bg-blue-500 text-white;
+  @apply dark:bg-white! dark:text-blue-500!;
+  @apply hover:bg-white/50! hover:text-blue-500/50;
+  @apply dark:hover:bg-blue-500/50! dark:hover:text-white!;
 }
 
 /* btn-secondary */
@@ -79,4 +107,14 @@
 .toggle-on {
   @apply flex items-center justify-center text-black;
   @apply dark:text-white;
+}
+
+.form-dropdown-options {
+  @apply block w-full py-2 px-3 text-base leading-5 text-gray-600 bg-white;
+  @apply border border-gray-400 rounded transition duration-150 ease-in-out;
+  @apply dark:text-white dark:bg-gray-600 dark:border-gray-600;
+}
+
+ul {
+  @apply m-0 p-0;
 }

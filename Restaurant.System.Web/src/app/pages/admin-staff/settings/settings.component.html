@@ -4,9 +4,13 @@
     <h5 class="group-title">Group</h5>
 
     <div class="group-content">
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between p-1">
         <span>Dark Mode</span>
         <rs-toggle [toggle]="darkMode()" [isCheck]="themeService.isDarkMode()" (toggleChecked)="themeService.toggle()"></rs-toggle>
+      </div>
+
+      <div class="flex flex-col p-1">
+        <rs-list-control [labelSize]="'w-2/12'" [inputSize]="'w-8/12'"></rs-list-control>
       </div>
     </div>
   </div>

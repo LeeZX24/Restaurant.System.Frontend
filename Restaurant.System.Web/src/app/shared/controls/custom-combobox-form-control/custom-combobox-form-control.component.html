@@ -1,0 +1,24 @@
+
+<div class="relative flex flex-col w-full">
+  <div class="combobox-input">
+    <input [id]="fc().inputId()" [formControl]="fc()" [class]="fc().elementCssClass()"
+    class="combobox-form-control" [value]="fc().searchTerm$()"
+      [placeholder]="'Select items....'"
+      (input)="fc().searchTerm$.set($any($event.target).value)"
+      (focus)="isOpen.set(true)"
+      (blur)="isOpen.set(false)"
+      #input/>
+    <button type="button" [class.hidden]="isSelected()" (click)="fc().setValue('')"><mat-icon>close_small</mat-icon></button>
+  </div>
+
+  <ul class="absolute left-0 top-full z-50 mt-1 w-full border rounded-md shadow-lg bg-white text-black dark:bg-gray-700 dark:text-white" [class.hidden]="!isOpen()">
+    @for(item of fc().filteredItems(); track item.value) {
+      <li class="w-full hover:bg-gray-400 dark:bg-gray-400 dark:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300" (mousedown)="onItemSelected(item)">
+        <div class="p-3 flex gap-2">
+          <span> {{ item.title }} </span>
+        </div>
+
+      </li>
+    }
+  </ul>
+</div>

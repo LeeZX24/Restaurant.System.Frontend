@@ -1,0 +1,5 @@
+<select class="form-control" [formControl]="fc()" [class]="fc().elementCssClass()" #input>
+  @for(item of fc().items() ; track item.value) {
+    <option class="form-dropdown-options" [value]="item.value" [selected]="item.value === fc().value && 'selected'">{{ item.title }}</option>
+  }
+</select>
