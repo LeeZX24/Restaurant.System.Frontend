@@ -33,7 +33,7 @@ export const STAFF_CONFIG: MaintenanceConfig<StaffDto> = {
       row.firstName.toLowerCase().includes(term) ||
       row.lastName.toLowerCase().includes(term),
   },
-  createForm: () => {
+  createForm: (formControlValue?: StaffDto) => {
     const fg = new MaintenanceFormGroup<StaffDto>(STAFF_CONFIG);
 
     fg._addCustomControl(
@@ -41,7 +41,7 @@ export const STAFF_CONFIG: MaintenanceConfig<StaffDto> = {
       new RSLabelTextFormControl(
         'Username',
         { required: true, inputType: 'text', autoComplete: 'username' },
-        '',
+        formControlValue?.username ?? '',
         [Validators.required],
       ),
     );
@@ -51,7 +51,7 @@ export const STAFF_CONFIG: MaintenanceConfig<StaffDto> = {
       new RSLabelPasswordFormControl(
         'Password',
         { required: true, inputType: 'password', autoComplete: 'current-password' },
-        '',
+        formControlValue?.password ?? '',
         [Validators.required],
       ),
     );
@@ -61,7 +61,7 @@ export const STAFF_CONFIG: MaintenanceConfig<StaffDto> = {
       new RSLabelTextFormControl(
         'First Name',
         { required: true, inputType: 'text' },
-        '',
+        formControlValue?.firstName ?? '',
         [Validators.required],
       ),
     );
@@ -74,7 +74,7 @@ export const STAFF_CONFIG: MaintenanceConfig<StaffDto> = {
           required: false,
           inputType: 'text'
         },
-        ''),
+        formControlValue?.lastName ?? ''),
     );
 
     fg._addCustomControl(
@@ -82,7 +82,7 @@ export const STAFF_CONFIG: MaintenanceConfig<StaffDto> = {
       new RSLabelTextFormControl(
         'Email',
         { required: true, inputType: 'email', autoComplete: 'username' },
-        '',
+        formControlValue?.email ?? '',
         [Validators.required, Validators.email],
       ),
     );

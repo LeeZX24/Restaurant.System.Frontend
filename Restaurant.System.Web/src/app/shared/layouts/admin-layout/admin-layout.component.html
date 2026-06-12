@@ -1,7 +1,7 @@
-<div class="flex h-full w-full flex-col overflow-hidden">
+<div class="flex h-screen w-screen flex-col">
   <rs-header-control (toggle)="toggle()"></rs-header-control>
 
-  <div class="flex flex-1 overflow-hidden">
+  <div class="flex flex-1 min-h-0">
     <!-- Main Content Area -->
     <rs-nav-menu-control [isExpanded]="isExpanded()" (toggle)="toggle()"></rs-nav-menu-control>
 
@@ -14,7 +14,7 @@
       ></div>
     }
 
-    <main class="flex-1 overflow-y-auto p-6 md:p-10 md:pl-23 transition-[padding]">
+    <main class="flex-1 p-6 md:p-10 md:pl-23 transition-[padding] overflow-y-scroll">
       <rs-navigation-tree></rs-navigation-tree>
       <router-outlet></router-outlet>
     </main>

@@ -1,13 +1,11 @@
-import { inject, Injectable, Type } from '@angular/core';
+import { inject, Service, Type } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { LayoutRef } from '../../shared/layouts/layout-ref';
 import { LayoutComponent } from '../../shared/layouts/layout.component';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class LayoutService {
   private breakpoint = inject(BreakpointObserver);
   private dialog = inject(MatDialog);

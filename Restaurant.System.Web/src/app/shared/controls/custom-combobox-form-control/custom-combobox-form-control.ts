@@ -12,6 +12,7 @@ export class RSComboboxFormControlOptions extends RSFormControlBaseOptions {
 }
 
 export interface RSComboboxFormControlOption<TData extends Record<string, unknown>, TValue = unknown> extends RSFormControlBaseOption {
+  items?: TData[];
   titleField?: keyof TData & string;
   valueField?: keyof TData & string;
   emptyItem?: DropDownItem<TValue>;

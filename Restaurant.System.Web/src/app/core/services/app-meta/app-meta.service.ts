@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 
 export interface AppMeta {
   version: string;
@@ -6,7 +6,7 @@ export interface AppMeta {
   buildTime: string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class AppMetaService {
   private _meta: AppMeta | null = null;
 

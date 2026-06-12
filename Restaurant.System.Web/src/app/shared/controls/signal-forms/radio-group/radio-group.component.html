@@ -1,0 +1,86 @@
+<div class="form-group">
+  <label [attr.for]="config().key" [class]="labelSize()" class="form-label">
+    {{ config().label || translate }}
+  </label>
+  <div [class]="inputSize()" class="relative">
+    <div class="flex">
+      @if (isBrowser) {
+        <div class="grow">
+          <div class="form-control">
+            @for(item of items(); track item.value) {
+              <div class="flex flex-row gap-2">
+                <input
+                  [class]="config().options.elementCssClass"
+                  [attr.id]="config().key"
+                  [value]="value()"
+                  type="radio"
+                  [disabled]="disabled()"
+                  [checked]="value() === item"
+                  (change)="onRadioChange(item)"
+                  #input
+                />
+                <span>{{ item.title }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      <div class="w-2 pt-1">
+        <span class="text-red-500" [class.invisible]="!isRequired()">*</span>
+      </div>
+
+      <div>
+        <ng-content select="[attach]"></ng-content>
+      </div>
+    </div>
+
+    @if (isErrorToShow()) {
+      <ul class="text-red-500 pl-0 list-none space-y-1 mt-1">
+        @for (error of validationMessage(); track error) {
+          <li class="flex align-items-start gap-2">
+            <span class="flex-none w-4 h-4 shrink-0">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                class="size-4"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0ZM9 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM6.75 8a.75.75 0 0 0 0 1.5h.75v1.75a.75.75 0 0 0 1.5 0v-2.5A.75.75 0 0 0 8.25 8h-1.5Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </span>
+            <p class="flex-1 m-0 text-sm leading-tight">{{ error | errorConverter }}</p>
+          </li>
+        }
+      </ul>
+    }
+
+    <!-- @if (isDisabledRequiredError()) {
+      <ul class="text-red-600 pl-0 list-none space-y-1">
+        <li class="flex align-items-start gap-2">
+          <span class="flex-none w-4 h-4 shrink-0">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              class="size-4"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0ZM9 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM6.75 8a.75.75 0 0 0 0 1.5h.75v1.75a.75.75 0 0 0 1.5 0v-2.5A.75.75 0 0 0 8.25 8h-1.5Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </span>
+          <p class="flex-1 m-0 text-sm leading-tight">
+            {{ getDisableRequireMsg() | errorConverter }}
+          </p>
+        </li>
+      </ul>
+    } -->
+  </div>
+</div>

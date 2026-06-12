@@ -1,9 +1,7 @@
-import { Injectable, signal } from '@angular/core';
+import { Service, signal } from '@angular/core';
 import { NavItem } from './navigation';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class NavigationService {
   private expanded = signal<Set<string>>(new Set());
   private hovered = signal<NavItem | null>(null);

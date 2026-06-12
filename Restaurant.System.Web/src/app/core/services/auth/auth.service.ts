@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { BehaviorSubject, from, Observable, switchMap } from 'rxjs';
 import { UserDto } from '../../../shared/models/dtos/user.dto';
 import { APP_CONFIG } from '../../../shared/configs/app-config.state';
 import { BaseDto } from '../../../shared/models/dtos/base/base.dto';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AuthService {
   private http = inject(HttpClient);
   private currentUser$ = new BehaviorSubject<UserDto | null>(null);

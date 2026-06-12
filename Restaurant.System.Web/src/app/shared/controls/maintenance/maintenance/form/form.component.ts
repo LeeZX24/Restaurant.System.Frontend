@@ -63,7 +63,8 @@ export class MaintenanceFormComponent<T extends BaseDto> implements LayoutCompon
 
   ngOnInit() {
     if (this.data.config) this.config = this.data.config;
-    this.form = this.config.createForm();
+    console.log(this.data);
+    this.form = this.config.createForm(this.data.item);
   }
 
   getFormControl(name: string) {

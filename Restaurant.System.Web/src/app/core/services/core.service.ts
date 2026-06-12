@@ -1,12 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { APP_CONFIG } from '../../shared/configs/app-config.state';
 import { BaseDto } from '../../shared/models/dtos/base/base.dto';
 import { from, Observable, switchMap } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class CoreService {
   private http = inject(HttpClient);
   private config = inject(APP_CONFIG);

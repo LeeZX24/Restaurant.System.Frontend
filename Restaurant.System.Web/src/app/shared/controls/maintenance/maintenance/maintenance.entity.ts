@@ -13,7 +13,7 @@ export interface MaintenanceConfig<T extends BaseDto> {
   columns: DataGridColumn<T>[];
   actions: DataGridAction[];
   search: DataGridSearch<T>;
-  createForm: () => MaintenanceFormGroup<T>;
+  createForm: (formControlValue?: T) => MaintenanceFormGroup<T>;
   endpoints: {
     list: string;
     create: string;
