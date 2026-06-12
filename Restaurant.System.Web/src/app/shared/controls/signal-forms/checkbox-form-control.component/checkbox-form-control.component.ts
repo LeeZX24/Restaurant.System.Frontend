@@ -20,7 +20,7 @@ export class CheckboxFormControlComponent implements FormCheckboxControl {
   touched = model(false);
 
   disabled = input(false);
-  invalid = input(false);
+  invalid = model(false);
   errors = input<readonly WithOptionalFieldTree<ValidationError>[]>([]);
 
   config = input.required<CheckboxFormControl>();
@@ -89,8 +89,8 @@ export class CheckboxFormControlComponent implements FormCheckboxControl {
   }
 
   onItemChecked() {
-    this.checked.set(true);
-    this.touched.set(true);
+    this.checked.update(c => !c);
+    if(!this.checked && this.isRequired()) this.invalid.set(true);
   }
 
   onBlur() {

@@ -6,7 +6,7 @@ import { CustomToggleControl } from "../../../shared/controls/custom-toggle-cont
 import { CustomToggle } from '../../../shared/controls/custom-toggle-control/custom-toggle';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomListFormControlComponent } from '../../../shared/controls/custom-list-control/custom-list-form-control.component';
-import { form, FormField, required, validate } from "@angular/forms/signals";
+import { form, FormField, validate } from "@angular/forms/signals";
 import { CustomButtonControl } from "../../../shared/controls/custom-button-control/custom-button-control";
 import { ApiConfiguration } from './api-configuration/api-configuration';
 import { CheckboxFormControlComponent } from "../../../shared/controls/signal-forms/checkbox-form-control.component/checkbox-form-control.component";
@@ -45,12 +45,11 @@ export class SettingsComponent  {
     // const minlength1 = cfg1.minlength;
     // const maxlength1 = cfg1.maxlength;
     const cfg1 = this.testingConfig().options;
-    if(cfg1.required) required(schema.testing);
 
     validate(schema.testing, (ctx)=> {
       console.log(ctx);
       const value = ctx.value();
-      return (!!ctx && (value === false) ? { kind: 'required' }: null);
+      return (!!ctx && (!value) && cfg1.required ? { kind: 'required' }: null);
     });
     // if(minlength1 != null) minLength(schema.testing, minlength1);
     // if(maxlength1 != null) maxLength(schema.testing, maxlength1);
