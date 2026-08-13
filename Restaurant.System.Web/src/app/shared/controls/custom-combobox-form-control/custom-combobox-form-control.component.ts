@@ -1,9 +1,9 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, ElementRef, input, output, signal, ViewChild } from '@angular/core';
-import { MatIconModule } from "@angular/material/icon";
+import { Component, computed, ElementRef, input, output, signal, ViewChild } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { provideNgxMask } from 'ngx-mask';
-import { RSComboboxFormControl, RSComboboxFormControlOptions } from './custom-combobox-form-control';
+import { RSComboboxFormControl } from './custom-combobox-form-control';
 import { DropDownItem } from '../custom-label-dropdown-form-control/dropdown';
 
 @Component({
@@ -11,10 +11,13 @@ import { DropDownItem } from '../custom-label-dropdown-form-control/dropdown';
   imports: [CommonModule, ReactiveFormsModule, FormsModule, MatIconModule],
   templateUrl: './custom-combobox-form-control.component.html',
   styleUrl: './custom-combobox-form-control.component.css',
-  providers: [provideNgxMask()]
+  providers: [provideNgxMask()],
 })
-export class CustomComboboxFormControlComponent<TData extends Record<string, unknown>, TValue = unknown> {
-  fc = input.required<RSComboboxFormControl<TData,TValue>>();
+export class CustomComboboxFormControlComponent<
+  TData extends Record<string, unknown>,
+  TValue = unknown,
+> {
+  fc = input.required<RSComboboxFormControl<TData, TValue>>();
   items = input<TData[]>([]);
   isOpen = signal(false);
 
@@ -24,32 +27,23 @@ export class CustomComboboxFormControlComponent<TData extends Record<string, unk
   @ViewChild('input') private _input!: ElementRef;
 
   isSelected = computed(() => {
-    return this.fc().selectedData() ? true: false;
+    return this.fc().selectedData() ? true : false;
   });
-
-  constructor() {
-    effect(() => {
-      this.fc().setOptionItem(RSComboboxFormControlOptions.items, this.items());
-    });
-  }
 
   focus(): void {
     this._input.nativeElement.focus();
-    this.isOpen.update(open => !open);
+    this.isOpen.update((open) => !open);
   }
 
-  onInputChange(text: string) {
-    this.term.set(text);
-    this.valueChange.emit(text);
+  onInputChange(event: Event) {
+    if (!(event.target instanceof HTMLInputElement)) return;
+
+    this.fc().searchTerm$.set(event.target.value);
   }
 
   onItemSelected(item: DropDownItem<TValue>) {
-    if(this.fc().selectedData()) {
-      if(this.fc().selectedTitle() !== item.title) {
-        this.fc().setValue(item.value, { emitEvent: false });
-      }
-    }
-
+    this.fc().setValue(item.value, { emitEvent: false });
     this.fc().searchTerm$.set(item.title);
+    this.isOpen.set(false);
   }
 }

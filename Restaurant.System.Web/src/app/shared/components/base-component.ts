@@ -1,11 +1,11 @@
 import { Directive, inject, OnDestroy } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { SubscriptionBase } from '../../core/entities/subscription-base';
-import { BaseDto } from '../models/dtos/base/base.dto';
 import { ActivityService } from '../../core/services/activity.service';
+import { BaseDto } from '../models/dtos/base/base.dto';
 
 @Directive()
-export abstract class BaseComponent<TRequest extends BaseDto>
+export abstract class BaseComponent<TRequest extends BaseDto | undefined>
   extends SubscriptionBase
   implements OnDestroy
 {
@@ -32,7 +32,9 @@ export abstract class BaseComponent<TRequest extends BaseDto>
 
     if (this.onValidateForm()) {
       const req = this.RequestDetails() as TRequest;
-      this.activityService.submit(req, req.state);
+      if (req) {
+        this.activityService.submit(req, req.state);
+      }
     } else {
       this.showFormControlsValidationErrors();
     }
