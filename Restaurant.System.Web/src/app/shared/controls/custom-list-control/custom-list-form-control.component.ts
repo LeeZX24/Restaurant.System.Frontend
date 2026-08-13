@@ -1,82 +1,82 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, input, model, OnInit, signal } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CustomButtonControl } from "../custom-button-control/custom-button-control";
+import { Component, input, signal } from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { CustomButtonControl } from '../custom-button-control/custom-button-control';
 import { DropDownModel } from '../custom-label-dropdown-form-control/dropdown';
-import { CustomFormGroup } from '@rs/forms';
-import { RSDropdownFormControl } from '../custom-dropdown-form-control/custom-dropdown-form-control';
-import { CustomComboboxFormControlComponent } from "../custom-combobox-form-control/custom-combobox-form-control.component";
+import { RSTextFormControl, RSTextFormControlComponent } from '@rs/forms';
+import { CustomComboboxFormControlComponent } from '../custom-combobox-form-control/custom-combobox-form-control.component';
 import { RSComboboxFormControl } from '../custom-combobox-form-control/custom-combobox-form-control';
-
+import { CustomListOptions } from './custom-list-form-control';
+import { provideNgxMask } from 'ngx-mask';
+import { CastPipe } from '../cast.pipe';
 @Component({
   selector: 'rs-list-control',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, CustomButtonControl, CustomComboboxFormControlComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    CustomButtonControl,
+    CustomComboboxFormControlComponent,
+    RSTextFormControlComponent,
+    CastPipe,
+  ],
   templateUrl: './custom-list-form-control.component.html',
   styleUrl: './custom-list-form-control.component.css',
+  providers: [provideNgxMask()],
 })
-export class CustomListFormControlComponent implements OnInit{
+export class CustomListFormControlComponent<TItem extends object> {
   labelSize = input<string>();
   inputSize = input<string>();
-  formList = model<CustomFormGroup[]>([]);
+  fc = input<FormControl>();
+  options = input.required<CustomListOptions<TItem>>();
 
-  form = signal<CustomFormGroup>(this.createForm());
+  rows = signal<TItem[]>([]);
 
-  items = input<DropDownModel[]>([{'key': 'gray', 'value': 'Gray'}, {'key': 'pink', 'value': 'Pink'}]);
+  private fgCache = new WeakMap<TItem, FormGroup>();
 
-  private rowNumber = 0;
+  readonly CustomControlType = {
+    Combobox: null as unknown as RSComboboxFormControl<DropDownModel, string>,
+    Textbox: null as unknown as RSTextFormControl,
+  };
 
-  isCombobox = computed(() => this.getFormControl('combobox') instanceof RSComboboxFormControl);
-
-  ngOnInit(): void {
-    if(this.formList().length === 0) this.addListItem();
+  isComboboxFormControl(control: AbstractControl) {
+    return control instanceof RSComboboxFormControl;
   }
 
-  createForm(): CustomFormGroup {
-    const fg = new CustomFormGroup();
+  isTextboxFormControl(control: AbstractControl) {
+    return control instanceof RSTextFormControl;
+  }
 
-    // this.list().forEach((formGroup, index) => {
+  getRowFG(row: TItem): FormGroup {
+    if (!row) return new FormGroup({});
 
-    // });
+    if (this.fgCache.has(row)) {
+      const fg = this.fgCache.get(row)!;
+      return fg;
+    }
 
-    // fg._addCustomControl(
-    //   'dropdown',
-    //   new RSLabelDropdownFormControl('Drop Down', { titleField: 'value', valueField: 'key', required: true }, undefined, [
-    //     Validators.required,
-    //   ]),
-    // );
-
-    // fg._addCustomControl(
-    //   'dropdown',
-    //   new RSDropdownFormControl({ titleField: 'value', valueField: 'key', required: true }, undefined, [
-    //     Validators.required,
-    //   ]),
-    // );
-
-    fg._addCustomControl(
-      `combobox`,
-      new RSComboboxFormControl({ titleField: 'value', valueField: 'key', required: true }, '', [
-        Validators.required,
-      ])
-    );
+    const fg = this.options()?.createFormGroup?.(row) ?? new FormGroup({});
+    fg.patchValue(row);
+    this.fgCache.set(row, fg);
     return fg;
   }
 
-  // get dropdownFC() { return this.getFormControl('dropdown') as RSLabelDropdownFormControl<DropDownModel, string>; }
+  onAddClick() {
+    const newRow = this.options()?.createEmptyRow?.() ?? ({} as TItem);
+    const fg = this.getRowFG(newRow);
+    this.rows.update((rows) => [...rows, newRow]);
 
-  dropdownFC = computed(() => this.getFormControl('dropdown') as RSDropdownFormControl<DropDownModel, string>);
-
-  comboboxFC = computed(() => this.getFormControl(`combobox`) as RSComboboxFormControl<DropDownModel, string>);
-
-  getFormControl(name: string) {
-    return this.form().get(name);
-  }
-
-  addListItem() {
-    const newForm = this.createForm();
-    this.formList.update(currentList => [...currentList, newForm]);
+    console.log(fg.get('type')?.value);
+    console.log((fg.get('type') as RSComboboxFormControl<DropDownModel, string>).searchTerm$());
   }
 
   removeListItem(index: number) {
-    this.formList.update(currentList => currentList.filter((_, i) => i !== index));
+    this.rows.update((rows) => rows.filter((_, i) => i !== index));
   }
 }

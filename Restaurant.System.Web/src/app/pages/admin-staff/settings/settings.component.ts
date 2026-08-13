@@ -2,24 +2,90 @@ import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { ThemeService } from '../../../core/services/theme.service';
-import { CustomToggleControl } from "../../../shared/controls/custom-toggle-control/custom-toggle-control";
+import { CustomToggleControl } from '../../../shared/controls/custom-toggle-control/custom-toggle-control';
 import { CustomToggle } from '../../../shared/controls/custom-toggle-control/custom-toggle';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomListFormControlComponent } from '../../../shared/controls/custom-list-control/custom-list-form-control.component';
-import { form, FormField, validate } from "@angular/forms/signals";
-import { CustomButtonControl } from "../../../shared/controls/custom-button-control/custom-button-control";
+import { CustomListOptions } from '../../../shared/controls/custom-list-control/custom-list-form-control';
+import { form, FormField, validate } from '@angular/forms/signals';
+import { CustomButtonControl } from '../../../shared/controls/custom-button-control/custom-button-control';
 import { ApiConfiguration } from './api-configuration/api-configuration';
-import { CheckboxFormControlComponent } from "../../../shared/controls/signal-forms/checkbox-form-control.component/checkbox-form-control.component";
+import { CheckboxFormControlComponent } from '../../../shared/controls/signal-forms/checkbox-form-control.component/checkbox-form-control.component';
 import { CheckboxFormControl } from '../../../shared/controls/signal-forms/signal-form-control';
+import { CustomFormGroup, RSTextFormControl } from '@rs/forms';
+import { PhoneDto } from './settings';
+import { DropDownModel } from '../../../shared/controls/custom-label-dropdown-form-control/dropdown';
+import { CustomBaseComponent } from '../../../shared/components/custom-base-component/custom-base-component';
+import { ControlService } from '../../../shared/services/control.service';
+import { ObjectFormGroup } from '../../../shared/models/obj-form-group';
+import { ObjectUtils } from '../../../utils/object-utils';
 
 @Component({
   selector: 'app-settings',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, CustomToggleControl, CustomListFormControlComponent, CustomButtonControl, FormField, CheckboxFormControlComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    CustomToggleControl,
+    CustomListFormControlComponent,
+    CustomButtonControl,
+    FormField,
+    CheckboxFormControlComponent,
+  ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css',
-  providers: []
+  providers: [],
 })
-export class SettingsComponent  {
+export class SettingsComponent extends CustomBaseComponent {
+  protected ctrlSerivce = inject(ControlService);
+
+  readonly listKeys = ObjectUtils.getKeysAsString<PhoneDto>();
+
+  protected override createForm(): CustomFormGroup {
+    const fg = new CustomFormGroup();
+
+    fg.addControl('list', new FormControl());
+
+    return fg;
+  }
+
+  get listFG() {
+    return this.getFormControl('list') as FormControl<PhoneDto[]>;
+  }
+
+  public override get request(): undefined {
+    throw new Error('Method not implemented.');
+  }
+  public override set request(value: undefined) {
+    throw new Error('Method not implemented.');
+  }
+  public override onValidateForm(): boolean {
+    throw new Error('Method not implemented.');
+  }
+  public override RequestDetails(): undefined {
+    throw new Error('Method not implemented.');
+  }
+
+  listOptions: CustomListOptions<PhoneDto> = {
+    keys: [this.listKeys.type, this.listKeys.number],
+    createEmptyRow: () => ({ ...this.emptyItem }),
+    createFormGroup: (item) => this.createListFormGroup(item),
+  };
+
+  getFormControl(name: string) {
+    return this.form.get(name);
+  }
+
+  emptyItem: PhoneDto = {
+    type: '',
+    number: '',
+  };
+
+  items: DropDownModel[] = [
+    { key: '01', value: 'Gray' },
+    { key: '02', value: 'Pink' },
+  ];
+
   dialog = inject(MatDialog);
   // testingConfig = signal<TextFormControl>({ key: 'testing', label: 'Testing', type: 'text', options: { required: true, inputType: 'text', placeholder: 'Testing...', autoComplete: '', minlength: 2, maxlength: 5}});
   // testing2Config = signal<DropdownFormControl<DropDownModel, string>>({ key: 'testing 2', label: 'Testing 2', type: 'dropdown', options: { required: true, titleField: 'value', valueField: 'key' }});
@@ -28,10 +94,15 @@ export class SettingsComponent  {
   // testing5Config = signal<RadioGroupFormControl<RadioGroupModel>>({ key: 'testing5', label: 'Testing 5', type: 'radio', options: { required: true, titleField:'value', valueField:'key', radioData: [{'key': 'free', 'value': 'Free'}, {'key': 'premium', 'value': 'Premium'}] }});
   // testing6Config = signal<TextareaFormControl>({ key: 'testing6', label: 'Testing 6', type: 'text', options: { required: true, placeholder: 'Testing...', rows: 4, cols: 15}});
 
-  testingConfig = signal<CheckboxFormControl>({ key: 'testing', label: 'Testing', type: 'checkbox', options: { required: true }});
+  testingConfig = signal<CheckboxFormControl>({
+    key: 'testing',
+    label: 'Testing',
+    type: 'checkbox',
+    options: { required: true },
+  });
 
   settingsModel = signal({
-    testing: false
+    testing: false,
     // testing: '',
     // testing2: { value: '-1' } as DropDownItem<string>,
     // testing3: { value: '' } as ComboboxItem<string>,
@@ -46,10 +117,10 @@ export class SettingsComponent  {
     // const maxlength1 = cfg1.maxlength;
     const cfg1 = this.testingConfig().options;
 
-    validate(schema.testing, (ctx)=> {
-      console.log(ctx);
+    validate(schema.testing, (ctx) => {
+      // console.log(ctx);
       const value = ctx.value();
-      return (!!ctx && (!value) && cfg1.required ? { kind: 'required' }: null);
+      return !!ctx && !value && cfg1.required ? { kind: 'required' } : null;
     });
     // if(minlength1 != null) minLength(schema.testing, minlength1);
     // if(maxlength1 != null) maxLength(schema.testing, maxlength1);
@@ -112,14 +183,14 @@ export class SettingsComponent  {
     return {
       toggleOff: {
         icon: 'light_mode',
-        label: 'OFF'
+        label: 'OFF',
       },
       toggleOn: {
         icon: 'dark_mode',
-        label: 'ON'
+        label: 'ON',
       },
-      disabled: false
-    }
+      disabled: false,
+    };
   });
 
   OnAPIConfigOpen() {
@@ -129,5 +200,27 @@ export class SettingsComponent  {
       maxHeight: '90vh',
       panelClass: 'rs-dialog-form',
     });
+  }
+
+  createListFormGroup(item: PhoneDto) {
+    const fg = new ObjectFormGroup<PhoneDto>();
+
+    fg._addCustomControl(
+      this.listKeys.type,
+      this.ctrlSerivce.ComboboxFormControl(
+        false,
+        !!item && item.type ? item.type : undefined,
+        this.items,
+      ),
+    );
+    fg._addCustomControl(
+      this.listKeys.number,
+      new RSTextFormControl(
+        { required: false, placeholder: 'phone number', inputType: 'text' },
+        !!item && item.number ? item.number : undefined,
+      ),
+    );
+
+    return fg;
   }
 }

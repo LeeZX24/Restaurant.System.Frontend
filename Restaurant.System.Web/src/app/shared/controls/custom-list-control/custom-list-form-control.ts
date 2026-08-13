@@ -1,6 +1,7 @@
-import { CustomFormGroup, RSFormControlBaseType } from "@rs/forms";
+import { CustomFormGroup } from '@rs/forms';
 
-export interface CustomListRow {
-  form: CustomFormGroup;
-  controls: Record<string, RSFormControlBaseType>;
+export interface CustomListOptions<TItem> {
+  keys: string[];
+  createEmptyRow?: () => TItem;
+  createFormGroup?: (item: TItem) => CustomFormGroup;
 }
