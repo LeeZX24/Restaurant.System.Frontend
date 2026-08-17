@@ -1,14 +1,13 @@
-import { BaseDto } from "../../models/dtos/base/base.dto";
+import { BaseDto } from '../../models/dtos/base/base.dto';
 
-
-export interface DataGridSearch<T extends BaseDto> {
+export interface DataGridSearch<T> {
   enabled: boolean;
   placeholder?: string;
 
   predicate: (row: T, term: string) => boolean;
 }
 
-export interface DataGridColumn<T extends BaseDto> {
+export interface DataGridColumn<T> {
   key?: keyof T;
   label: string;
   type?: 'text' | 'date' | 'amount' | 'number' | 'time' | 'date-time' | 'boolean' | 'badge';

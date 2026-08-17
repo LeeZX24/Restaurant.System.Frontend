@@ -1,11 +1,5 @@
 export type FormValueControlType =
-  | 'text'
-  | 'number'
-  | 'dropdown'
-  | 'textarea'
-  | 'date'
-  | 'radio'
-  | 'checkbox';
+  'text' | 'number' | 'dropdown' | 'textarea' | 'date' | 'radio' | 'checkbox';
 
 export interface TextFormControl {
   key: string;
@@ -56,7 +50,10 @@ export interface DropdownFormControl<TData extends Record<string, unknown>, TVal
   options: DropdownFormControlOption<TData, TValue>;
 }
 
-export interface DropdownFormControlOption<TData extends Record<string, unknown>, TValue = unknown> {
+export interface DropdownFormControlOption<
+  TData extends Record<string, unknown>,
+  TValue = unknown,
+> {
   required?: boolean;
   customValidationErrors?: Record<string, string>;
   elementCssClass?: string;
@@ -67,7 +64,7 @@ export interface DropdownFormControlOption<TData extends Record<string, unknown>
   compositeTitle?: (x: TData) => string;
 }
 
-export interface DropDownModel extends Record<string, unknown> {
+export interface DropdownDto extends Record<string, unknown> {
   order?: string;
   json?: string;
 }
@@ -84,7 +81,10 @@ export interface ComboboxFormControl<TData extends Record<string, unknown>, TVal
   options: ComboboxFormControlOption<TData, TValue>;
 }
 
-export interface ComboboxFormControlOption<TData extends Record<string, unknown>, TValue = unknown> {
+export interface ComboboxFormControlOption<
+  TData extends Record<string, unknown>,
+  TValue = unknown,
+> {
   required?: boolean;
   customValidationErrors?: Record<string, string>;
   elementCssClass?: string;

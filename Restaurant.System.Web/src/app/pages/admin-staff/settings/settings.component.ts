@@ -6,7 +6,7 @@ import { CustomToggleControl } from '../../../shared/controls/custom-toggle-cont
 import { CustomToggle } from '../../../shared/controls/custom-toggle-control/custom-toggle';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomListFormControlComponent } from '../../../shared/controls/custom-list-control/custom-list-form-control.component';
-import { CustomListOptions } from '../../../shared/controls/custom-list-control/custom-list-form-control';
+import { RSListOptions } from '../../../shared/controls/custom-list-control/custom-list-form-control';
 import { form, FormField, validate } from '@angular/forms/signals';
 import { CustomButtonControl } from '../../../shared/controls/custom-button-control/custom-button-control';
 import { ApiConfiguration } from './api-configuration/api-configuration';
@@ -14,7 +14,7 @@ import { CheckboxFormControlComponent } from '../../../shared/controls/signal-fo
 import { CheckboxFormControl } from '../../../shared/controls/signal-forms/signal-form-control';
 import { CustomFormGroup, RSTextFormControl } from '@rs/forms';
 import { PhoneDto } from './settings';
-import { DropDownModel } from '../../../shared/controls/custom-label-dropdown-form-control/dropdown';
+import { DropdownDto } from '../../../shared/controls/custom-label-dropdown-form-control/dropdown';
 import { CustomBaseComponent } from '../../../shared/components/custom-base-component/custom-base-component';
 import { ControlService } from '../../../shared/services/control.service';
 import { ObjectFormGroup } from '../../../shared/models/obj-form-group';
@@ -66,8 +66,11 @@ export class SettingsComponent extends CustomBaseComponent {
     throw new Error('Method not implemented.');
   }
 
-  listOptions: CustomListOptions<PhoneDto> = {
-    keys: [this.listKeys.type, this.listKeys.number],
+  listOptions: RSListOptions<PhoneDto> = {
+    accessType: [
+      { key: this.listKeys.type, isMain: false },
+      { key: this.listKeys.number, isMain: true },
+    ],
     createEmptyRow: () => ({ ...this.emptyItem }),
     createFormGroup: (item) => this.createListFormGroup(item),
   };
@@ -81,14 +84,14 @@ export class SettingsComponent extends CustomBaseComponent {
     number: '',
   };
 
-  items: DropDownModel[] = [
+  items: DropdownDto[] = [
     { key: '01', value: 'Gray' },
     { key: '02', value: 'Pink' },
   ];
 
   dialog = inject(MatDialog);
   // testingConfig = signal<TextFormControl>({ key: 'testing', label: 'Testing', type: 'text', options: { required: true, inputType: 'text', placeholder: 'Testing...', autoComplete: '', minlength: 2, maxlength: 5}});
-  // testing2Config = signal<DropdownFormControl<DropDownModel, string>>({ key: 'testing 2', label: 'Testing 2', type: 'dropdown', options: { required: true, titleField: 'value', valueField: 'key' }});
+  // testing2Config = signal<DropdownFormControl<DropdownDto, string>>({ key: 'testing 2', label: 'Testing 2', type: 'dropdown', options: { required: true, titleField: 'value', valueField: 'key' }});
   // testing3Config = signal<ComboboxFormControl<ComboboxModel, string>>({ key: 'testing 3', label: 'Testing 3', type: 'dropdown', options: { required: true, titleField: 'value', valueField: 'key' }});
   // testing4Config = signal<TextFormControl>({ key: 'testing4', label: 'Testing 4', type: 'date', options: { required: true, inputType: 'date', placeholder: 'Testing 4...', autoComplete: '', minlength: 2, maxlength: 5}});
   // testing5Config = signal<RadioGroupFormControl<RadioGroupModel>>({ key: 'testing5', label: 'Testing 5', type: 'radio', options: { required: true, titleField:'value', valueField:'key', radioData: [{'key': 'free', 'value': 'Free'}, {'key': 'premium', 'value': 'Premium'}] }});
@@ -165,7 +168,7 @@ export class SettingsComponent extends CustomBaseComponent {
   });
 
   // ngOnInit(): void {
-  //   // const dropDownItems: DropDownModel[] = [{'key': 'gray', 'value': 'Gray'}, {'key': 'pink', 'value': 'Pink'}]
+  //   // const dropDownItems: DropdownDto[] = [{'key': 'gray', 'value': 'Gray'}, {'key': 'pink', 'value': 'Pink'}]
   //   // this.testing2Config().options.dropdownItems = [...dropDownItems];
 
   //   // const comboboxItems: ComboboxModel[] = [{'key': 'gray', 'value': 'Gray'}, {'key': 'pink', 'value': 'Pink'}]

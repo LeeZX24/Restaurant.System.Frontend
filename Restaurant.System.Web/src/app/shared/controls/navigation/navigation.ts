@@ -22,6 +22,7 @@ export const NAV_DATA: NavItem[] = [
     children: [
       { label: 'Staff Maintenance', type: NavMenuType.item, icon: 'person_apron', route: 'staff' },
       { label: 'Role Maintenance', type: NavMenuType.item, icon: 'shield_person', route: 'role' },
+       { label: 'Dropdown Maintenance', type: NavMenuType.item, icon: 'settings_heart', route: 'dropdown' },
     ],
   },
   {

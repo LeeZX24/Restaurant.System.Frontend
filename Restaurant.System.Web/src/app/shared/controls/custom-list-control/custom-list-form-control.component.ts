@@ -8,11 +8,11 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CustomButtonControl } from '../custom-button-control/custom-button-control';
-import { DropDownModel } from '../custom-label-dropdown-form-control/dropdown';
+import { DropdownDto } from '../custom-label-dropdown-form-control/dropdown';
 import { RSTextFormControl, RSTextFormControlComponent } from '@rs/forms';
 import { CustomComboboxFormControlComponent } from '../custom-combobox-form-control/custom-combobox-form-control.component';
 import { RSComboboxFormControl } from '../custom-combobox-form-control/custom-combobox-form-control';
-import { CustomListOptions } from './custom-list-form-control';
+import { RSListOptions } from './custom-list-form-control';
 import { provideNgxMask } from 'ngx-mask';
 import { CastPipe } from '../cast.pipe';
 @Component({
@@ -34,14 +34,14 @@ export class CustomListFormControlComponent<TItem extends object> {
   labelSize = input<string>();
   inputSize = input<string>();
   fc = input<FormControl>();
-  options = input.required<CustomListOptions<TItem>>();
+  options = input.required<RSListOptions<TItem>>();
 
   rows = signal<TItem[]>([]);
 
   private fgCache = new WeakMap<TItem, FormGroup>();
 
   readonly CustomControlType = {
-    Combobox: null as unknown as RSComboboxFormControl<DropDownModel, string>,
+    Combobox: null as unknown as RSComboboxFormControl<DropdownDto, string>,
     Textbox: null as unknown as RSTextFormControl,
   };
 
@@ -73,7 +73,7 @@ export class CustomListFormControlComponent<TItem extends object> {
     this.rows.update((rows) => [...rows, newRow]);
 
     console.log(fg.get('type')?.value);
-    console.log((fg.get('type') as RSComboboxFormControl<DropDownModel, string>).searchTerm$());
+    console.log((fg.get('type') as RSComboboxFormControl<DropdownDto, string>).searchTerm$());
   }
 
   removeListItem(index: number) {

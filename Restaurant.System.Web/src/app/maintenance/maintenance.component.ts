@@ -3,15 +3,16 @@ import { Component, computed, inject, input, OnInit, signal } from '@angular/cor
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
-import { CoreService } from '../../../../core/services/core.service';
-import { LayoutService } from '../../../../core/services/layout.service';
-import { MaintenanceFormComponent } from './form/form.component';
+import { CoreService } from '../core/services/core.service';
+import { LayoutService } from '../core/services/layout.service';
 import { CONFIG_REGISTRY, MaintenanceConfig } from './maintenance.entity';
-import { BaseDto } from '../../../models/dtos/base/base.dto';
+import { BaseDto } from '../shared/models/dtos/base/base.dto';
 import { delay } from 'rxjs';
-import { DataGridComponent } from '../../data-grid-component/data-grid.component';
-import { DataGridActionEvent } from '../../data-grid-component/data-grid';
+import { DataGridComponent } from '../shared/controls/data-grid-component/data-grid.component';
+import { DataGridActionEvent } from '../shared/controls/data-grid-component/data-grid';
 import { DialogService } from '@rs/dialogs';
+import { MaintenanceFormGroup } from './maintenance.form-group';
+import { MaintenanceFormComponent } from './forms/form.component';
 
 @Component({
   selector: 'rs-maintenance',
@@ -25,7 +26,7 @@ import { DialogService } from '@rs/dialogs';
   templateUrl: './maintenance.component.html',
   styleUrl: './maintenance.component.css',
 })
-export class MaintenanceComponent implements OnInit {
+export class MaintenanceComponent<TFormGroup extends MaintenanceFormGroup<T>, T extends BaseDto> implements OnInit {
   private coreService = inject(CoreService);
   private route = inject(ActivatedRoute);
   private layout = inject(LayoutService);
@@ -33,16 +34,12 @@ export class MaintenanceComponent implements OnInit {
 
   module = input<string>('');
 
-  config = computed<MaintenanceConfig<BaseDto> | null>(() => {
+  config = computed<MaintenanceConfig<TFormGroup, T>>(() => {
     const key = this.module().toLowerCase();
-    if(key in CONFIG_REGISTRY) {
-      return CONFIG_REGISTRY[key as keyof typeof CONFIG_REGISTRY] as unknown as MaintenanceConfig<BaseDto>;
-    }
-
-    return null;
+    return CONFIG_REGISTRY[key as keyof typeof CONFIG_REGISTRY] as unknown as MaintenanceConfig<TFormGroup, T>;
   });
 
-  rows = signal<BaseDto[]>([]);
+  rows = signal<T[]>([]);
   loading = signal(true);
 
   ngOnInit(): void {
@@ -50,9 +47,9 @@ export class MaintenanceComponent implements OnInit {
   }
 
   fetch() {
-    const config = this.config() as MaintenanceConfig<BaseDto>;
+    const config = this.config() as MaintenanceConfig<TFormGroup, T>;
     this.coreService
-      .getList<BaseDto>(config.route, config.endpoints.list)
+      .getList<T>(config.route, config.endpoints.list)
       .pipe(delay(2000)) // 2 seconds
       .subscribe({
         next: (res) => {
@@ -66,12 +63,11 @@ export class MaintenanceComponent implements OnInit {
       });
   }
 
-  onDelete<T extends BaseDto>(item: T) {
-    const config = this.config() as MaintenanceConfig<BaseDto>;
+  onDelete(item: T) {
     this.dialogService.showWarningDialog(`Are you sure to delete this item?`, 'Delete Item' , false, true).afterClosed().subscribe((result)=> {
       if(result) {
         this.coreService
-        .removeItem<BaseDto>(config.route, config.endpoints.list, item)
+        .removeItem<T>(this.config().route, this.config().endpoints.list, item)
         .subscribe(() => {
           this.fetch();
         });
@@ -80,13 +76,13 @@ export class MaintenanceComponent implements OnInit {
   }
 
   createItemForm() {
-    this.layout.open<MaintenanceFormComponent<BaseDto>, unknown, BaseDto>(MaintenanceFormComponent<BaseDto>, {
+    this.layout.open<MaintenanceFormComponent<TFormGroup, T>, unknown, T>(this.config().formComponent, {
       config: this.config(),
       action: 'create',
     });
   }
 
-  onActionClicked($event: DataGridActionEvent<BaseDto>) {
+  onActionClicked($event: DataGridActionEvent<T>) {
     if ($event.action === 'edit') {
       this.updateItemForm($event.row);
     }
@@ -96,8 +92,8 @@ export class MaintenanceComponent implements OnInit {
     }
   }
 
-  updateItemForm(row: BaseDto) {
-    this.layout.open<MaintenanceFormComponent<BaseDto>, unknown, BaseDto>(MaintenanceFormComponent<BaseDto>, {
+  updateItemForm(row: T) {
+    this.layout.open<MaintenanceFormComponent<TFormGroup, T>, unknown, T>(this.config().formComponent, {
       config: this.config(),
       action: 'edit',
       item: row,

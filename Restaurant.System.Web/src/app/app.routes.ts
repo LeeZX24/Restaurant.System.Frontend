@@ -68,7 +68,7 @@ export const routes: Routes = [
                   {
                     path: ':module',
                     loadComponent: () =>
-                      import('./shared/controls/maintenance/maintenance/maintenance.component').then(
+                      import('./maintenance/maintenance.component').then(
                         (c) => c.MaintenanceComponent,
                       ),
                     data: { title: '' },

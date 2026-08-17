@@ -1904,19 +1904,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/wasm-runtime@npm:^1.1.4, @napi-rs/wasm-runtime@npm:^1.1.6":
-  version: 1.2.2
-  resolution: "@napi-rs/wasm-runtime@npm:1.2.2"
-  dependencies:
-    "@tybys/wasm-util": "npm:^0.10.3"
-  peerDependencies:
-    "@emnapi/core": ^1.7.1 || ^2.0.0-alpha.3
-    "@emnapi/runtime": ^1.7.1 || ^2.0.0-alpha.3
-  checksum: 10c0/670ff8359761660f58d95a29fe22ac959d2c295675144fe9bc35118b0e723d1e0ac192df9896ba428eb13930cf0893b632606b70ccaea259fd6eca1836c2eb09
-  languageName: node
-  linkType: hard
-
-"@napi-rs/wasm-runtime@npm:^1.2.3":
+"@napi-rs/wasm-runtime@npm:^1.1.4, @napi-rs/wasm-runtime@npm:^1.1.6, @napi-rs/wasm-runtime@npm:^1.2.3":
   version: 1.2.3
   resolution: "@napi-rs/wasm-runtime@npm:1.2.3"
   dependencies:
@@ -3103,7 +3091,7 @@ __metadata:
 
 "@rs/forms@file:dist/@rs/forms::locator=restaurant.system.web%40workspace%3A.":
   version: 0.0.0
-  resolution: "@rs/forms@file:dist/@rs/forms#dist/@rs/forms::hash=f85e46&locator=restaurant.system.web%40workspace%3A."
+  resolution: "@rs/forms@file:dist/@rs/forms#dist/@rs/forms::hash=da0efd&locator=restaurant.system.web%40workspace%3A."
   dependencies:
     tslib: "npm:^2.8.1"
   peerDependencies:
@@ -3112,7 +3100,7 @@ __metadata:
     "@ngx-translate/core": ^17.0.0
     "@ngx-translate/http-loader": ^17.0.0
     rxjs: ^7.8.0
-  checksum: 10c0/f1cb78296d0a3effe2f7f46123fff43b28631ef0a65c97cd4d97131891491ecbbac9f50cdac9c36cbc2f104d7bf8c1c0715f17fc386e362c39f79ce074e8b1b1
+  checksum: 10c0/28b07a266653d323e088db50f9e8cb35069dbdae35fca53f9cc60f73057d6ac989d2bb9b854d99b2c5b15f01c49b298371aeb82b612273f698fe30bdc0b10329
   languageName: node
   linkType: hard
 

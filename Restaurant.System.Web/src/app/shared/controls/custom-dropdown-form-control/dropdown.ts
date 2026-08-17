@@ -1,4 +1,4 @@
-export interface DropDownModel extends Record<string, unknown> {
+export interface DropdownDto extends Record<string, unknown> {
   order?: string;
   json?: string;
 }
