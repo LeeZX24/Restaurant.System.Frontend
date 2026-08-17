@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 @Component({
   selector: 'rs-auth-layout',
@@ -9,9 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
   styleUrl: './auth-layout.component.css',
 })
 export class AuthLayoutComponent {
-
   // private routeService = inject(RouterService);
-
   // ngOnInit(): void {
   //   this.routeService.gotoLogin();
   // }

@@ -1,0 +1,37 @@
+<div class="flex flex-col items-center gap-2">
+  <label class="custom-toggle">
+    <input type="checkbox"
+    role="switch"
+    class="sr-only peer"
+    [checked]="isCheck()"
+    (change)="this.toggleCheckbox()"
+    [disabled]="this.toggle()?.disabled"/>
+
+    <div
+    [ngClass]="isCheck() ? 'bg-[#34C759]' : 'bg-[#E9E9EA] dark:bg-[#39393D]'"
+    class="toggle-track">
+      <div
+      [ngClass]="isCheck() ? 'translate-x-[20px]': 'translate-x-0'"
+      class="toggle-thumb">
+        @if(!isCheck()) {
+          <span class="toggle-off">
+            <div [class.hidden]="isCheck()">
+              <mat-icon [class.hidden]="!toggleOffHaveIcon()">{{ this.toggle()?.toggleOff?.icon }}</mat-icon>
+              <p [class.hidden]="toggleOffHaveIcon()">{{ this.toggle()?.toggleOff?.label }}</p>
+            </div>
+          </span>
+        }
+        @if(isCheck()) {
+          <span class="toggle-on">
+            <div [class.hidden]="!isCheck()">
+              <mat-icon [class.hidden]="!toggleOnHaveIcon()">{{ this.toggle()?.toggleOn?.icon }}</mat-icon>
+              <p [class.hidden]="toggleOnHaveIcon()">{{ this.toggle()?.toggleOn?.label }}</p>
+            </div>
+
+          </span>
+
+        }
+      </div>
+    </div>
+  </label>
+</div>

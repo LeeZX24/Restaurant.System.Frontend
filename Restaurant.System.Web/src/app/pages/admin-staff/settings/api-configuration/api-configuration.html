@@ -1,0 +1,25 @@
+<div class="form-container">
+  <div class="form-title">
+    <h2>API Configuration</h2>
+  </div>
+
+  <!-- <form [formGroup]="form" class="form-body"> -->
+    <div class="form-content">
+      <rs-flex-data-grid
+        [columns]="columns"
+        [rows]="rows()"
+        [actions]="actions"
+        [pageSize]="5"
+        /* [search]="config()!.search"
+        (actionClicked)="onActionClicked($event)"
+        (addItem)="createItemForm()" */
+      ></rs-flex-data-grid>
+    </div>
+
+    <div class="form-actions">
+      <!-- <rs-button-control [cssClass]="'btn-primary'" [label]="'OK'"></rs-button-control> -->
+      <rs-button-control [cssClass]="'btn-secondary'"[label]="'Close'" (buttonClicked)="this.dialog.close()"></rs-button-control>
+    </div>
+  <!-- </form> -->
+</div>
+

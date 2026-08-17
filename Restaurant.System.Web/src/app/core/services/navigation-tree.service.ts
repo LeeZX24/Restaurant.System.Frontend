@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs/operators';
@@ -8,7 +8,7 @@ export interface NavTreeStep {
   path: string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class NavigationTreeService {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);

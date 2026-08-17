@@ -11,9 +11,8 @@ describe('Member', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Member],
-      providers: [provideZonelessChangeDetection(), provideHttpClient()]
-    })
-    .compileComponents();
+      providers: [provideZonelessChangeDetection(), provideHttpClient()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(Member);
     component = fixture.componentInstance;

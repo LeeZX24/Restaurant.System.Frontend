@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from "@angular/router";
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-content-layout.component',
@@ -7,6 +7,4 @@ import { RouterOutlet } from "@angular/router";
   templateUrl: './content-layout.component.html',
   styleUrl: './content-layout.component.css',
 })
-export class ContentLayoutComponent {
-
-}
+export class ContentLayoutComponent {}

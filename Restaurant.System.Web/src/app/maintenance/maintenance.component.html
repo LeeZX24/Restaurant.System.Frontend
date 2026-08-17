@@ -1,0 +1,24 @@
+<div class="flex flex-row pb-2 items-center">
+  <h2 class="grow">
+    {{ config()!.title }}
+  </h2>
+
+</div>
+
+<rs-data-grid
+  [columns]="config()!.columns"
+  [rows]="rows()"
+  [actions]="config()!.actions"
+  [pageSize]="5"
+  [search]="config()!.search"
+  (actionClicked)="onActionClicked($event)"
+  (addItem)="createItemForm()"
+></rs-data-grid>
+
+
+<!-- <rs-maintenance-table
+  [columns]="config.columns"
+  [rows]="rows()"
+  [actions]="config.actions"
+  (actionClicked)="onActionClicked($event)"
+></rs-maintenance-table> -->

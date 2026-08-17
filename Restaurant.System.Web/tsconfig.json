@@ -14,15 +14,9 @@
     "importHelpers": true,
     "target": "ES2022",
     "paths": {
-      "auth": [
-        "./dist/auth"
-      ],
-      "@rs/forms": [
-        "./dist/rs/forms"
-      ],
-      "@rs/forms/*": [
-        "./dist/rs/forms/*"
-      ],
+      "auth": ["./dist/auth"],
+      "@rs/forms": ["./dist/rs/forms"],
+      "@rs/forms/*": ["./dist/rs/forms/*"],
       "*": ["./*"]
     },
     "module": "ESNext",

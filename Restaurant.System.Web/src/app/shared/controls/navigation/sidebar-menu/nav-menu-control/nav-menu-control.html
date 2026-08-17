@@ -1,0 +1,33 @@
+<!-- Sidebar Navigation -->
+<aside
+  [class.w-64]="isExpanded()"
+  [class.w-16]="!isExpanded()"
+  [class]="isExpanded() ? 'max-md:translate-x00' : ''"
+  [class]="!isExpanded() ? 'max-md:-translate-x-full' : ''"
+  class="navigation"
+>
+  <nav class="nav-menu">
+    <!-- <ul> -->
+      @for (item of navItems; track item.label) {
+        <!-- <li> -->
+          <rs-nav-item-control
+            [item]="item"
+            [isExpanded]="isExpanded()"
+            [hoveredItem]="hoveredItem()"
+            (hoveredItemChange)="hoveredItem.set($event)"
+            (navigationClicked)="onNavigationClicked()">
+          </rs-nav-item-control>
+          <!-- @if (item.type === itemType.group) {
+            <rs-nav-item-group-control
+              [navItem]="item"
+              [isExpanded]="isExpanded()"
+              (navigationClicked)="onNavigationClicked()">
+            </rs-nav-item-group-control>
+          } @else if (item.type === itemType.item) {
+
+          } -->
+        <!-- </li> -->
+      }
+    <!-- </ul> -->
+  </nav>
+</aside>

@@ -1,0 +1,6 @@
+<button type="button" [class]="'btn ' + (cssClass() || '')" (click)="buttonClicked.emit()">
+  @if(icon()) {
+    <mat-icon class="icon">{{ icon() }}</mat-icon>
+  }
+  <span class="leading-none" [class.pr-1]="icon()">{{ label() }}</span>
+</button>

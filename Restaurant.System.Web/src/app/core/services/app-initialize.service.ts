@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Service, signal } from '@angular/core';
 import { DialogService } from '@rs/dialogs';
 import { firstValueFrom } from 'rxjs';
 import { AppConfig } from '../../shared/configs/app-config.model';
@@ -7,9 +7,7 @@ import { APP_CONFIG } from '../../shared/configs/app-config.state';
 import { RouterService } from '../../shared/services/router.service';
 import { AuthService } from './auth/auth.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AppInitializeService {
   private routerService = inject(RouterService);
   private httpClient = inject(HttpClient);

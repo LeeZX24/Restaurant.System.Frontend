@@ -11,9 +11,8 @@ describe('StaffComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [StaffComponent],
-      providers: [provideZonelessChangeDetection(), provideHttpClient()]
-    })
-    .compileComponents();
+      providers: [provideZonelessChangeDetection(), provideHttpClient()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StaffComponent);
     component = fixture.componentInstance;

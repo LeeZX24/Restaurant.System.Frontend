@@ -1,0 +1,19 @@
+{
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "eslint.nodePath": "/workspaces/Restaurant.System.Frontend/Restaurant.System.Web.yarn/sdks",
+  "prettier.prettierPath": "/workspaces/Restaurant.System.Frontend/Restaurant.System.Web.yarn/sdks/prettier/index.cjs",
+  "js/ts.tsdk.path": "/workspaces/Restaurant.System.Frontend/Restaurant.System.Web/.yarn/sdks/typescript/lib",
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true,
+  "json.schemas": [
+    {
+      "fileMatch": ["/workspaces/Restaurant.System.Frontend/Restaurant.System.Web/angular.json"],
+      "url": "https://schemastore.org"
+    }
+  ],
+  "json.schemaDownload.enable": true,
+  "http.proxyStrictSSL": false,
+  "json.validate.enable": true
+}

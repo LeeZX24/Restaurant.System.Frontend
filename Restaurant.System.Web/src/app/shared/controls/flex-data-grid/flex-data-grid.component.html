@@ -1,0 +1,59 @@
+
+<div class="relative py-3 px-2 rounded">
+  <div class="overflow-x-auto">
+    <table class="data-grid-table">
+      <thead class="table-col-header">
+        <tr class="table-col-row">
+          @for(column of columns(); track column.key) {
+            <th class="table-col-cell cursor-pointer" [style.width]="column.width" (click)="onSort(column)">{{ column.label }}</th>
+          }
+          <th class="table-col-cell table-col-actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(row of sortedRows(); track $index) {
+          <tr class="table-row">
+            @for(column of columns(); track column.key) {
+              <td class="table-body-cell"
+              [style.width]="column.width"
+              [class.text-left]="columnAlignment(column) === 'left'"
+              [class.text-right]="columnAlignment(column) === 'right'"
+              [class.text-center]="columnAlignment(column) === 'center'"
+              >{{ getColumnValue(row, column) }}</td>
+            }
+            <td class="table-body-cell table-col-actions">
+              <div class="action-group">
+                @for (action of actions(); track action.key) {
+                  <button
+                    class="action-button"
+                    (click)="onActionClicked({action: action.key, row: row})">
+                    <mat-icon>{{ action.icon }}</mat-icon>
+                    <span class="action-label">{{ action.label }}</span>
+                  </button>
+                }
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex items-center justify-between mt-4">
+    <button type="button" (click)="previousPage()">Previous</button>
+    <div class="flex items-center gap-2">
+      @for(page of pages; track page) {
+        <button
+          class="w-9 h-9 rounded-lg border"
+          [class.bg-black]="page === currentPage()"
+          [class.text-white]="page === currentPage()"
+          (click)="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+      }
+    </div>
+    <button type="button" (click)="nextPage()" [disabled]="currentPage() === totalPages()">Next</button>
+  </div>
+</div>
+

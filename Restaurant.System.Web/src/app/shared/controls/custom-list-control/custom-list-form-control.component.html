@@ -1,0 +1,37 @@
+<div class="flex gap-2">
+  <span [class]="labelSize()" class="form-label">Role List</span>
+  <ul [class]="inputSize()" class="relative grow">
+    @for(row of rows(); track $index) {
+      <li>
+        <div class="flex items-center gap-2 p-1">
+          @for(access of this.options().accessType; track $index) {
+            <div class="grow">
+              <div class="flex">
+                  @if (this.isComboboxFormControl(this.getRowFG(row).get(access.key)!)) {
+                    <div [class.grow]="access.isMain">
+                      <rs-combobox-form-control [fc]=" this.getRowFG(row).get(access.key) | cast: CustomControlType.Combobox"></rs-combobox-form-control>
+                    </div>  
+                  }
+                  @if (this.isTextboxFormControl(this.getRowFG(row).get(access.key)!)) {
+                    <div [class.grow]="access.isMain">
+                      <rs-text-form-control [fc]="this.getRowFG(row).get(access.key) | cast:CustomControlType.Textbox"></rs-text-form-control>
+                    </div>  
+                  }      
+              </div>
+            </div>
+          }
+          <div>
+            <rs-button-control [icon]="'do_not_disturb_on'" (buttonClicked)="removeListItem($index)"></rs-button-control>
+          </div>
+        </div>
+      </li>
+    }
+
+    <li>
+      <div class="flex items-center justify-center p-1 rounded hover:bg-gray-400 transition-all duration-300 dark:hover:bg-white/50">
+        <rs-button-control [icon]="'add'" [label]="'Add Item'" (buttonClicked)="onAddClick()"></rs-button-control>
+      </div>
+    </li>
+  </ul>
+
+</div>

@@ -1,14 +1,12 @@
 import { ActivityState } from './../../shared/enums/activity-state';
-import { inject, Injectable, OnDestroy } from '@angular/core';
+import { inject, OnDestroy, Service } from '@angular/core';
 import { from, map, Subscription, switchMap, take } from 'rxjs';
 import { BaseDto } from '../../shared/models/dtos/base/base.dto';
 import { APP_CONFIG } from '../../shared/configs/app-config.state';
 import { HttpClient } from '@angular/common/http';
 import { DialogService } from '@rs/dialogs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class ActivityService implements OnDestroy {
   private http = inject(HttpClient);
   private config = inject(APP_CONFIG);

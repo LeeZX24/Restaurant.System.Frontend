@@ -3,3 +3,9 @@
 @import './component-styles.css';
 @import './form-control-styles.css';
 @import './dialog-styles.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* * {
+  @apply bg-white text-black dark:bg-gray-700 dark:text-white;
+} */

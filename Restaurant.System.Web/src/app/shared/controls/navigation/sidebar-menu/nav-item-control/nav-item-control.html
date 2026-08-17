@@ -1,0 +1,59 @@
+<div class="relative">
+  <div class="nav-item-link"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+    (click)="handleNavigate()"
+    (keydown.enter)="handleNavigate()"
+    tabindex="0"
+    [class.font-bold]="isActive()"
+    [class.hovered]="isHovered()">
+    <div class="relative z-10 flex items-center">
+      <rs-nav-item [item]="item()!" [isExpanded]="isExpanded()" [isGroupExpanded]="navService.isExpanded(getKey(item()!))"></rs-nav-item>
+    </div>
+  </div>
+
+  @if(!isExpanded() && depth() === 0 && isHovered()) {
+    <div
+      class="fixed left-18 top-auto pb-12 z-50 ml-2 -translate-y-1/2 pointer-events-none animate-in fade-in slide-in-from-left-1 duration-150"
+      [class]="!isExpanded() && isHovered()
+          ? 'group-hover:visible group-hover:opacity-100 group-hover:translate-x-0 -translate-x-2'
+          : 'invisible opacity-0'">
+      <div class="relative whitespace-nowrap rounded bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white shadow-2xl ring-1 ring-white/10">
+        {{ item()?.label }}
+
+        <!-- Tooltip Arrow (pointing left) -->
+        <div
+          class="absolute right-full top-1/2 -mr-1 h-2 w-2 -translate-y-1/2 rotate-45 bg-zinc-900 ring-b ring-l ring-white/10"
+        ></div>
+      </div>
+    </div>
+  }
+
+  @if(hasChildren()) {
+    <div
+      class="overflow-hidden pl-4 ml-4 border-l border-zinc-800
+      transition-[max-height, opacity] duration-300 ease-in-out"
+      [class.max-h-0]="!navService.isExpanded(getKey(item()!))"
+      [class.opacity-0]="!navService.isExpanded(getKey(item()!))"
+      [class.max-h-96]="navService.isExpanded(getKey(item()!))"
+      [class.opacity-100]="navService.isExpanded(getKey(item()!))"
+    >
+      @for (child of item()?.children; track child.label; let i = $index) {
+        <div
+          class="transition-all duration-300 ease-out"
+          [style.transition-delay.ms]="navService.isExpanded(getKey(item()!)) ? i * 35 : 0"
+        >
+          <rs-nav-item-control
+          [item]="child"
+          [isExpanded]="isExpanded()"
+          [depth]="depth() + 1"
+          [class.mt-1]="depth() > 0"
+          [class.mt-4]="depth() === 0"
+          (hoveredItemChange)="hoveredItemChange.emit($event)"
+          ></rs-nav-item-control>
+
+        </div>
+      }
+    </div>
+  }
+</div>

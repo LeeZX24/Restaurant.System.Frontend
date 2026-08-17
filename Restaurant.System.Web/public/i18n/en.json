@@ -1,8 +1,7 @@
 {
   "project": {
     "controls": {
-      "errors" :
-      {
+      "errors": {
         "required": "'{0}' is required.",
         "minlength": "{0} required minimum length of {1} characters.",
         "maxlength": "{0} required maximum length of {1} characters.",

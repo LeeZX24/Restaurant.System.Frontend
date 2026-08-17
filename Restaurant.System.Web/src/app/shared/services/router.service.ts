@@ -1,12 +1,10 @@
 import { Location } from '@angular/common';
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Service, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, NavigationExtras, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class RouterService {
   private router = inject(Router);
   private location = inject(Location);
@@ -39,6 +37,14 @@ export class RouterService {
   }
 
   public navigateTo(path: string, options?: NavigationExtras) {
-    this.go(path, options);
+    return this.go(path, options);
+  }
+
+  public isCurrentRoute(route: string) {
+    return this.router.url === route;
+  }
+
+  public isSettingsRoute(route: string) {
+    return this.router.url.includes('settings') && this.router.url === route;
   }
 }

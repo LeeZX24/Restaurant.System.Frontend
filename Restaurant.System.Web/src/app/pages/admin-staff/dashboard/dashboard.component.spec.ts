@@ -23,15 +23,14 @@ describe('Dashboard', () => {
         provideHttpClient(),
         {
           provide: APP_CONFIG,
-          useValue: mockAppConfig
+          useValue: mockAppConfig,
         },
         provideTranslateService({
           lang: 'en',
           fallbackLang: 'en',
-        })
-      ]
-    })
-    .compileComponents();
+        }),
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;

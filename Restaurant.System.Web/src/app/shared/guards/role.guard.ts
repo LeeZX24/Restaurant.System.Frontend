@@ -15,7 +15,7 @@ export const roleGuard: CanActivateFn = (route) => {
     routerService.gotoLogin();
   }
 
-  if (!allowedRoles || !allowedRoles.includes(user.userType.toString())) {
+  if (!allowedRoles || !allowedRoles.includes(user.userType!.toString())) {
     routerService.navigateTo('/error/403');
   }
 
