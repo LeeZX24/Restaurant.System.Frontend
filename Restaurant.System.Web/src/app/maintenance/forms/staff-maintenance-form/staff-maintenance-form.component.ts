@@ -21,4 +21,8 @@ export class StaffMaintenanceFormComponent extends MaintenanceFormComponent<Staf
   override getConfig(): MaintenanceConfig<StaffMaintenanceFormGroup, StaffDto> {
     return this.config;
   }
+
+  override ValidateForm(): boolean {
+    return true;
+  }
 }

@@ -3,7 +3,7 @@ import { FormValueControl, MaxLengthValidationError, MaxValidationError, MinLeng
 import { isPlatformBrowser } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { TextFormControl } from '../signal-form-control';
-import { ErrorConverterPipe } from "@rs/forms";
+import { ErrorConverterPipe } from "@LeeZX24/forms";
 
 @Component({
   selector: 'rs-custom-text-form-control',

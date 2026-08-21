@@ -3,7 +3,7 @@ import { AfterViewInit, Component, computed, ElementRef, inject, input, model, P
 import { WithOptionalFieldTree, ValidationError, FormValueControl } from '@angular/forms/signals';
 import { TranslateService } from '@ngx-translate/core';
 import { RadioGroupFormControl, RadioGroupItem } from '../signal-form-control';
-import { ErrorConverterPipe } from '@rs/forms';
+import { ErrorConverterPipe } from '@LeeZX24/forms';
 
 @Component({
   selector: 'rs-custom-radio-group',

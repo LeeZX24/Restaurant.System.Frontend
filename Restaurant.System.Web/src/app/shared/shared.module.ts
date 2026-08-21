@@ -4,7 +4,7 @@ import {
   RSLabelEmailFormControlComponent,
   RSLabelPasswordFormControlComponent,
   RSLabelTextFormControlComponent,
-} from '@rs/forms';
+} from '@LeeZX24/forms';
 
 export const SHARED_IMPORTS = [CommonModule];
 

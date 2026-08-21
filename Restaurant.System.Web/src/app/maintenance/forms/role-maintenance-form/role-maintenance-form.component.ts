@@ -19,4 +19,8 @@ export class RoleMaintenanceFormComponent extends MaintenanceFormComponent<RoleM
   override getConfig(): MaintenanceConfig<RoleMaintenanceFormGroup, RoleDto> {
     return this.config;
   }
+
+  override ValidateForm(): boolean {
+    return true;
+  }
 }

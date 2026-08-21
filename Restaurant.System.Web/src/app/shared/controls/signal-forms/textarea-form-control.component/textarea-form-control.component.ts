@@ -3,7 +3,7 @@ import { Component, computed, inject, input, model, PLATFORM_ID } from '@angular
 import { FormValueControl, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, ValidationError, WithOptionalFieldTree } from '@angular/forms/signals';
 import { TranslateService } from '@ngx-translate/core';
 import { TextFormControl } from '../signal-form-control';
-import { ErrorConverterPipe } from '@rs/forms';
+import { ErrorConverterPipe } from '@LeeZX24/forms';
 
 @Component({
   selector: 'rs-custom-textarea-form-control',

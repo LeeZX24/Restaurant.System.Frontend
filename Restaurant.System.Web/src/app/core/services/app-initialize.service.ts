@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Service, signal } from '@angular/core';
-import { DialogService } from '@rs/dialogs';
+import { DialogService } from '@LeeZX24/dialogs';
 import { firstValueFrom } from 'rxjs';
 import { AppConfig } from '../../shared/configs/app-config.model';
 import { APP_CONFIG } from '../../shared/configs/app-config.state';

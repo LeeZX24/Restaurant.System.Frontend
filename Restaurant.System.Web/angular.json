@@ -25,7 +25,8 @@
               }
             ],
             "styles": ["src/styles/material/custom-theme.scss", "src/styles.css"],
-            "outputPath": "dist/Restaurant.System.Web"
+            "outputPath": "dist/Restaurant.System.Web",
+            "sourceMap": true
           },
           "configurations": {
             "production": {

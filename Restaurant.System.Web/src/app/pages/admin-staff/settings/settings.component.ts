@@ -12,13 +12,13 @@ import { CustomButtonControl } from '../../../shared/controls/custom-button-cont
 import { ApiConfiguration } from './api-configuration/api-configuration';
 import { CheckboxFormControlComponent } from '../../../shared/controls/signal-forms/checkbox-form-control.component/checkbox-form-control.component';
 import { CheckboxFormControl } from '../../../shared/controls/signal-forms/signal-form-control';
-import { CustomFormGroup, RSTextFormControl } from '@rs/forms';
+import { CustomFormGroup, RSTextFormControl } from '@LeeZX24/forms';
 import { PhoneDto } from './settings';
-import { DropdownDto } from '../../../shared/controls/custom-label-dropdown-form-control/dropdown';
 import { CustomBaseComponent } from '../../../shared/components/custom-base-component/custom-base-component';
 import { ControlService } from '../../../shared/services/control.service';
 import { ObjectFormGroup } from '../../../shared/models/obj-form-group';
 import { ObjectUtils } from '../../../utils/object-utils';
+import { DropdownModel } from '../../../shared/models/dropdown.model';
 
 @Component({
   selector: 'app-settings',
@@ -84,9 +84,9 @@ export class SettingsComponent extends CustomBaseComponent {
     number: '',
   };
 
-  items: DropdownDto[] = [
-    { key: '01', value: 'Gray' },
-    { key: '02', value: 'Pink' },
+  items: DropdownModel[] = [
+    { key: '01', value: 'Gray', order: '1' },
+    { key: '02', value: 'Pink', order: '2' },
   ];
 
   dialog = inject(MatDialog);

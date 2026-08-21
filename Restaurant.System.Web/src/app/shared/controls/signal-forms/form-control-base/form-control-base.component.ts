@@ -4,7 +4,7 @@
 // import { TranslateService } from '@ngx-translate/core';
 // import { FormControlBase, isCheckboxControl, isValueControl, SignalFC } from './form-control-base';
 // import { form, required, FormValueControl, FormCheckboxControl, FormUiControl, Field } from '@angular/forms/signals';
-// import { ErrorConverterPipe } from '@rs/forms';
+// import { ErrorConverterPipe } from '@LeeZX24/forms';
 
 // @Component({
 //   selector: 'rs-form-control-base',

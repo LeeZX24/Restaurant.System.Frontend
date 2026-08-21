@@ -7,7 +7,7 @@ import {
   RSPasswordFormControlComponent,
   RSTextFormControl,
   RSTextFormControlComponent,
-} from '@rs/forms';
+} from '@LeeZX24/forms';
 import { BaseAuthComponent } from '../../../../shared/components/base-auth-component/base-auth-component';
 import { ActivityState } from '../../../../shared/enums/activity-state';
 import { UserDto } from '../../../../shared/models/dtos/user.dto';

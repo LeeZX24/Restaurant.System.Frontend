@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, Component, computed, ElementRef, inject, input, model, PLATFORM_ID, signal, ViewChild } from '@angular/core';
 import { WithOptionalFieldTree, ValidationError, FormValueControl } from '@angular/forms/signals';
 import { TranslateService } from '@ngx-translate/core';
-import { ErrorConverterPipe } from '@rs/forms';
+import { ErrorConverterPipe } from '@LeeZX24/forms';
 import { ComboboxFormControl, ComboboxItem } from '../signal-form-control';
 import { MatIconModule } from "@angular/material/icon";
 

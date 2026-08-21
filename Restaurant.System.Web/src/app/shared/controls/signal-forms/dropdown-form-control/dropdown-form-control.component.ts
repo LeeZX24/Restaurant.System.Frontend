@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, Component, computed, inject, input, model, PLATFORM_ID, signal } from '@angular/core';
 import { WithOptionalFieldTree, ValidationError, FormValueControl } from '@angular/forms/signals';
 import { TranslateService } from '@ngx-translate/core';
-import { ErrorConverterPipe } from '@rs/forms';
+import { ErrorConverterPipe } from '@LeeZX24/forms';
 import { DropdownFormControl, DropDownItem } from '../signal-form-control';
 
 @Component({

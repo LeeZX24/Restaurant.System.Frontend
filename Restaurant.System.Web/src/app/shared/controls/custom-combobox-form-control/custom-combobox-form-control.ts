@@ -1,18 +1,12 @@
 import { computed, signal } from '@angular/core';
 import { AbstractControl, ValidatorFn, Validators } from '@angular/forms';
-import {
-  RSFormControlBase,
-  RSFormControlBaseOption,
-  RSFormControlBaseOptions,
-  RSFormValidators,
-} from '@rs/forms';
+import { RSFormControlBase, RSFormControlBaseOption, RSFormControlBaseOptions, RSFormValidators } from '@LeeZX24/forms';
 import { DropDownItem } from '../custom-label-dropdown-form-control/dropdown';
 
 export class RSComboboxFormControlOptions extends RSFormControlBaseOptions {
   static readonly items = 'items';
   static readonly titleField = 'titleField';
   static readonly valueField = 'valueField';
-  static readonly emptyItem = 'emptyItem';
   static readonly compositeTitle = 'compositeTitle';
 }
 
@@ -60,7 +54,7 @@ export class RSComboboxFormControl<
   ) {
     super(options, value, validator);
     this._setOptions();
-
+    this._setValidators();
     this.updateSearchTermFromValue();
   }
 

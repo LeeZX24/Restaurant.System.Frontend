@@ -10,8 +10,10 @@
     "sourceMap": true,
     "paths": {
       "auth": ["./dist/auth"],
-      "@rs/forms": ["./dist/rs/forms"],
-      "@rs/forms/*": ["./dist/rs/forms/*"]
+      "@LeeZX24/forms": ["./dist/@LeeZX24/forms"],
+      "@LeeZX24/forms/*": ["./dist/@LeeZX24/forms/*"],
+      "@LeeZX24/dialogs": ["./dist/@LeeZX24/dialogs"],
+      "@LeeZX24/dialogs/*": ["./dist/@LeeZX24/dialogs/*"]
     }
   },
   "include": ["src/**/*.ts"],

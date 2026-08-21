@@ -6,7 +6,7 @@ import { v7 as uuidv7 } from 'uuid';
 import { BaseAuthComponent } from '../../../../shared/components/base-auth-component/base-auth-component';
 import { ActivityState } from '../../../../shared/enums/activity-state';
 import { UserDto } from '../../../../shared/models/dtos/user.dto';
-import { CustomFormGroup, RSLabelEmailFormControlComponent, RSLabelPasswordFormControl, RSLabelPasswordFormControlComponent, RSLabelTextFormControl } from '@rs/forms';
+import { CustomFormGroup, RSLabelEmailFormControlComponent, RSLabelPasswordFormControl, RSLabelPasswordFormControlComponent, RSLabelTextFormControl } from '@LeeZX24/forms';
 
 @Component({
   selector: 'rs-register',

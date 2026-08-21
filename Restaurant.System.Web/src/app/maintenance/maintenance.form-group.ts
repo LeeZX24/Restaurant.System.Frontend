@@ -1,4 +1,4 @@
-import { CustomFormGroup } from '@rs/forms';
+import { CustomFormGroup } from '@LeeZX24/forms';
 import { BaseDto } from '../shared/models/dtos/base/base.dto';
 import { ObjectUtils } from '../utils/object-utils';
 

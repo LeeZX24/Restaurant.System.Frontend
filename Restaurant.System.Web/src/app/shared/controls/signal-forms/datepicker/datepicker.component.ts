@@ -3,7 +3,7 @@ import { Component, computed, inject, input, model, PLATFORM_ID } from '@angular
 import { FormValueControl, ValidationError, WithOptionalFieldTree } from '@angular/forms/signals';
 import { TranslateService } from '@ngx-translate/core';
 import { TextFormControl } from '../signal-form-control';
-import { ErrorConverterPipe } from '@rs/forms';
+import { ErrorConverterPipe } from '@LeeZX24/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';

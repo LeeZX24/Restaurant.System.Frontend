@@ -2,11 +2,11 @@ import { Validators } from "@angular/forms";
 import { ControlService } from "../../../shared/services/control.service";
 import { MaintenanceFormGroup } from "../../maintenance.form-group";
 import { RoleDto } from "../../../shared/models/dtos/role.dto";
-import { RSLabelTextFormControl } from "@rs/forms";
+import { RSLabelTextFormControl } from "@LeeZX24/forms";
 
 export class RoleMaintenanceFormGroup extends MaintenanceFormGroup<RoleDto> {
     constructor(
-        ctrlService: ControlService, 
+        ctrlService: ControlService,
         formControlValue?: RoleDto
     ) {
         super();
