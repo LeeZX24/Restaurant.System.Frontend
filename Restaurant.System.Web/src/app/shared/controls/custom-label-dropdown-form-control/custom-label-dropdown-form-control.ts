@@ -44,7 +44,7 @@ export class RSLabelDropdownFormControl<TData, TValue> extends RSLabelFormContro
   }
 
   selectedTitle = computed(() => {
-    const selectedItem = this.dropdownData().find((item) => item.value === this.value)!;
+    const selectedItem = this.dropdownData().find((item) => item.value === this.value);
 
     return selectedItem ? selectedItem.title : '';
   });
@@ -81,7 +81,7 @@ export class RSLabelDropdownFormControl<TData, TValue> extends RSLabelFormContro
     )
   }
 
-  private _buildItems() {
+  private _buildItems(): DropDownItem<TValue>[] {
     const dropdownTitleField = this.getOptionItem<keyof TData>(RSLabelDropdownFormControlOptions.dropdownTitleField);
     const dropdownValueField = this.getOptionItem<keyof TData>(RSLabelDropdownFormControlOptions.dropdownValueField);
     const dropdownCompositeTitle = this.getOptionItem<(item: TData) => string>(RSLabelDropdownFormControlOptions.dropdownCompositeTitle);
@@ -95,9 +95,20 @@ export class RSLabelDropdownFormControl<TData, TValue> extends RSLabelFormContro
       : String(item[dropdownTitleField!])
     }));
 
-    const emptyItem = this.getOptionItem<DropDownItem<TValue>>(RSLabelDropdownFormControlOptions.dropdownEmptyItem);
+    let finalItems = items;
 
-    return emptyItem ? [emptyItem, ...items] : items;
+    const emptyItem = this.getOptionItem<DropDownItem<TValue>>(RSLabelDropdownFormControlOptions.dropdownEmptyItem);
+    
+    if(emptyItem) { finalItems = [emptyItem, ...items]; }
+
+    console.log(this.getOptionItem(RSLabelFormControlBaseOptions.required));
+    console.log(this.isRequired());
+
+    if(this.isRequired()) { finalItems = [{ value: '-1' as TValue, title: 'Please select an option' }, ...items]; }
+
+    console.log('Loaded Items =>', finalItems);
+
+    return finalItems;
   }
 
   private _validateOptions() {
@@ -121,9 +132,9 @@ export class RSLabelDropdownFormControl<TData, TValue> extends RSLabelFormContro
   }
 
   private _setValidators(): void {
-    const validators = this.getCustomValidators();
+    const validators = [...this.getCustomValidators()];
     if (this.isRequired()) {
-      this.validators().push(RSLabelDropDownValidators.required());
+      this.validators().push(RSLabelDropDownValidators.required(-1 as TValue));
     }
     this.validators.set(validators)
     this.clearValidators();
@@ -137,7 +148,7 @@ export class RSLabelDropdownFormControl<TData, TValue> extends RSLabelFormContro
 
     const emptyItem = this.getOptionItem<DropDownItem<TValue>>(RSLabelDropdownFormControlOptions.dropdownEmptyItem);
 
-    if (emptyItem) this.setValue(emptyItem.value, options);
+    if (emptyItem) this.setValue(emptyItem.value, { ...options, emitEvent: false });
   }
 }
 

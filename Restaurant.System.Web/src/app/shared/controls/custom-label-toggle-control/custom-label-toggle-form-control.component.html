@@ -1,0 +1,34 @@
+<rs-label-form-control-base [fc]="fc()" [labelSize]="labelSize()" [inputSize]="inputSize()">
+
+  <label class="custom-toggle">
+    <input
+    [id]="fc().inputId()"
+    [formControl]="fc()"
+    class="form-control sr-only peer"
+    [class]="fc().elementCssClass()"
+    type="checkbox"
+    role="switch"
+    (change)="onChange($event)" />
+
+    <div
+    [ngClass]="isCheck() ? 'bg-[#34C759]' : 'bg-[#E9E9EA] dark:bg-[#39393D]'"
+    class="toggle-track">
+      <div
+      [ngClass]="isCheck() ? 'translate-x-[20px]': 'translate-x-0'"
+      class="toggle-thumb">
+        <span class="toggle-off">
+          <div [class.hidden]="isCheck()">
+            <mat-icon [class.hidden]="!currentToggleView().icon">{{ currentToggleView().icon }}</mat-icon>
+            <p [class.hidden]="!!currentToggleView().icon">{{ currentToggleView().label }}</p>
+          </div>
+        </span>
+      </div>
+    </div>
+  </label>
+
+  <ng-container attach>
+    <ng-content select="[attach]"></ng-content>
+  </ng-container>
+
+  <ng-content></ng-content>
+</rs-label-form-control-base>

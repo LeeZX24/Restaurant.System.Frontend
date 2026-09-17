@@ -1,4 +1,4 @@
-import { Component, effect, ElementRef, input, ViewChild } from '@angular/core';
+import { Component, ElementRef, input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RSLabelFormControlBaseComponent } from '@LeeZX24/forms';
@@ -10,7 +10,7 @@ import { RSLabelDropdownFormControl, RSLabelDropdownFormControlOptions } from '.
   templateUrl: './custom-label-dropdown-form-control.component.html',
   styleUrl: './custom-label-dropdown-form-control.component.css',
 })
-export class RSLabelDropdownFormControlComponent<TData = unknown, TValue = string> {
+export class RSLabelDropdownFormControlComponent<TData = unknown, TValue = string> implements OnInit {
   fc = input.required<RSLabelDropdownFormControl<TData, TValue>>();
   labelSize = input<string>('w-4/12');
   inputSize = input<string>('w-8/12');
@@ -18,10 +18,8 @@ export class RSLabelDropdownFormControlComponent<TData = unknown, TValue = strin
 
   @ViewChild('input') private _input!: ElementRef;
 
-  constructor() {
-    effect(() => {
-      this.fc().setOptionItem(RSLabelDropdownFormControlOptions.dropdownData, this.items());
-    });
+  ngOnInit(): void {
+    if(this.items().length) this.fc().setOptionItem(RSLabelDropdownFormControlOptions.dropdownData, this.items());
   }
 
   focus(): void {

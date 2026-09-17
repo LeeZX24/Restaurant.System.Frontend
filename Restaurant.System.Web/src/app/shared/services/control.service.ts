@@ -1,7 +1,6 @@
-import { RSLabelDropdownFormControlOptions } from './../controls/custom-label-dropdown-form-control/custom-label-dropdown-form-control';
 import { inject, Service } from '@angular/core';
 import { RSComboboxFormControl } from '../controls/custom-combobox-form-control/custom-combobox-form-control';
-import { RSLabelDropdownFormControl } from '../controls/custom-label-dropdown-form-control/custom-label-dropdown-form-control';
+import { RSLabelDropdownFormControl, RSLabelDropdownFormControlOptions } from '../controls/custom-label-dropdown-form-control/custom-label-dropdown-form-control';
 import { DropdownService } from '../../core/services/api/dropdown.service';
 import { DropdownModel } from '../models/dropdown.model';
 

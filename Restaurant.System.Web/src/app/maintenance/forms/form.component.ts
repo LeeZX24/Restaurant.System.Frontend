@@ -1,4 +1,4 @@
-import { MaintenanceService } from './../../core/services/api/maintenance.service';
+
 import { config } from './../../app.config.server';
 import { Directive, OnInit, computed, inject } from "@angular/core";
 import { MAT_BOTTOM_SHEET_DATA } from "@angular/material/bottom-sheet";
@@ -8,8 +8,8 @@ import { LayoutComponent } from "../../shared/layouts/layout.component";
 import { MaintenanceConfig } from "../maintenance.entity";
 import { MaintenanceFormGroup } from "../maintenance.form-group";
 import { BaseDto } from "../../shared/models/dtos/base/base.dto";
-import { MaintenanceService } from "../../core/services/maintenance/maintenance.service";
 import { LayoutData } from "../../shared/layouts/layout-data";
+import { MaintenanceService } from '../../core/services/api/maintenance.service';
 
 @Directive()
 export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFormGroup<T>, T extends BaseDto> implements LayoutComponent<T>, OnInit {
@@ -19,7 +19,6 @@ export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFor
 
   abstract prepareFormGroup(data: T): TFormGroup;
   abstract getConfig(): MaintenanceConfig<TFormGroup, T>;
-  private coreService = inject(CoreService);
   private maintenanceService = inject(MaintenanceService);
 
   dialogData = inject(MAT_DIALOG_DATA, { optional: true });
@@ -42,12 +41,6 @@ export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFor
           next: (res) => this.success(res),
           error: () => this.error(),
         });
-        // this.coreService
-        //   .addNewItem(this.config.route, this.config.endpoints.create, this.form.getRawValue())
-        //   .subscribe({
-        //     next: (res) => this.success(res),
-        //     error: () => this.error(),
-        //   });
 
       if (this.itemData().action == 'edit')
         this.maintenanceService.updateCurrentItem<T>(this.form.getRawValue())
@@ -55,11 +48,6 @@ export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFor
           next: (res) => this.success(res),
           error: () => this.error(),
         });
-        // this.coreService.updateCurrentItem(
-        //   this.config.route,
-        //   this.config.endpoints.update,
-        //   this.form.getRawValue(),
-        // );
     }
   }
 
@@ -76,15 +64,4 @@ export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFor
   close(result?: T) {
     this.controller.close(result);
   }
-
-//   createListFormGroup(item: RoleDto) {
-//     const fg = new ObjectFormGroup<RoleDto>();
-
-//     fg._addCustomControl(
-//       this.roleKeys.roleCode,
-//       this.ctrlService.LabelDropdownControl('Role', true, item.roleCode ?? ''),
-//     );
-
-//     return fg;
-//   }
 }
