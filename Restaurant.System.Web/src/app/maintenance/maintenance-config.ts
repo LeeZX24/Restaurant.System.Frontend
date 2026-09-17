@@ -39,7 +39,7 @@ export const STAFF_CONFIG: MaintenanceConfig<MaintenanceFormGroup<StaffDto>, Sta
   },
   formComponent: StaffMaintenanceFormComponent,
   endpoints: {
-    list: 'list',
+    read: 'list',
     create: 'create',
     update: 'update',
     delete: 'delete',
@@ -67,7 +67,7 @@ export const ROLE_CONFIG: MaintenanceConfig<MaintenanceFormGroup<RoleDto>, RoleD
   },
   formComponent: RoleMaintenanceFormComponent,
   endpoints: {
-    list: 'list',
+    read: 'list',
     create: 'create',
     update: 'update',
     delete: 'delete',
@@ -98,7 +98,7 @@ export const DROPDOWN_CONFIG: MaintenanceConfig<DropdownMaintenanceFormGroup, Dr
   },
   formComponent: DropdownMaintenanceFormComponent,
   endpoints: {
-    list: 'list',
+    read: 'list',
     create: 'create',
     update: 'update',
     delete: 'delete',

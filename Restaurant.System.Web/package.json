@@ -11,12 +11,12 @@
     "serve:ssr": "node dist/Restaurant.System.Web/server/server.mjs",
     "lint": "ng lint",
     "build:tailwind": "node build-tailwind.js",
-    "serve:dev": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng serve --configuration development --port=4201",
-    "build:dev": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration development --watch=false --progress=false",
-    "build:release": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng build --configuration production --watch=false --source-map=false  --progress=false",
-    "build:beta": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng build --configuration beta --watch=false --source-map=false  --progress=false",
-    "build:forms": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build forms --watch=false",
-    "build:dialogs": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build dialogs --watch=false"
+    "sd": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng serve --configuration development",
+    "bd": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration development --watch=false --progress=false",
+    "br": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng build --configuration production --watch=false --source-map=false  --progress=false",
+    "bb": "node --max_old_space_size=6144 node_modules/@angular/cli/bin/ng build --configuration beta --watch=false --source-map=false  --progress=false",
+    "forms": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build forms --watch=false",
+    "dialogs": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build dialogs --watch=false"
   },
   "prettier": {
     "printWidth": 100,

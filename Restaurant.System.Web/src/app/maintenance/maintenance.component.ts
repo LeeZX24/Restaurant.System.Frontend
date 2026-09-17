@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute } from '@angular/router';
-import { CoreService } from '../core/services/core.service';
 import { LayoutService } from '../core/services/layout.service';
 import { CONFIG_REGISTRY, MaintenanceConfig } from './maintenance.entity';
 import { BaseDto } from '../shared/models/dtos/base/base.dto';
@@ -27,8 +25,6 @@ import { MaintenanceService } from '../core/services/api/maintenance.service';
   styleUrl: './maintenance.component.css',
 })
 export class MaintenanceComponent<TFormGroup extends MaintenanceFormGroup<T>, T extends BaseDto> implements OnInit {
-  private coreService = inject(CoreService);
-  private route = inject(ActivatedRoute);
   private layout = inject(LayoutService);
   private dialogService = inject(DialogService);
   protected maintenanceService = inject(MaintenanceService);
@@ -75,7 +71,7 @@ export class MaintenanceComponent<TFormGroup extends MaintenanceFormGroup<T>, T 
   }
 
   onDelete(item: T) {
-    this.dialogService.showWarningDialog(`Are you sure to delete this item?`, 'Delete Item' , false, true).afterClosed().subscribe((result)=> {
+    this.dialogService.showWarningDialog(`Are you sure to delete this item?`, 'Delete Item' , false, true).afterClosed().subscribe(async (result)=> {
       if(result) {
         this.maintenanceService.removeItem<T>(item).subscribe(() => {
           this.fetch();

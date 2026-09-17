@@ -3,17 +3,20 @@ import { config } from './../../app.config.server';
 import { Directive, OnInit, computed, inject } from "@angular/core";
 import { MAT_BOTTOM_SHEET_DATA } from "@angular/material/bottom-sheet";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { CoreService } from "../../core/services/core.service";
 import { LayoutRef } from "../../shared/layouts/layout-ref";
 import { LayoutComponent } from "../../shared/layouts/layout.component";
 import { MaintenanceConfig } from "../maintenance.entity";
 import { MaintenanceFormGroup } from "../maintenance.form-group";
 import { BaseDto } from "../../shared/models/dtos/base/base.dto";
+import { MaintenanceService } from "../../core/services/maintenance/maintenance.service";
+import { LayoutData } from "../../shared/layouts/layout-data";
 
 @Directive()
 export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFormGroup<T>, T extends BaseDto> implements LayoutComponent<T>, OnInit {
   config!: MaintenanceConfig<TFormGroup, T>;
   controller!: LayoutRef<T>;
+  data!: LayoutData<T>;
+
   abstract prepareFormGroup(data: T): TFormGroup;
   abstract getConfig(): MaintenanceConfig<TFormGroup, T>;
   private coreService = inject(CoreService);

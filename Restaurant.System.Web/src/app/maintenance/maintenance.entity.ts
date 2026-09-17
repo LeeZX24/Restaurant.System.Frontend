@@ -21,8 +21,8 @@ export interface MaintenanceConfig<TFormGroup extends MaintenanceFormGroup<T>, T
   search: DataGridSearch<T>;
   formComponent: Type<MaintenanceFormComponent<TFormGroup, T>>;
   endpoints: {
-    list: string;
     create: string;
+    read: string;
     update: string;
     delete: string;
   };
