@@ -1,9 +1,12 @@
+import { isPlatformBrowser } from '@angular/common';
 import { computed, Service, signal } from '@angular/core';
 
 type Theme = 'light' | 'dark';
 
 @Service()
 export class ThemeService {
+  private readonly platformId = inject(PLATFORM_ID);
+
   private theme = signal<Theme>(this.getInitialTheme());
 
   current = this.theme.asReadonly();
@@ -30,6 +33,8 @@ export class ThemeService {
   }
 
   private getInitialTheme(): Theme {
+    if(!isPlatformBrowser(this.platformId)) return 'light';
+    
     const saved = localStorage.getItem('theme') as Theme | null;
     if (saved) return saved;
 
