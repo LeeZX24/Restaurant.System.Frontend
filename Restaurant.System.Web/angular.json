@@ -59,7 +59,8 @@
               "sourceMap": false,
               "extractLicenses": true,
               "namedChunks": false,
-              "aot": true
+              "aot": true,
+              "outputPath": "dist/release"
             },
             "beta": {
               "outputMode": "server",
@@ -91,13 +92,14 @@
               "sourceMap": true,
               "extractLicenses": true,
               "namedChunks": false,
-              "aot": true
+              "aot": true,
+              "outputPath": "dist/beta"
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "outputPath": "dist/Restaurant.System.Web"
+              "outputPath": "dist/dev"
             }
           },
           "defaultConfiguration": "production"
