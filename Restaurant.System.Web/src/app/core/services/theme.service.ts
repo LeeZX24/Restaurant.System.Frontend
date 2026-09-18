@@ -28,6 +28,7 @@ export class ThemeService {
   isDarkMode = computed(() => this.theme() === 'dark');
 
   private applyTheme(theme: Theme) {
+    if(!isPlatformBrowser(this.platformId)) return;
     document.documentElement.classList.toggle('dark', theme === 'dark' ||
     (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),);
   }
