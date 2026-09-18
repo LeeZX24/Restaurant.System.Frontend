@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { computed, Service, signal } from '@angular/core';
+import { computed, inject, PLATFORM_ID, Service, signal } from '@angular/core';
 
 type Theme = 'light' | 'dark';
 
