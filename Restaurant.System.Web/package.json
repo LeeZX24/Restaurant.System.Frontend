@@ -32,7 +32,7 @@
   },
   "private": true,
   "dependencies": {
-    "@LeeZX24/dialogs": "^0.0.0",
+    "@LeeZX24/dialogs": "0.0.1",
     "@LeeZX24/forms": "^0.0.1",
     "@angular/cdk": "^22.1.3",
     "@angular/common": "^22.1.3",
