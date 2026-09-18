@@ -55,32 +55,14 @@ export class MaintenanceComponent<TFormGroup extends MaintenanceFormGroup<T>, T 
         this.loading.set(false);
       }
     });
-    // this.coreService
-    //   .getList<T>(config.route, config.endpoints.list)
-    //   .pipe(delay(2000)) // 2 seconds
-    //   .subscribe({
-    //     next: (res) => {
-    //       this.rows.set(res);
-    //       this.loading.set(false);
-    //     },
-    //     error: () => {
-    //       this.rows.set([]);
-    //       this.loading.set(false);
-    //     }
-    //   });
   }
 
-  onDelete(item: T) {
+  async onDelete(item: T) {
     this.dialogService.showWarningDialog(`Are you sure to delete this item?`, 'Delete Item' , false, true).afterClosed().subscribe(async (result)=> {
       if(result) {
-        this.maintenanceService.removeItem<T>(item).subscribe(() => {
+        await this.maintenanceService.removeItem<T>(item).subscribe(() => {
           this.fetch();
         });
-        // this.coreService
-        // .removeItem<T>(this.config().route, this.config().endpoints.list, item)
-        // .subscribe(() => {
-        //   this.fetch();
-        // });
       }
     });
   }

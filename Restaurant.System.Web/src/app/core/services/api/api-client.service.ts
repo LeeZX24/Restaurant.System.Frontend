@@ -24,10 +24,10 @@ export class ApiClientService {
   }
 
   put<TRequest, TResponse>(route: string, action: string, body: TRequest): Observable<TResponse> {
-    return from(this.url(route, action)).pipe(switchMap(url => this.http.post<TResponse>(url, body)));
+    return from(this.url(route, action)).pipe(switchMap(url => this.http.put<TResponse>(url, body)));
   }
 
   delete<TRequest, TResponse>(route: string, action: string, body: TRequest): Observable<TResponse> {
-    return from(this.url(route, action)).pipe(switchMap(url => this.http.post<TResponse>(url, body)));
+    return from(this.url(route, action)).pipe(switchMap(url => this.http.delete<TResponse>(url, { body })));
   }
 }

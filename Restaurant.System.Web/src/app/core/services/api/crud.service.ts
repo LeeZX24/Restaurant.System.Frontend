@@ -19,6 +19,6 @@ export abstract class CrudService {
   }
 
   delete<TRequest, TResponse>(item: TRequest) {
-    return this.api.delete<TRequest, TResponse>(this.route, 'remove', item);
+    return this.api.delete<TRequest, TResponse>(this.route, 'delete', item);
   }
 }

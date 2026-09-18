@@ -32,18 +32,18 @@ export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFor
     if (config) this.config = this.itemData().config;
   }
 
-  processSubmit()
+  async processSubmit()
   {
     if (this.ValidateForm()) {
       if (this.itemData().action == 'create')
-        this.maintenanceService.addNewItem<T>(this.form.getRawValue())
+        await this.maintenanceService.addNewItem<T>(this.form.getRawValue())
         .subscribe({
           next: (res) => this.success(res),
           error: () => this.error(),
         });
 
       if (this.itemData().action == 'edit')
-        this.maintenanceService.updateCurrentItem<T>(this.form.getRawValue())
+        await this.maintenanceService.updateCurrentItem<T>(this.form.getRawValue())
         .subscribe({
           next: (res) => this.success(res),
           error: () => this.error(),
