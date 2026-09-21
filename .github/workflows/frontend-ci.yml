@@ -66,14 +66,14 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             https://api.github.com/repos/${{ github.repository_owner }}/UI.Base
       
-      - name: Test GitHub Package access
+      - name: Test npm package registry
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           curl -i \
             -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${{ github.repository_owner }}/UI.Base/packages/npm/%40LeeZX24%2Fdialogs"
+            -H "Accept: application/vnd.npm.install-v1+json" \
+            "https://npm.pkg.github.com/@LeeZX24%2Fdialogs"
 
       - name: Install dependencies
         env:
