@@ -37,7 +37,6 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-          token: ${{ steps.app-token.outputs.token }}
           ref: ${{ github.head_ref }}
 
       # Setup Node.js
