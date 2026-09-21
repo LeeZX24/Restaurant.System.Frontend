@@ -3,7 +3,7 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { RouterService } from '../../../shared/services/router.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { DialogService } from '@rs/dialogs';
+import { DialogService } from '@LeeZX24/dialogs';
 @Component({
   selector: 'app-dashboard',
   imports: [MatIconModule, MatExpansionModule],

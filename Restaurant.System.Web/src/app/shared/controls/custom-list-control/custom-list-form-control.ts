@@ -4,7 +4,7 @@ import {
   RSFormValidators,
   RSLabelFormControlBase,
   RSLabelFormControlBaseOption,
-} from '@rs/forms';
+} from '@LeeZX24/forms';
 
 export interface ControlAccessType {
   key: string;

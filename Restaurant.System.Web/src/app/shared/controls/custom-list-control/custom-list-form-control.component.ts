@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { CustomButtonControl } from '../custom-button-control/custom-button-control';
 import { DropdownDto } from '../custom-label-dropdown-form-control/dropdown';
-import { RSTextFormControl, RSTextFormControlComponent } from '@rs/forms';
+import { RSTextFormControl, RSTextFormControlComponent } from '@LeeZX24/forms';
 import { CustomComboboxFormControlComponent } from '../custom-combobox-form-control/custom-combobox-form-control.component';
 import { RSComboboxFormControl } from '../custom-combobox-form-control/custom-combobox-form-control';
 import { RSListOptions } from './custom-list-form-control';

@@ -25,6 +25,8 @@ export class LayoutService {
       return controller;
     }
 
+    console.log(data);
+
     const ref = this.dialog.open(component, {
       data,
       width: 'min(900px, 95vw)',

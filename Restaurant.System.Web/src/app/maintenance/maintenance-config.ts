@@ -9,7 +9,7 @@ import { StaffMaintenanceFormComponent } from './forms/staff-maintenance-form/st
 import { RoleMaintenanceFormComponent } from './forms/role-maintenance-form/role-maintenance-form.component';
 
 export const STAFF_CONFIG: MaintenanceConfig<MaintenanceFormGroup<StaffDto>, StaffDto> = {
-  route: 'maintenance/staff',
+  route: 'staff',
   title: 'Staff Management',
 
   columns: [
@@ -39,7 +39,7 @@ export const STAFF_CONFIG: MaintenanceConfig<MaintenanceFormGroup<StaffDto>, Sta
   },
   formComponent: StaffMaintenanceFormComponent,
   endpoints: {
-    list: 'list',
+    read: 'list',
     create: 'create',
     update: 'update',
     delete: 'delete',
@@ -47,7 +47,7 @@ export const STAFF_CONFIG: MaintenanceConfig<MaintenanceFormGroup<StaffDto>, Sta
 };
 
 export const ROLE_CONFIG: MaintenanceConfig<MaintenanceFormGroup<RoleDto>, RoleDto> = {
-  route: 'maintenance/role',
+  route: 'role',
   title: 'Role Maintenance',
 
   columns: [
@@ -67,7 +67,7 @@ export const ROLE_CONFIG: MaintenanceConfig<MaintenanceFormGroup<RoleDto>, RoleD
   },
   formComponent: RoleMaintenanceFormComponent,
   endpoints: {
-    list: 'list',
+    read: 'list',
     create: 'create',
     update: 'update',
     delete: 'delete',
@@ -75,7 +75,7 @@ export const ROLE_CONFIG: MaintenanceConfig<MaintenanceFormGroup<RoleDto>, RoleD
 };
 
 export const DROPDOWN_CONFIG: MaintenanceConfig<DropdownMaintenanceFormGroup, DropdownDto> = {
-  route: 'maintenance/dropdown',
+  route: 'dropdown',
   title: 'Dropdown Maintenance',
 
   columns: [
@@ -98,7 +98,7 @@ export const DROPDOWN_CONFIG: MaintenanceConfig<DropdownMaintenanceFormGroup, Dr
   },
   formComponent: DropdownMaintenanceFormComponent,
   endpoints: {
-    list: 'list',
+    read: 'list',
     create: 'create',
     update: 'update',
     delete: 'delete',

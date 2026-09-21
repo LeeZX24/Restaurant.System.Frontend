@@ -1,6 +1,6 @@
 import { AbstractControl, ValidatorFn, Validators } from '@angular/forms';
 import { computed, signal } from '@angular/core';
-import { RSFormControlBase, RSFormControlBaseOption, RSFormControlBaseOptions, RSFormValidators } from '@rs/forms';
+import { RSFormControlBase, RSFormControlBaseOption, RSFormControlBaseOptions, RSFormValidators } from '@LeeZX24/forms';
 import { DropDownItem } from './dropdown';
 
 export class RSDropdownFormControlOptions extends RSFormControlBaseOptions {

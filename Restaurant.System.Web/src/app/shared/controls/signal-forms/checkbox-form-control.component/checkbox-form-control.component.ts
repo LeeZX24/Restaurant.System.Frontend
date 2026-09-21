@@ -3,7 +3,7 @@ import { Component, computed, inject, input, model, PLATFORM_ID } from '@angular
 import { FormCheckboxControl, ValidationError, WithOptionalFieldTree } from '@angular/forms/signals';
 import { TranslateService } from '@ngx-translate/core';
 import { CheckboxFormControl } from '../signal-form-control';
-import { ErrorConverterPipe } from '@rs/forms';
+import { ErrorConverterPipe } from '@LeeZX24/forms';
 
 @Component({
   selector: 'rs-custom-checkbox-form-control',

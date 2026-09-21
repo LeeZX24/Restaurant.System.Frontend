@@ -1,6 +1,6 @@
 import { Directive, inject, OnDestroy, OnInit } from '@angular/core';
-import { DialogService } from '@rs/dialogs';
-import { CustomFormGroup } from '@rs/forms';
+import { DialogService } from '@LeeZX24/dialogs';
+import { CustomFormGroup } from '@LeeZX24/forms';
 import { RouterService } from '../../services/router.service';
 import { BaseComponent } from '../base-component';
 

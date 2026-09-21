@@ -4,7 +4,7 @@ import { from, map, Subscription, switchMap, take } from 'rxjs';
 import { BaseDto } from '../../shared/models/dtos/base/base.dto';
 import { APP_CONFIG } from '../../shared/configs/app-config.state';
 import { HttpClient } from '@angular/common/http';
-import { DialogService } from '@rs/dialogs';
+import { DialogService } from '@LeeZX24/dialogs';
 
 @Service()
 export class ActivityService implements OnDestroy {

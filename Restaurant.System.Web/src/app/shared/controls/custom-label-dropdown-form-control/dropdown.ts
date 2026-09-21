@@ -3,7 +3,7 @@ export interface DropdownDto extends Record<string, unknown> {
   json?: string;
 }
 
-export interface DropDownItem<TValue> {
+export interface DropDownItem<TValue = unknown> {
   title: string;
   value: TValue;
 }
