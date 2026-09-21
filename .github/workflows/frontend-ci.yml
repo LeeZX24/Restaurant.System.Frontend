@@ -33,15 +33,6 @@ jobs:
         working-directory: Restaurant.System.Web
 
     steps:
-      - uses: actions/create-github-app-token@v3
-        id: app-token
-        with:
-          client-id: ${{ vars.CLIENT_ID }}
-          private-key: ${{ secrets.PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
-          repositories: |
-            UI.Base
-
       - uses: actions/checkout@v7
         with:
           submodules: recursive
@@ -57,18 +48,9 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Test GitHub Packages
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          curl -i \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Accept: application/vnd.npm.install-v1+json" \
-            "https://npm.pkg.github.com/@LeeZX24%2Fdialogs"
-
       - name: Install dependencies
         env:
-          YARN_NPM_AUTH_TOKEN: ${{ steps.app-token.outputs.token }}
+          YARN_NPM_AUTH_TOKEN: ${{ github.token }}
         run: |
           yarn config set npmScopes.LeeZX24.npmAuthToken $YARN_NPM_AUTH_TOKEN
           yarn install --immutable
