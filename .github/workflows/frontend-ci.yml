@@ -1,0 +1,120 @@
+name: Monorepo CI/CD
+
+on:
+  push:
+    branches:
+      - master
+      - release
+  pull_request:
+    branches:
+      - master
+      - release
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: |
+            UI.Base
+
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
+          ref: ${{ github.head_ref }}
+
+      # Setup Node.js
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "lts/*"
+          check-latest: true
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+        working-directory: Restaurant.System.Web
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+
+      - name: Lint Frontend
+        run: |
+          CI=true npm run lint
+          CI=true npm run test -- --watch=false
+        working-directory: Frontend/Restaurant.System.Web
+
+      - name: Get Next Version
+        id: next_version
+        run: |
+          # Use semantic-release dry-run to see what the next version is
+          NEXT_VER=$(npx semantic-release --dry-run | grep 'The next release version is' | sed 's/.*is //')
+          echo "version=${NEXT_VER:-0.0.0-snapshot}" >> $GITHUB_OUTPUT
+        working-directory: Frontend/Restaurant.System.Web
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+
+      - name: Generate App Meta
+        if: github.event_name != 'pull_request'
+        run: |
+          export APP_VERSION=${{ steps.next_version.outputs.version }}
+
+          # 2. Determine Channel
+          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+            CHANNEL="beta"
+          elif [[ "${{ github.ref }}" == "refs/heads/release" ]]; then
+            CHANNEL="release"
+          else
+            CHANNEL="development"
+          fi
+
+          # 3. Write the file
+          mkdir -p src/assets
+          cat > src/assets/app-meta.js <<EOF
+          window.APP_META = {
+            version: "$VERSION",
+            channel: "$CHANNEL",
+            buildTime: "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+          };
+          EOF
+
+          CI=true npm run build:beta -- \
+            --base-href=/Restaurant.System/beta/ \
+            --deploy-url=/Restaurant.System/beta/ \
+            --output-path=dist/beta
+
+          CI=true npm run build:release -- \
+            --base-href=/Restaurant.System/ \
+            --deploy-url=/Restaurant.System/ \
+            --output-path=dist/release
+
+        working-directory: Frontend/Restaurant.System.Web
+
+      # - name: Run Semantic Release
+      #   id: semantic
+      #   if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/release' || github.ref == 'refs/heads/master')
+      #   run: npx semantic-release
+      #   working-directory: Frontend/Restaurant.System.Web
+      #   env:
+      #     GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
