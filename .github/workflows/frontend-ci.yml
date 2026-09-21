@@ -57,18 +57,9 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Test GitHub App token
+      - name: Test GitHub Packages
         env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-        run: |
-          curl -f \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            https://api.github.com/repos/${{ github.repository_owner }}/UI.Base
-      
-      - name: Test npm package registry
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           curl -i \
             -H "Authorization: Bearer $GH_TOKEN" \
