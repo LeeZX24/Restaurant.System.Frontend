@@ -103,12 +103,12 @@ jobs:
           };
           EOF
 
-          CI=true npm run build:beta -- \
+          CI=true npm run bb -- \
             --base-href=/Restaurant.System/beta/ \
             --deploy-url=/Restaurant.System/beta/ \
             --output-path=dist/beta
 
-          CI=true npm run build:release -- \
+          CI=true npm run br -- \
             --base-href=/Restaurant.System/ \
             --deploy-url=/Restaurant.System/ \
             --output-path=dist/release
