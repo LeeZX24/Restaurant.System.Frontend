@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { NavItem, NavMenuType } from '../../../navigation';
+import { NavItem } from '../../../navigation';
 import { MatIconModule } from "@angular/material/icon";
 
 @Component({

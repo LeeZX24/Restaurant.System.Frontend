@@ -1,4 +1,4 @@
-name: Monorepo CI/CD
+name: Frontend CI
 
 on:
   push:
@@ -26,18 +26,23 @@ jobs:
       issues: write
       pull-requests: write
       id-token: write
+      packages: write
+
+    defaults:
+      run:
+        working-directory: Restaurant.System.Web
 
     steps:
-      - uses: actions/create-github-app-token@v2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         with:
-          app-id: ${{ vars.APP_ID }}
+          client-id: ${{ vars.CLIENT_ID }}
           private-key: ${{ secrets.PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repositories: |
             UI.Base
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           submodules: recursive
           fetch-depth: 0
@@ -45,25 +50,25 @@ jobs:
           ref: ${{ github.head_ref }}
 
       # Setup Node.js
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: "lts/*"
-          check-latest: true
 
       - name: Enable Corepack
         run: corepack enable
 
       - name: Install dependencies
-        run: yarn install --immutable
-        working-directory: Restaurant.System.Web
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          YARN_NPM_AUTH_TOKEN: ${{ github.token }}
+        run: |
+          yarn config set npmScopes.LeeZX24.npmAuthToken $YARN_NPM_AUTH_TOKEN
+          yarn install --immutable
+        
 
       - name: Lint Frontend
         run: |
           CI=true npm run lint
           CI=true npm run test -- --watch=false
-        working-directory: Frontend/Restaurant.System.Web
 
       - name: Get Next Version
         id: next_version
@@ -71,7 +76,6 @@ jobs:
           # Use semantic-release dry-run to see what the next version is
           NEXT_VER=$(npx semantic-release --dry-run | grep 'The next release version is' | sed 's/.*is //')
           echo "version=${NEXT_VER:-0.0.0-snapshot}" >> $GITHUB_OUTPUT
-        working-directory: Frontend/Restaurant.System.Web
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
 
@@ -108,8 +112,6 @@ jobs:
             --base-href=/Restaurant.System/ \
             --deploy-url=/Restaurant.System/ \
             --output-path=dist/release
-
-        working-directory: Frontend/Restaurant.System.Web
 
       # - name: Run Semantic Release
       #   id: semantic
