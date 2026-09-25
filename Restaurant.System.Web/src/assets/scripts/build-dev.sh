@@ -7,8 +7,6 @@ set -euo pipefail
 
 rm -f src/assets/app-meta.js
 
-git checkout origin/dev
-
 META_VERSION=$(git describe --tags --match "v*-dev.*" --abbrev=0 || echo "0.0.0-dev.0")
 BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 CHANNEL="dev"
