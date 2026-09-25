@@ -22,4 +22,4 @@ window.APP_META = {
 };
 EOF
 
-CI=true yarn bd -- --output-path=dist/beta
+CI=true yarn bd -- --output-path=dist/dev
