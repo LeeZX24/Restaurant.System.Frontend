@@ -3107,7 +3107,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@semantic-release/npm@npm:^13.1.1, @semantic-release/npm@npm:^13.1.5":
+"@semantic-release/npm@npm:^13.1.1":
   version: 13.1.5
   resolution: "@semantic-release/npm@npm:13.1.5"
   dependencies:
@@ -8866,7 +8866,6 @@ __metadata:
     "@semantic-release/exec": "npm:^7.1.0"
     "@semantic-release/git": "npm:^11.0.1"
     "@semantic-release/github": "npm:^12.0.9"
-    "@semantic-release/npm": "npm:^13.1.5"
     "@semantic-release/release-notes-generator": "npm:^14.1.1"
     "@stylistic/eslint-plugin": "npm:^5.10.0"
     "@tailwindcss/postcss": "npm:^4.3.3"
