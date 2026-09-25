@@ -19,4 +19,4 @@ window.APP_META = {
 };
 EOF
 
-CI=true yarn bb -- --output-path=dist/beta
+CI=true corepack yarn bb -- --output-path=dist/beta
