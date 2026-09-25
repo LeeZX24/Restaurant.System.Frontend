@@ -7,10 +7,7 @@ set -euo pipefail
 
 rm -f src/assets/app-meta.js
 
-git fetch origin dev --tags --force
-git checkout origin/dev
-
-META_VERSION=$(git describe --tags --match "v*-dev.*" --abbrev=0 || echo "0.0.0-build.0")
+META_VERSION=$(git describe --tags --match "v*-dev.*" --abbrev=0 || echo "0.0.0-dev.0")
 BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 CHANNEL="dev"
 
@@ -22,4 +19,4 @@ window.APP_META = {
 };
 EOF
 
-CI=true yarn bd -- --output-path=dist/dev
+CI=true corepack yarn bd
