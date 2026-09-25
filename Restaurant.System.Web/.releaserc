@@ -1,10 +1,9 @@
 {
   "repositoryUrl": "https://github.com/LeeZX24/Restaurant.System",
   "branches": [
-    "release",
+    { "name": "master-beta", "prerelease": "beta" },
     { "name": "release-beta", "prerelease": "rc" },
-    { "name": "master", "prerelease": "stable" },
-    { "name": "master-beta", "prerelease": "beta" }
+    "release"
   ],
   "tagFormat": "v${version}",
   "plugins": [
@@ -24,7 +23,6 @@
     ],
     "@semantic-release/release-notes-generator",
     ["@semantic-release/changelog", { "changelogFile": "CHANGELOG.md" }],
-    ["@semantic-release/npm", { "npmPublish": false }],
     [
       "@semantic-release/exec", {
         "prepareCmd": "echo 'NEXT_VERSION=${nextRelease.version}' >> $GITHUB_ENV",
@@ -33,7 +31,7 @@
     ],
     [ 
       "@semantic-release/git", { 
-        "assets": ["package.json", "package-lock.json", "CHANGELOG.md"],
+        "assets": ["package.json", "yarn.lock", "CHANGELOG.md"],
         "message": "chore(release): ${nextRelease.version} [skip ci]"
       } 
     ],
