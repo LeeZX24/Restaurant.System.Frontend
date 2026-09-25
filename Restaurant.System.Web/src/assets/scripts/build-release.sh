@@ -19,4 +19,4 @@ window.APP_META = {
 };
 EOF
 
-CI=true corepack yarn br -- --output-path=dist/release
+CI=true corepack yarn br
