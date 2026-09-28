@@ -2,12 +2,10 @@
 set -euo pipefail
 
 # =========================
-# Beta
+# Dev
 # =========================
 
-rm -f src/assets/app-meta.js
-
-META_VERSION=$(git describe --tags --match "v*-dev.*" --abbrev=0 || echo "0.0.0-dev.0")
+META_VERSION=$(node -p "require('./package.json').version")
 BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 CHANNEL="dev"
 
