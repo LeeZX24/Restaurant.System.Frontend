@@ -5,9 +5,7 @@ set -euo pipefail
 # Release
 # =========================
 
-rm -f src/assets/app-meta.js
-
-META_VERSION=$(git describe --tags --abbrev=0 || echo "0.0.0")
+META_VERSION=$(node -p "require('./package.json').version")
 BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 CHANNEL="release"
 
