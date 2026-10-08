@@ -1,6 +1,6 @@
 import { Directive, inject, OnInit } from '@angular/core';
 import { CoreService } from '../../core/services/core.service';
-import { BaseDto } from '../models/dtos/base/base.dto';
+import { BaseDto } from '../models/dtos/base.dto';
 
 @Directive()
 export abstract class BaseMaintenanceComponent<T extends BaseDto> implements OnInit {

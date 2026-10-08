@@ -3,7 +3,9 @@ import { Service, inject } from '@angular/core';
 import { BehaviorSubject, from, Observable, switchMap } from 'rxjs';
 import { UserDto } from '../../../shared/models/dtos/user.dto';
 import { APP_CONFIG } from '../../../shared/configs/app-config.state';
-import { BaseDto } from '../../../shared/models/dtos/base/base.dto';
+import { LoginRequestDto, LoginResponseDto } from '../../../shared/models/dtos/auth/login.dto';
+import { LogoutRequestDto, LogoutResponseDto } from '../../../shared/models/dtos/auth/logout.dto';
+import { RegisterRequestDto, RegisterResponseDto } from '../../../shared/models/dtos/auth/register.dto';
 
 @Service()
 export class AuthService {
@@ -27,27 +29,27 @@ export class AuthService {
     }
   }
 
-  login<TRequest extends BaseDto>(login: TRequest): Observable<TRequest> {
+  login(login: LoginRequestDto): Observable<LoginResponseDto> {
     console.log('Login Details -> ', login);
     return from(this.config).pipe(
       switchMap((appConfig) =>
-        this.http.post<TRequest>(`${appConfig.baseUrl}/api/auth/login`, login),
+        this.http.post<LoginResponseDto>(`${appConfig.baseUrl}/api/auth/login`, login),
       ),
     );
   }
 
-  register<TRequest extends BaseDto>(register: TRequest): Observable<TRequest> {
+  register(register: RegisterRequestDto): Observable<RegisterResponseDto> {
     return from(this.config).pipe(
       switchMap((appConfig) =>
-        this.http.post<TRequest>(`${appConfig.baseUrl}/api/auth/register`, register),
+        this.http.post<RegisterResponseDto>(`${appConfig.baseUrl}/api/auth/register`, register),
       ),
     );
   }
 
-  private logout_<TRequest extends BaseDto>(logout: TRequest): Observable<TRequest> {
+  private logout$(logout: LogoutRequestDto): Observable<LogoutResponseDto> {
     return from(this.config).pipe(
       switchMap((appConfig) =>
-        this.http.post<TRequest>(`${appConfig.baseUrl}/api/auth/logout`, logout),
+        this.http.post<LogoutResponseDto>(`${appConfig.baseUrl}/api/auth/logout`, logout),
       ),
     );
   }
@@ -66,7 +68,8 @@ export class AuthService {
 
   logout() {
     const user = this.getCurrentUserValue() as UserDto;
-    this.logout_(user).subscribe({
+    const logoutRequest = { userInfo: user, userAgent: navigator.userAgent, appVersion: '1.0.0' } as LogoutRequestDto;
+    this.logout$(logoutRequest).subscribe({
       next: (res) => {
         if (res) {
           localStorage.clear();

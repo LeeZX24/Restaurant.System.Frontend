@@ -1,4 +1,4 @@
-export interface RequestDto {
+export interface BaseRequestDto {
   userAgent: string;
   appVersion: string;
 }

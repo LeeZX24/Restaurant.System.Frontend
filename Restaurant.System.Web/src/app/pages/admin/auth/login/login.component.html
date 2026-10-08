@@ -13,8 +13,8 @@
           <div
             class="w-full btn-login"
             [class.disabled]="form.invalid"
-            (click)="form.invalid ? null : onSubmit()"
-            (keyup.enter)="onSubmit()"
+            (click)="form.invalid ? null : onSubmitLogin()"
+            (keyup.enter)="onSubmitLogin()"
             role="button"
             tabindex="2"
           >

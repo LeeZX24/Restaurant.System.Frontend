@@ -10,8 +10,9 @@ import {
 } from '@LeeZX24/forms';
 import { v7 as uuidv7 } from 'uuid';
 import { BaseAuthComponent } from '../../../../shared/components/base-auth-component/base-auth-component';
-import { ActivityState } from '../../../../shared/enums/activity-state';
-import { UserDto } from '../../../../shared/models/dtos/user.dto';
+import { LoginRequestDto } from '../../../../shared/models/dtos/auth/login.dto';
+
+
 
 @Component({
   selector: 'rs-login',
@@ -27,15 +28,7 @@ import { UserDto } from '../../../../shared/models/dtos/user.dto';
   ],
   providers: [provideNgxMask()],
 })
-export class LoginComponent extends BaseAuthComponent<UserDto> {
-  _request!: UserDto;
-  get request(): UserDto {
-    return this._request;
-  }
-  set request(value: UserDto) {
-    this._request = value;
-  }
-
+export class LoginComponent extends BaseAuthComponent {
   createForm(): CustomFormGroup {
     const fg = new CustomFormGroup();
 
@@ -68,16 +61,6 @@ export class LoginComponent extends BaseAuthComponent<UserDto> {
     return this.form.get(name);
   }
 
-  RequestDetails(): UserDto {
-    const req: UserDto = {
-      ...this.form.getRawValue(),
-      identifier: this.emailFC.value,
-      state: ActivityState.Login,
-      customerId: uuidv7(),
-    };
-    return req;
-  }
-
   onValidateForm(): boolean {
     if (this.form.valid) {
       return true;
@@ -85,5 +68,16 @@ export class LoginComponent extends BaseAuthComponent<UserDto> {
 
     this.showFormControlsValidationErrors();
     return false;
+  }
+
+  onSubmitLogin() {
+    if (!this.onValidateForm) return;
+
+    const request = { identifier: this.emailFC.value, password: this.passwordFC.value } as LoginRequestDto;
+    this.authService.login(request);
+  }
+
+  redirectRegister() {
+    this.routerService.gotoRegister();
   }
 }

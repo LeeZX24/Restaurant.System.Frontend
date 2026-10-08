@@ -1,3 +1,6 @@
-export interface ResponseDto {
-  message: string;
+import { Status } from "../../enums";
+
+export interface BaseResponseDto {
+  message?: string;
+  status?: Status;
 }

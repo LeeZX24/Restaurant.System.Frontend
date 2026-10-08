@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { APP_CONFIG } from '../../shared/configs/app-config.state';
-import { BaseDto } from '../../shared/models/dtos/base/base.dto';
+import { BaseDto } from '../../shared/models/dtos/base.dto';
 import { from, Observable, switchMap } from 'rxjs';
 
 @Service()

@@ -3,7 +3,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CustomButtonControl } from "../../../../shared/controls/custom-button-control/custom-button-control";
 import { FlexDataGridComponent } from "../../../../shared/controls/flex-data-grid/flex-data-grid.component";
 import { DataGridAction, DataGridColumn } from '../../../../shared/controls/data-grid-component/data-grid';
-import { BaseDto } from '../../../../shared/models/dtos/base/base.dto';
+import { BaseDto } from '../../../../shared/models/dtos/base.dto';
 
 @Component({
   selector: 'app-api-configuration',

@@ -27,14 +27,14 @@ import { LoadingInterceptor } from './core/interceptor/loading.interceptor';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { loadAppConfig } from './utils/runtime-env';
 import { APP_CONFIG } from './shared/configs/app-config.state';
-//import { AppInitializeService } from './core/services/app-initialize.service';
+import { AppInitializeService } from './core/services/app-initialize.service';
 import { ThemeService } from './core/services/theme.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAppInitializer(() => {
-      // const appInitializeService = inject(AppInitializeService);
-      // appInitializeService.init();
+      const appInitializeService = inject(AppInitializeService);
+      appInitializeService.init();
       const themeService = inject(ThemeService);
       themeService.init();
     }),

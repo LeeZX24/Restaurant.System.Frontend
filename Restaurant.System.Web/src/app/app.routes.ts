@@ -31,7 +31,7 @@ export const routes: Routes = [
               {
                 path: 'login',
                 loadComponent: () =>
-                  import('./pages/admin-staff/auth/login/login.component').then(
+                  import('./pages/admin/auth/login/login.component').then(
                     (c) => c.LoginComponent,
                   ),
               },
@@ -49,14 +49,22 @@ export const routes: Routes = [
               {
                 path: 'dashboard',
                 loadComponent: () =>
-                  import('./pages/admin-staff/dashboard/dashboard.component').then(
+                  import('./pages/admin/dashboard/dashboard.component').then(
                     (c) => c.DashboardComponent,
                   ),
               },
               {
+                path: 'profile',
+                loadComponent: () =>
+                  import('./pages/admin/profile/profile.component').then(
+                    (c) => c.ProfileComponent,
+                  ),
+                data: { title: 'Profile' },
+              },
+              {
                 path: 'settings',
                 loadComponent: () =>
-                  import('./pages/admin-staff/settings/settings.component').then(
+                  import('./pages/admin/settings/settings.component').then(
                     (c) => c.SettingsComponent,
                   ),
                 data: { title: 'Settings' },

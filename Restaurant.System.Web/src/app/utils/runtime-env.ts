@@ -11,23 +11,23 @@ export async function loadAppConfig(): Promise<AppConfig> {
 
   let cfg: AppConfig = { baseUrl: environment.baseUrl };
 
-  if (isPlatformBrowser(platformId)) {
-    const loc = window.location;
-    if (isDevMode()) {
-      if (loc.port != '5000') {
-        if (loc.hostname !== 'localhost') {
-          cfg = { baseUrl: `https://${window.location.hostname.replace('4200', '5000')}` };
-        } else {
-          cfg = { baseUrl: `${window.location.origin.replace('4200', '5000')}` };
-        }
-      } else {
-        const response = await firstValueFrom(http.get<AppConfig>('assets/config.json'));
-        if (!response) throw new Error('Dev config not found or invalid');
+  // if (isPlatformBrowser(platformId)) {
+  //   const loc = window.location;
+  //   if (isDevMode()) {
+  //     if (loc.port != '5000') {
+  //       if (loc.hostname !== 'localhost') {
+  //         cfg = { baseUrl: `https://${window.location.hostname.replace('4200', '5000')}` };
+  //       } else {
+  //         cfg = { baseUrl: `${window.location.origin.replace('4200', '5000')}` };
+  //       }
+  //     } else {
+  //       const response = await firstValueFrom(http.get<AppConfig>('assets/config.json'));
+  //       if (!response) throw new Error('Dev config not found or invalid');
 
-        cfg = response;
-      }
-    }
-  }
+  //       cfg = response;
+  //     }
+  //   }
+  // }
 
   return cfg;
 }

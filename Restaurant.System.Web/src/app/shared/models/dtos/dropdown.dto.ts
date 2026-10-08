@@ -1,4 +1,4 @@
-import { BaseDto } from './base/base.dto';
+import { BaseDto } from './base.dto';
 
 export interface DropdownDto extends BaseDto {
   isNewCategory: boolean;

@@ -1,4 +1,4 @@
-import { BaseDto } from '../shared/models/dtos/base/base.dto';
+import { BaseDto } from '../shared/models/dtos/base.dto';
 import {
   DataGridAction,
   DataGridColumn,

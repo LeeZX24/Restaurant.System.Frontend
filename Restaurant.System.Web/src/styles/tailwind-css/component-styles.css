@@ -213,14 +213,14 @@
   @apply px-2 py-1 text-xs text-white bg-gray-800 rounded;
   @apply opacity-0 translate-y-1 transition-all pointer-events-none whitespace-nowrap;
 }
-.group {
+.content-group {
   @apply relative border rounded-lg p-6 mt-4;
 }
 
-.group-title {
+.content-group-title {
   @apply absolute -top-3 left-3 bg-white dark:bg-gray-700 px-2;
 }
 
-.group-content {
+.content-group-content {
   @apply p-1;
 }

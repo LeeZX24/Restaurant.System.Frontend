@@ -1,4 +1,4 @@
-import { BaseDto } from '../../models/dtos/base/base.dto';
+import { BaseDto } from '../../models/dtos/base.dto';
 
 export interface DataGridSearch<T> {
   enabled: boolean;

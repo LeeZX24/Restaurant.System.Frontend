@@ -1,10 +1,10 @@
 <div class="flex flex-col">
   <h2>Settings</h2>
   <div class="py-1">
-    <div class="group">
-      <h5 class="group-title">Group</h5>
+    <div class="content-group">
+      <h5 class="content-group-title">Group</h5>
 
-      <div class="group-content">
+      <div class="content-group-content">
         <div class="flex items-center justify-between p-1">
           <span>Dark Mode</span>
           <rs-toggle [toggle]="darkMode()" [isCheck]="themeService.isDarkMode()" (toggleChecked)="themeService.toggle()"></rs-toggle>

@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
 import { provideNgxMask } from 'ngx-mask';
 import { v7 as uuidv7 } from 'uuid';
 import { BaseAuthComponent } from '../../../../shared/components/base-auth-component/base-auth-component';
-import { ActivityState } from '../../../../shared/enums/activity-state';
-import { UserDto } from '../../../../shared/models/dtos/user.dto';
-import { CustomFormGroup, RSLabelEmailFormControlComponent, RSLabelPasswordFormControl, RSLabelPasswordFormControlComponent, RSLabelTextFormControl } from '@LeeZX24/forms';
+import { CustomFormGroup, RSLabelTextFormControlComponent, RSLabelEmailFormControlComponent, RSLabelPasswordFormControl, RSLabelPasswordFormControlComponent, RSLabelTextFormControl } from '@LeeZX24/forms';
+import { RegistrarDto, RegisterRequestDto } from '../../../../shared/models/dtos/auth/register.dto';
 
 @Component({
   selector: 'rs-register',
@@ -17,21 +16,13 @@ import { CustomFormGroup, RSLabelEmailFormControlComponent, RSLabelPasswordFormC
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    RSLabelTextFormControlComponent,
     RSLabelEmailFormControlComponent,
     RSLabelPasswordFormControlComponent
   ],
   providers: [provideNgxMask()],
 })
-export class RegisterComponent extends BaseAuthComponent<UserDto> implements OnInit {
-  _request!: UserDto;
-
-  get request(): UserDto {
-    return this._request;
-  }
-  set request(value: UserDto) {
-    this._request = value;
-  }
-
+export class RegisterComponent extends BaseAuthComponent implements OnInit {
   fg = new CustomFormGroup();
 
   override ngOnInit() {
@@ -52,6 +43,35 @@ export class RegisterComponent extends BaseAuthComponent<UserDto> implements OnI
         [Validators.required, Validators.email],
       ),
     );
+    
+    this.fg._addCustomControl(
+      'lastName',
+      new RSLabelTextFormControl(
+        'Last Name',
+        { required: true, inputType: 'text' },
+        '',
+        [Validators.required],
+      ),
+    );
+    this.fg._addCustomControl(
+      'firstName',
+      new RSLabelTextFormControl(
+        'First Name',
+        { required: true, inputType: 'text' },
+        '',
+        [],
+      ),
+    );
+    this.fg._addCustomControl(
+      'middleName',
+      new RSLabelTextFormControl(
+        'Middle Name',
+        { required: true, inputType: 'text' },
+        '',
+        [],
+      ),
+    );
+    
     this.fg._addCustomControl(
       'password',
       new RSLabelPasswordFormControl(
@@ -72,11 +92,24 @@ export class RegisterComponent extends BaseAuthComponent<UserDto> implements OnI
     );
 
     return this.fg;
-  }
+  } 
 
   get emailFC() {
     return this.getFormControl('email') as RSLabelTextFormControl;
   }
+  
+  get lastNameFC() {
+    return this.getFormControl('lastName') as RSLabelTextFormControl;
+  }
+  
+  get firstNameFC() {
+    return this.getFormControl('firstName') as RSLabelTextFormControl;
+  }
+  
+  get middleNameFC() {
+    return this.getFormControl('middleName') as RSLabelTextFormControl;
+  }
+
   get passwordFC() {
     return this.getFormControl('password') as RSLabelPasswordFormControl;
   }
@@ -86,17 +119,6 @@ export class RegisterComponent extends BaseAuthComponent<UserDto> implements OnI
 
   getFormControl(name: string) {
     return this.form.get(name);
-  }
-
-  RequestDetails(): UserDto {
-    const req: UserDto = {
-      ...this.form.getRawValue(),
-      identifier: this.emailFC.value,
-      state: ActivityState.Register,
-      customerId: uuidv7(),
-    };
-
-    return req;
   }
 
   onValidateForm(): boolean {
@@ -137,5 +159,19 @@ export class RegisterComponent extends BaseAuthComponent<UserDto> implements OnI
     if (errors['passwordMismatch']) delete errors['passwordMismatch'];
 
     this.confirmPasswordFC.setErrors(Object.keys(errors).length ? errors : null);
+  }
+  
+  onSubmitRegister() {
+    if (!this.onValidateForm) return;
+
+    const registrar = { lastName: this.lastNameFC.value, firstName: this.firstNameFC.value, middleName: this.middleNameFC.value } as RegistrarDto;
+
+    const request = { identifier: this.emailFC.value, password: this.passwordFC.value, registrarInfo: registrar } as RegisterRequestDto;
+    
+    this.authService.register(request);
+  }
+
+  redirectLogin() {
+    this.routerService.gotoLogin();
   }
 }

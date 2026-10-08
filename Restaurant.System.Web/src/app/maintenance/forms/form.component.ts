@@ -7,7 +7,7 @@ import { LayoutRef } from "../../shared/layouts/layout-ref";
 import { LayoutComponent } from "../../shared/layouts/layout.component";
 import { MaintenanceConfig } from "../maintenance.entity";
 import { MaintenanceFormGroup } from "../maintenance.form-group";
-import { BaseDto } from "../../shared/models/dtos/base/base.dto";
+import { BaseDto } from "../../shared/models/dtos/base.dto";
 import { LayoutData } from "../../shared/layouts/layout-data";
 import { MaintenanceService } from '../../core/services/api/maintenance.service';
 

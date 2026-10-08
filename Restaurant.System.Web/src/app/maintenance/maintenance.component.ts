@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutService } from '../core/services/layout.service';
 import { CONFIG_REGISTRY, MaintenanceConfig } from './maintenance.entity';
-import { BaseDto } from '../shared/models/dtos/base/base.dto';
+import { BaseDto } from '../shared/models/dtos/base.dto';
 import { DataGridComponent } from '../shared/controls/data-grid-component/data-grid.component';
 import { DataGridActionEvent } from '../shared/controls/data-grid-component/data-grid';
 import { DialogService } from '@LeeZX24/dialogs';

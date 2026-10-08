@@ -1,7 +1,6 @@
-import { ActivityState } from './../../shared/enums/activity-state';
 import { inject, OnDestroy, Service } from '@angular/core';
 import { from, map, Subscription, switchMap, take } from 'rxjs';
-import { BaseDto } from '../../shared/models/dtos/base/base.dto';
+import { BaseDto } from '../../shared/models/dtos/base.dto';
 import { APP_CONFIG } from '../../shared/configs/app-config.state';
 import { HttpClient } from '@angular/common/http';
 import { DialogService } from '@LeeZX24/dialogs';
@@ -18,40 +17,38 @@ export class ActivityService implements OnDestroy {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
-  submit<TRequest extends BaseDto>(req: TRequest, state: ActivityState) {
-    this._submit(req, state);
+  submit<TRequest extends BaseDto>(req: TRequest) {
+    this._submit(req);
   }
 
-  async _submit(req: BaseDto, state: ActivityState = ActivityState.Others) {
-    if (state === ActivityState.Others) {
-      const ref = this.dialogService.showLoadingDialog('Submitting request ...', false, false, {
-        loading: true,
-      });
+  async _submit(req: BaseDto) {
+    const ref = this.dialogService.showLoadingDialog('Submitting request ...', false, false, {
+      loading: true,
+    });
 
-      // Wait for the dialog to open, then trigger the URL resolution and POST
-      ref.afterOpened().subscribe(() => {
-        // We don't need "base" here. We use the "url" from the pipe.
-        this.baseUrl(req.route, req.action)
-          .pipe(
-            switchMap((url) => {
-              if (!url.startsWith('http')) {
-                console.error('URL is invalid:', url);
-              }
-              return this.http.post<BaseDto>(url, req);
-            }),
-          )
-          .subscribe({
-            next: (res) => {
-              console.log('Success', res);
-              ref.close();
-            },
-            error: (err) => {
-              console.error('Error', err);
-              ref.close();
-            },
-          });
-      });
-    }
+    // Wait for the dialog to open, then trigger the URL resolution and POST
+    ref.afterOpened().subscribe(() => {
+      // We don't need "base" here. We use the "url" from the pipe.
+      this.baseUrl(req.requestDetails.route, req.requestDetails.action)
+        .pipe(
+          switchMap((url) => {
+            if (!url.startsWith('http')) {
+              console.error('URL is invalid:', url);
+            }
+            return this.http.post<BaseDto>(url, req);
+          }),
+        )
+        .subscribe({
+          next: (res) => {
+            console.log('Success', res);
+            ref.close();
+          },
+          error: (err) => {
+            console.error('Error', err);
+            ref.close();
+          },
+        });
+    });
   }
 
   baseUrl(domain: string, action: string) {

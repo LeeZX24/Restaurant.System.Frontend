@@ -1,5 +1,5 @@
 import { Component, computed, ElementRef, input, output, signal, ViewChild } from '@angular/core';
-import { BaseDto } from '../../models/dtos/base/base.dto';
+import { BaseDto } from '../../models/dtos/base.dto';
 import { DataGridAction, DataGridActionEvent, DataGridColumn, DataGridSearch } from '../data-grid-component/data-grid';
 import { MatIconModule } from "@angular/material/icon";
 

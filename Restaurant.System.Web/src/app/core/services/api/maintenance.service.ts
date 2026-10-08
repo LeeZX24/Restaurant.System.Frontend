@@ -1,6 +1,6 @@
 import { Service, signal } from "@angular/core";
 import { CrudService } from "./crud.service";
-import { BaseDto } from "../../../shared/models/dtos/base/base.dto";
+import { BaseDto } from "../../../shared/models/dtos/base.dto";
 
 @Service()
 export class MaintenanceService extends CrudService {
