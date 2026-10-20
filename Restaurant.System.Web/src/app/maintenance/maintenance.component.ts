@@ -4,7 +4,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutService } from '../core/services/layout.service';
 import { CONFIG_REGISTRY, MaintenanceConfig } from './maintenance.entity';
-import { BaseDto } from '../shared/models/dtos/base.dto';
 import { DataGridComponent } from '../shared/controls/data-grid-component/data-grid.component';
 import { DataGridActionEvent } from '../shared/controls/data-grid-component/data-grid';
 import { DialogService } from '@LeeZX24/dialogs';
@@ -24,7 +23,7 @@ import { MaintenanceService } from '../core/services/api/maintenance.service';
   templateUrl: './maintenance.component.html',
   styleUrl: './maintenance.component.css',
 })
-export class MaintenanceComponent<TFormGroup extends MaintenanceFormGroup<T>, T extends BaseDto> implements OnInit {
+export class MaintenanceComponent<TFormGroup extends MaintenanceFormGroup<T>, T> implements OnInit {
   private layout = inject(LayoutService);
   private dialogService = inject(DialogService);
   protected maintenanceService = inject(MaintenanceService);
@@ -47,7 +46,7 @@ export class MaintenanceComponent<TFormGroup extends MaintenanceFormGroup<T>, T 
   fetch() {
     this.maintenanceService.getList<T>().subscribe({
       next: (res) => {
-        this.rows.set(res);
+        this.rows.set(res.map((item) => item as T));
         this.loading.set(false);
       },
       error: () => {
@@ -58,10 +57,18 @@ export class MaintenanceComponent<TFormGroup extends MaintenanceFormGroup<T>, T 
   }
 
   async onDelete(item: T) {
-    this.dialogService.showWarningDialog(`Are you sure to delete this item?`, 'Delete Item' , false, true).afterClosed().subscribe(async (result)=> {
+    const ref = this.dialogService.showWarningDialog(`Are you sure to delete this item?`, 'Delete Item' , false, true);
+    
+    ref.afterClosed().subscribe(async (result)=> {
       if(result) {
-        await this.maintenanceService.removeItem<T>(item).subscribe(() => {
-          this.fetch();
+        await this.maintenanceService.removeItem<T>(item).subscribe({
+          next: () => {
+            this.dialogService.showSuccessDialog('Item deleted success.', 'Success - Delete', false, true, { success: true });
+             this.fetch();
+          },
+          error: (error) => {
+            this.dialogService.showErrorDialog(`Error - ${error}`, 'Error - Delete', false, true, { error: true });
+          }
         });
       }
     });

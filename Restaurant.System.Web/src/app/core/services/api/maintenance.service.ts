@@ -1,6 +1,7 @@
 import { Service, signal } from "@angular/core";
 import { CrudService } from "./crud.service";
-import { BaseDto } from "../../../shared/models/dtos/base.dto";
+import { MaintenanceRequestDto, MaintenanceResponseDto } from "../../../shared/models/dtos/maintenance.dto";
+import { createBaseRequestData } from '../../../shared/helpers/base.helper';
 
 @Service()
 export class MaintenanceService extends CrudService {
@@ -12,19 +13,22 @@ export class MaintenanceService extends CrudService {
 
   protected override get route(): string { return `maintenance/${this.subRoute()}` };
 
-  getList<T extends BaseDto>() {
-    return super.read<T>();
+  getList<T>() {
+    return super.read<MaintenanceResponseDto<T>>();
   }
 
-  removeItem<T extends BaseDto>(item: T) {
-    return super.delete<T, T>(item);
+  removeItem<T>(item: T) {
+    const request: MaintenanceRequestDto<T> = { ...createBaseRequestData(), data: item };
+    return super.delete<MaintenanceRequestDto<T>, MaintenanceResponseDto<T>>(request);
   }
 
-  addNewItem<T extends BaseDto>(item: T) {
-    return super.create<T, T>(item);
+  addNewItem<T>(item: T) {
+    const request: MaintenanceRequestDto<T> = { ...createBaseRequestData(), data: item };
+    return super.create<MaintenanceRequestDto<T>, MaintenanceResponseDto<T>>(request);
   }
 
-  updateCurrentItem<T extends BaseDto>(item: T) {
-    return super.update<T, T>(item);
+  updateCurrentItem<T>(item: T) {
+    const request: MaintenanceRequestDto<T> = { ...createBaseRequestData(), data: item };
+    return super.update<MaintenanceRequestDto<T>, MaintenanceResponseDto<T>>(request);
   }
 }

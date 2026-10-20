@@ -21,21 +21,18 @@ import {
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
-import { AuthInterceptor, JwtInterceptor } from './core/interceptor/shared.inceptor';
+import { AuthInterceptor } from './core/interceptor/shared.inceptor';
 import { provideTranslateService } from '@ngx-translate/core';
 import { LoadingInterceptor } from './core/interceptor/loading.interceptor';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { loadAppConfig } from './utils/runtime-env';
 import { APP_CONFIG } from './shared/configs/app-config.state';
-import { AppInitializeService } from './core/services/app-initialize.service';
 import { ThemeService } from './core/services/theme.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAppInitializer(() => {
-      const appInitializeService = inject(AppInitializeService);
-      appInitializeService.init();
-      const themeService = inject(ThemeService);
+      const themeService = inject(ThemeService); 
       themeService.init();
     }),
     provideBrowserGlobalErrorListeners(),
@@ -47,7 +44,7 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding()
     ),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch(), withInterceptors([AuthInterceptor, JwtInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,

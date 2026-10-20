@@ -3,7 +3,6 @@ import { Component, computed, ElementRef, input, output, signal, ViewChild } fro
 import { MatIconModule } from '@angular/material/icon';
 import { DataGridAction, DataGridActionEvent, DataGridColumn, DataGridSearch } from './data-grid';
 import { CustomButtonControl } from '../custom-button-control/custom-button-control';
-import { BaseDto } from '../../models/dtos/base.dto';
 
 @Component({
   selector: 'rs-data-grid',
@@ -11,7 +10,7 @@ import { BaseDto } from '../../models/dtos/base.dto';
   templateUrl: './data-grid.component.html',
   styleUrl: './data-grid.component.css',
 })
-export class DataGridComponent<T extends BaseDto> {
+export class DataGridComponent<T> {
   columns = input.required<DataGridColumn<T>[]>();
   rows = input.required<T[]>();
   actions = input.required<DataGridAction[]>();

@@ -8,7 +8,7 @@ export interface LoginRequestDto extends BaseRequestDto {
 }
 
 export interface LoginResponseDto extends BaseResponseDto {
-    token?: string;
-    expireAt?: Date;
-    userInfo?: UserDto;
+    token: string;
+    expireAt: Date;
+    userInfo: UserDto;
 }

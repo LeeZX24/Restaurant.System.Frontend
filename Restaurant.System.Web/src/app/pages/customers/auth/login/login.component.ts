@@ -57,10 +57,6 @@ export class LoginComponent extends BaseAuthComponent {
     return this.getFormControl('password') as RSTextFormControl;
   }
 
-  getFormControl(name: string) {
-    return this.form.get(name);
-  }
-
   onValidateForm(): boolean {
     if (this.form.valid) {
       return true;
@@ -74,10 +70,23 @@ export class LoginComponent extends BaseAuthComponent {
     if (!this.onValidateForm) return;
 
     const request = { identifier: this.emailFC.value, password: this.passwordFC.value } as LoginRequestDto;
-    this.authService.login(request);
+
+    const ref = this.dialogService.showLoadingDialog('Login User ...', false, false, { loading: true });
+
+    ref.afterOpened().subscribe(() => {
+      this.authService.login(request).subscribe({
+        next: async (response) => {
+          await this.handleSuccess(ref, response, 'Login successful.', 'Success');
+          await this.authService.setAuthSession(response);
+        },
+        error: (err) => {
+          this.handleError(err, 'Login Failed');
+        }
+      });
+    });
   }
 
   redirectRegister() {
-    this.routerService.gotoRegister();
+    this.routerService.gotoMemberRegister();
   }
 }

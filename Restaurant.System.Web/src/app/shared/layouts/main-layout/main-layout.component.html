@@ -1,11 +1,12 @@
 <div class="app-content">
   <div class="main-content">
-    <router-outlet></router-outlet>
+    @if(isInitialized()){
+      <router-outlet></router-outlet>
+    }
+    
   </div>
 
   <footer class="footer">
     <div class="footer-content">Version: {{ version }}</div>
   </footer>
 </div>
-
-

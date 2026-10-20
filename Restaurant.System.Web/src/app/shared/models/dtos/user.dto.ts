@@ -1,11 +1,10 @@
-import { BaseDto } from './base.dto';
-
 export interface UserDto {
   userType?: UserType;
   roles?: string[];
   customerId?: string;
   profileInfo?: ProfileDto;
   accountInfo?: AccountDto;
+  securityInfo?: SecurityDto;
 }
 
 export interface AccountDto {
@@ -32,6 +31,11 @@ export interface AddressDto {
   country?: string;
 }
 
+export interface SecurityDto {
+  isEmailVerified?: boolean;
+  isMfaEnabled?: boolean;
+  mustChangePassword?: boolean;
+}
 
 export enum UserType {
   Member,

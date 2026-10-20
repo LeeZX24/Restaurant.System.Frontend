@@ -3,12 +3,14 @@ import { MaintenanceConfig } from './maintenance.entity';
 import { RoleDto } from '../shared/models/dtos/role.dto';
 import { DropdownDto } from '../shared/models/dtos/dropdown.dto';
 import { DropdownMaintenanceFormComponent } from './forms/dropdown-maintenance-form/dropdown-maintenance-form.component';
+import { StaffMaintenanceFormGroup } from './forms/staff-maintenance-form/staff-maintenance-form';
+import { RoleMaintenanceFormGroup } from './forms/role-maintenance-form/role-maintenance-form';
 import { DropdownMaintenanceFormGroup } from './forms/dropdown-maintenance-form/dropdown-maintenance-form';
 import { MaintenanceFormGroup } from './maintenance.form-group';
 import { StaffMaintenanceFormComponent } from './forms/staff-maintenance-form/staff-maintenance-form.component';
 import { RoleMaintenanceFormComponent } from './forms/role-maintenance-form/role-maintenance-form.component';
 
-export const STAFF_CONFIG: MaintenanceConfig<MaintenanceFormGroup<StaffDto>, StaffDto> = {
+export const STAFF_CONFIG: MaintenanceConfig<StaffMaintenanceFormGroup, StaffDto> = {
   route: 'staff',
   title: 'Staff Management',
 
@@ -18,7 +20,7 @@ export const STAFF_CONFIG: MaintenanceConfig<MaintenanceFormGroup<StaffDto>, Sta
     {
       label: 'Full Name',
       columnValue: (row) => {
-        return `${row.firstName} ${row.lastName}`;
+        return `${row.lastName} ${row.firstName} ${row.middleName}`.trim();
       },
       width: '150px',
     },
@@ -46,7 +48,7 @@ export const STAFF_CONFIG: MaintenanceConfig<MaintenanceFormGroup<StaffDto>, Sta
   },
 };
 
-export const ROLE_CONFIG: MaintenanceConfig<MaintenanceFormGroup<RoleDto>, RoleDto> = {
+export const ROLE_CONFIG: MaintenanceConfig<RoleMaintenanceFormGroup, RoleDto> = {
   route: 'role',
   title: 'Role Maintenance',
 

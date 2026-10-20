@@ -1,5 +1,3 @@
-import { BaseDto } from '../../models/dtos/base.dto';
-
 export interface DataGridSearch<T> {
   enabled: boolean;
   placeholder?: string;
@@ -23,7 +21,7 @@ export interface DataGridAction {
   icon: string;
 }
 
-export interface DataGridActionEvent<T extends BaseDto> {
+export interface DataGridActionEvent<T> {
   action: string;
   row: T;
 }

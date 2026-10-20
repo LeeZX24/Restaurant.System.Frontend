@@ -1,9 +1,4 @@
-import { BaseDto } from '../shared/models/dtos/base.dto';
-import {
-  DataGridAction,
-  DataGridColumn,
-  DataGridSearch,
-} from '../shared/controls/data-grid-component/data-grid';
+import { DataGridAction, DataGridColumn, DataGridSearch } from '../shared/controls/data-grid-component/data-grid';
 import { DROPDOWN_CONFIG, ROLE_CONFIG, STAFF_CONFIG } from './maintenance-config';
 import { MaintenanceFormGroup } from './maintenance.form-group';
 import { Type } from '@angular/core';
@@ -13,7 +8,7 @@ export type MaintenanceModule = keyof typeof CONFIG_REGISTRY;
 
 export type ConfigOf<M extends MaintenanceModule> = (typeof CONFIG_REGISTRY)[M];
 
-export interface MaintenanceConfig<TFormGroup extends MaintenanceFormGroup<T>, T extends BaseDto> {
+export interface MaintenanceConfig<TFormGroup extends MaintenanceFormGroup<T>, T> {
   route: string;
   title: string;
   columns: DataGridColumn<T>[];

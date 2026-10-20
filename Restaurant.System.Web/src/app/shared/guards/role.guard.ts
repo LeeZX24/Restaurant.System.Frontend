@@ -1,23 +1,36 @@
 import { inject } from '@angular/core';
 import { AuthService } from '../../core/services/auth/auth.service';
-import { CanActivateFn } from '@angular/router';
-import { UserDto } from '../models/dtos/user.dto';
-import { RouterService } from '../services/router.service';
+import { ActivatedRouteSnapshot, CanActivateChildFn, CanActivateFn, Router } from '@angular/router';
+import { UserDto, UserType } from '../models/dtos/user.dto';
 
-export const roleGuard: CanActivateFn = (route) => {
+const canAccess = (route: ActivatedRouteSnapshot): boolean | ReturnType<Router['createUrlTree']> => {
   const authService = inject(AuthService);
-  const routerService = inject(RouterService);
+  const router = inject(Router);
 
-  const user = authService.getCurrentUserValue() as UserDto;
-  const allowedRoles = route.data?.['roles'] as string[];
+  const user = authService.getCurrentUserValue();
+  const allowedUserTypes = route.data['userTypes'] as UserType[] | undefined;
 
-  if (!user) {
-    routerService.gotoLogin();
+  if(!user) {
+    const isMemberRoute = allowedUserTypes?.includes(UserType.Member);
+
+    return router.createUrlTree(
+      isMemberRoute
+        ? ['/member/auth/login']
+        : ['/admin/auth/login'],
+    );
   }
 
-  if (!allowedRoles || !allowedRoles.includes(user.userType!.toString())) {
-    routerService.navigateTo('/error/403');
+  if (
+    allowedUserTypes?.length &&
+    (user.userType == null || !allowedUserTypes.includes(user.userType))
+  ) {
+    return router.createUrlTree(['/error/403']);
   }
 
   return true;
 };
+
+export const roleGuard: CanActivateFn = (route) => canAccess(route);
+
+export const roleChildGuard: CanActivateChildFn = (route) =>
+  canAccess(route);

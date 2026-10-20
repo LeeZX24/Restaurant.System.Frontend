@@ -10,7 +10,7 @@ export class ApiClientService {
 
   private async url(route: string, action?: string): Promise<string> {
     return await this.config.then(config => {
-        const baseUrl = `${config.baseUrl}/api/${route}`;
+        const baseUrl = `${config.baseUrl}/api/v1/${route}`;
         return action ? `${baseUrl}/${action}` : baseUrl;
       });
   }

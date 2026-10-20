@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-// import { authGuard } from './shared/guards/auth.guard';
+import { authGuard, authChildGuard } from './shared/guards/auth.guard';
 // import { initGuard } from './shared/guards/init.guard';
 // import { roleGuard } from './shared/guards/role.guard';
 import { UserType } from './shared/models/dtos/user.dto';
@@ -13,6 +13,14 @@ export const routes: Routes = [
       ),
     // canActivate: [initGuard],
     children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./shared/layouts/content-layout/content-layout.component').then(
+            (c) => c.ContentLayoutComponent,
+          ),
+        children: []
+      },
       {
         // Admin
         path: 'admin',
@@ -35,6 +43,13 @@ export const routes: Routes = [
                     (c) => c.LoginComponent,
                   ),
               },
+              {
+                path: 'change-password',
+                loadComponent: () =>
+                  import('./pages/admin/auth/change-password/change-password.component').then(
+                    (c) => c.ChangePasswordComponent,
+                  ),
+              },
             ],
           },
           {
@@ -43,8 +58,9 @@ export const routes: Routes = [
               import('./shared/layouts/admin-layout/admin-layout.component').then(
                 (c) => c.AdminLayoutComponent,
               ),
-            // canActivate: [authGuard, roleGuard],
-            data: { title: 'Main', roles: [UserType.Staff.toString()] },
+            canActivate: [authGuard],
+            canActivateChild: [authChildGuard],
+            data: { title: 'Main', roles: [UserType.Staff.toString()], loginRoute: '/admin/auth/login' },
             children: [
               {
                 path: 'dashboard',
@@ -124,8 +140,8 @@ export const routes: Routes = [
       },
     ],
   },
-  {
-    path: '**',
-    redirectTo: 'error/404',
-  },
+  // {
+  //   path: '**',
+  //   redirectTo: '',
+  // },
 ];

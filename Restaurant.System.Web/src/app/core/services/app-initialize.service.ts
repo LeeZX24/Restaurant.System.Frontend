@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Service, signal } from '@angular/core';
-import { DialogService } from '@LeeZX24/dialogs';
+import { CustomDialogConfig, DialogService, DialogVariant, ErrorDialogComponent, UpdatableDialogRef } from '@LeeZX24/dialogs';
 import { firstValueFrom } from 'rxjs';
 import { AppConfig } from '../../shared/configs/app-config.model';
 import { APP_CONFIG } from '../../shared/configs/app-config.state';
@@ -18,6 +18,8 @@ export class AppInitializeService {
   private initPromise?: Promise<void>;
   private hasShownUI = false;
 
+  private dialogConfig!: CustomDialogConfig;
+
   init(): Promise<void> {
     if (!this.initPromise) {
       this.initPromise = this.runInit();
@@ -34,11 +36,77 @@ export class AppInitializeService {
 
     const ref = this.dialogService.showLoadingDialog('Loading...', false, false, { loading: true });
 
-    await this.wait(1000);
+    await firstValueFrom(ref.afterOpened());
+    
+    try {
+      const backendOnline = await this.checkBackend(appConfig);
 
-    ref.close();
+      if(backendOnline) {
+        console.log('Backend Online');
 
-    await this.checkBackend(appConfig);
+        ref.update({ 
+          message: 'Backend Online!', 
+          title: 'Success', 
+          variant: DialogVariant.Success, 
+          extraConfig: { success: true } 
+        });
+
+        await this.wait(1000);
+
+        if (!this.authService.isLoggedIn) {
+          await ref.update({ 
+            message: 'Redirect to Login Page ...', 
+            title: 'Redirect', 
+            variant: DialogVariant.Info, 
+            extraConfig: { loading: true } 
+          });
+
+          await this.wait(1000);
+
+          await this.routerService.gotoLogin();
+
+          ref.close();
+        } else {
+          await ref.update({ 
+            message: 'Redirect to Dashboard ...', 
+            title: 'Redirect', 
+            variant: DialogVariant.Info, 
+            extraConfig: { loading: true } 
+          });
+
+          await this.wait(1000);
+
+          await this.routerService.navigateTo('/admin/dashboard');
+          ref.close();
+        }
+      }
+    } catch (error) {
+      this.showErrorDialog(ref, error);
+
+      // if(backendOnline) {
+        
+
+      //   await this.wait(1000);
+
+      //   const path = !this.authService.isLoggedIn ? 'Login' : 'Admin Dashboard';
+
+      //   this.dialogConfig = {
+      //     message: `Redirect to ${path} ...`,
+      //     title: 'Redirect',
+      //     variant: DialogVariant.Info,
+      //     extraConfig:{ loading: true }
+      //   };
+
+      //   ref.update(this.dialogConfig);
+
+      //   await this.wait(1000);
+
+      //   ref.ref.close();
+        
+        
+      // }
+      
+    }
   }
 
   async checkBackend(appConfig: AppConfig) {
@@ -49,19 +117,12 @@ export class AppInitializeService {
         }),
       );
 
-      const ref = this.dialogService.showSuccessDialog('Backend Online!', 'Success', false, false, {
-        success: true,
-      });
+      await this.authService.init();
 
-      this.authService.init();
-
-      await this.wait(1000);
-
-      ref.close();
-
-      this.goRedirect();
+      return true;
     } catch (e) {
-      this.openErrorDialog(e);
+      this.dialogConfig = this.openErrorDialog(e);
+      return false;
     }
   }
 
@@ -69,40 +130,43 @@ export class AppInitializeService {
 
   error = signal(false);
 
-  openErrorDialog(T?: unknown) {
-    let errorMessage = '';
-    let errorCode = '';
-    if (T instanceof HttpErrorResponse) {
-      errorMessage = T.error.message;
-      errorCode = T.status.toString();
+  openErrorDialog(error: unknown): CustomDialogConfig {
+    if (error instanceof HttpErrorResponse) {
+      const message =
+        typeof error.error === 'object' &&
+        error.error !== null &&
+        'message' in error.error &&
+        typeof error.error.message === 'string'
+          ? error.error.message
+          : error.message;
+
+      return {
+        title: `Error (${error.status})`,
+        message,
+        variant: DialogVariant.Error,
+        component: ErrorDialogComponent
+      };
     }
 
-    this.dialogService.showErrorDialog(errorMessage, `Error (${errorCode})`, false, false);
-  }
-
-  async goRedirect() {
-    const path = !this.authService.isLoggedIn ? 'Login' : 'Admin Dashboard';
-
-    const ref = this.dialogService.showInfoDialog(
-      `Redirect to ${path} ...`,
-      'Redirect',
-      false,
-      false,
-      { loading: true },
-    );
-
-    await this.wait(1000);
-
-    ref.close();
-
-    if (!this.authService.isLoggedIn) {
-      this.routerService.gotoLogin();
-    } else {
-      this.routerService.navigateTo('/admin/dashboard');
-    }
+    return {
+      title: 'Initialization Error',
+      message: 'An unexpected error occurred during startup.',
+      variant: DialogVariant.Error,
+      component: ErrorDialogComponent
+    };
   }
 
   private wait(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  private showErrorDialog(ref: UpdatableDialogRef, error: unknown) {
+    const errorConfig = this.openErrorDialog(error);
+    ref.update({
+      title: errorConfig.title,
+      message: errorConfig.message,
+      variant: errorConfig.variant,
+      extraConfig: errorConfig.extraConfig,
+    });
   }
 }

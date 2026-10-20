@@ -7,12 +7,12 @@ import { LayoutRef } from "../../shared/layouts/layout-ref";
 import { LayoutComponent } from "../../shared/layouts/layout.component";
 import { MaintenanceConfig } from "../maintenance.entity";
 import { MaintenanceFormGroup } from "../maintenance.form-group";
-import { BaseDto } from "../../shared/models/dtos/base.dto";
 import { LayoutData } from "../../shared/layouts/layout-data";
 import { MaintenanceService } from '../../core/services/api/maintenance.service';
+import { MaintenanceResponseDto } from '../../shared/models/dtos/maintenance.dto';
 
 @Directive()
-export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFormGroup<T>, T extends BaseDto> implements LayoutComponent<T>, OnInit {
+export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFormGroup<T>, T> implements LayoutComponent<T>, OnInit {
   config!: MaintenanceConfig<TFormGroup, T>;
   controller!: LayoutRef<T>;
   data!: LayoutData<T>;
@@ -38,14 +38,14 @@ export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFor
       if (this.itemData().action == 'create')
         await this.maintenanceService.addNewItem<T>(this.form.getRawValue())
         .subscribe({
-          next: (res) => this.success(res),
+          next: (res) => this.success(res.data as T),
           error: () => this.error(),
         });
 
       if (this.itemData().action == 'edit')
         await this.maintenanceService.updateCurrentItem<T>(this.form.getRawValue())
         .subscribe({
-          next: (res) => this.success(res),
+          next: (res) => this.success(res.data as T),
           error: () => this.error(),
         });
     }
