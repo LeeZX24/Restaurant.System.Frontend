@@ -1,6 +1,6 @@
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, computed, inject, signal } from '@angular/core';
 import { ThemeService } from '../../../core/services/theme.service';
 import { CustomToggleControl } from '../../../shared/controls/custom-toggle-control/custom-toggle-control';
 import { CustomToggle } from '../../../shared/controls/custom-toggle-control/custom-toggle';
@@ -19,6 +19,8 @@ import { ControlService } from '../../../shared/services/control.service';
 import { ObjectFormGroup } from '../../../shared/models/obj-form-group';
 import { ObjectUtils } from '../../../utils/object-utils';
 import { DropdownModel } from '../../../shared/models/dropdown.model';
+import { RSLabelDropdownFormControlComponent } from '../../../shared/controls/custom-label-dropdown-form-control/custom-label-dropdown-form-control.component';
+import { RSLabelDropdownFormControl } from '../../../shared/controls/custom-label-dropdown-form-control/custom-label-dropdown-form-control';
 
 @Component({
   selector: 'app-settings',
@@ -31,22 +33,40 @@ import { DropdownModel } from '../../../shared/models/dropdown.model';
     CustomButtonControl,
     FormField,
     CheckboxFormControlComponent,
-  ],
+    RSLabelDropdownFormControlComponent
+],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css',
   providers: [],
 })
-export class SettingsComponent extends CustomBaseComponent {
+export class SettingsComponent extends CustomBaseComponent implements AfterViewInit {
   protected ctrlSerivce = inject(ControlService);
 
+  protected darkModeDD: DropdownModel[] = [
+    { key: 'system', value: 'System', order: '1' },
+    { key: 'light', value: 'Light', order: '2' },
+    { key: 'dark', value: 'Dark', order: '3' }
+  ];
+
   readonly listKeys = ObjectUtils.getKeysAsString<PhoneDto>();
+
+  ngAfterViewInit() {
+    this.darkModeFC.valueChanges.subscribe((theme) => {
+      this.themeService.setTheme(theme);
+    });
+  }
 
   protected override createForm(): CustomFormGroup {
     const fg = new CustomFormGroup();
 
+    fg.addControl('darkMode', this.ctrlSerivce.LabelDropdownControl('Dark Mode', false, this.themeService.current(), this.darkModeDD))
     fg.addControl('list', new FormControl());
 
     return fg;
+  }
+
+  get darkModeFC() {
+    return this.getFormControl('darkMode') as RSLabelDropdownFormControl<DropdownModel, string>;
   }
 
   get listFG() {

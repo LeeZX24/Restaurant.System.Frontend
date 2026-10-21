@@ -7,7 +7,8 @@
       <div class="content-group-content">
         <div class="flex items-center justify-between p-1">
           <span>Dark Mode</span>
-          <rs-toggle [toggle]="darkMode()" [isCheck]="themeService.isDarkMode()" (toggleChecked)="themeService.toggle()"></rs-toggle>
+          <rs-label-dropdown-form-control [fc]="darkModeFC"></rs-label-dropdown-form-control>
+          <!-- <rs-toggle [toggle]="darkMode()" [isCheck]="themeService.isDarkMode()" (toggleChecked)="themeService.toggle()"></rs-toggle> -->
         </div>
 
         <div class="flex flex-col p-1">
