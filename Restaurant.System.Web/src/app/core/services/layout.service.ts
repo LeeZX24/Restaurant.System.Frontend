@@ -17,15 +17,14 @@ export class LayoutService {
     if (isMobile) {
       const ref = this.bottomSheet.open(component, { data, panelClass: 'rs-bottom-sheet-form' });
 
-      const controller: LayoutRef = {
+      const controller: LayoutRef<R> = {
         close: (result?: R) => ref.dismiss(result),
+        afterClosed: () => ref.afterDismissed()
       };
 
       ref.instance.controller = controller;
       return controller;
     }
-
-    console.log(data);
 
     const ref = this.dialog.open(component, {
       data,
@@ -35,8 +34,9 @@ export class LayoutService {
       panelClass: 'rs-dialog-form',
     });
 
-    const controller: LayoutRef = {
+    const controller: LayoutRef<R> = {
       close: (result?: R) => ref.close(result),
+      afterClosed: () => ref.afterClosed()
     };
 
     ref.componentInstance.controller = controller;

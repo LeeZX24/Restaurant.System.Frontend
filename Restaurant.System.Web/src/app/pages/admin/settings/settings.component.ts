@@ -2,7 +2,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, computed, inject, signal } from '@angular/core';
 import { ThemeService } from '../../../core/services/theme.service';
-import { CustomToggleControl } from '../../../shared/controls/custom-toggle-control/custom-toggle-control';
 import { CustomToggle } from '../../../shared/controls/custom-toggle-control/custom-toggle';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomListFormControlComponent } from '../../../shared/controls/custom-list-control/custom-list-form-control.component';
@@ -28,7 +27,6 @@ import { RSLabelDropdownFormControl } from '../../../shared/controls/custom-labe
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    CustomToggleControl,
     CustomListFormControlComponent,
     CustomButtonControl,
     FormField,

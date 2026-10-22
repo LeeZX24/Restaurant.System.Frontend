@@ -4,13 +4,15 @@ import { BaseAuthComponent } from '../../../../shared/components/base-auth-compo
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ChangePasswordRequestDto } from '../../../../shared/models/dtos/auth/change-password.dto';
-import { InformationDialogComponent, DialogVariant } from '@LeeZX24/dialogs';
+import { DialogVariant } from '@LeeZX24/dialogs';
+import { provideNgxMask } from 'ngx-mask';
 
 @Component({
   imports: [CommonModule, ReactiveFormsModule, FormsModule, RSLabelPasswordFormControlComponent],
   selector: 'app-change-password',
   styleUrl: './change-password.component.css',
   templateUrl: './change-password.component.html',
+  providers: [ provideNgxMask() ]
 })
 export class ChangePasswordComponent extends BaseAuthComponent implements OnInit {
   override ngOnInit(): void {
@@ -75,7 +77,8 @@ export class ChangePasswordComponent extends BaseAuthComponent implements OnInit
 
   onSubmitChangePassword() {
     if (!this.onValidateForm) return;
-    const request = { password: this.passwordFC.value } as ChangePasswordRequestDto;
+    const user = this.authService.getCurrentUserValue();
+    const request = { userInfo: user, newPassword: this.passwordFC.value } as ChangePasswordRequestDto;
     
     const ref = this.dialogService.showLoadingDialog('Changing Password ...', false, false, { loading: true })
 
@@ -84,16 +87,46 @@ export class ChangePasswordComponent extends BaseAuthComponent implements OnInit
         next: async (response) => {
           await this.handleSuccess(ref, response, 'Password changed successfully.', 'Success');
 
-          if(response.passwordChanged) {
+          // if(response.passwordChanged) {
 
-            await ref.componentInstance.loadComponent(InformationDialogComponent, {
-              message: 'Redirect to Dashboard', 
-              title: 'Info - Login', 
-              variant: DialogVariant.Info
-            });
+          //   await ref.update({
+          //     message: 'Redirect to Dashboard', 
+          //     title: 'Info - Login', 
+          //     variant: DialogVariant.Info,
+          //     extraConfig: { loading: true }
+          //   })
             
-            this.routerService.navigateTo('/admin/dashboard');
-          }
+          //   await this.routerService.navigateTo('/admin/dashboard');
+
+          //   await this.wait(1000);
+
+          //   ref.close();
+          // }
+
+          await ref.update({
+            message: 'Logging out...', 
+            title: 'Info - Login', 
+            variant: DialogVariant.Info,
+            extraConfig: { loading: true }
+          })
+          
+          await this.authService.logout();
+
+
+          await this.wait(1000);
+
+          await ref.update({
+            message: 'Redirect to Login...', 
+            title: 'Info - Login', 
+            variant: DialogVariant.Info,
+            extraConfig: { loading: true }
+          })
+
+          await this.wait(1000);
+
+          await this.routerService.gotoLogin();
+
+          ref.close();
         },
         error: (error) => {
           this.handleError(error, 'Change password failed.');

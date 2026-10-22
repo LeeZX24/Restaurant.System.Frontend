@@ -146,7 +146,7 @@ export class AuthService {
     console.log('Change Password Details -> ', request);
     return from(this.config).pipe(
       switchMap((appConfig) =>
-        this.http.post<ChangePasswordResponseDto>(`${appConfig.baseUrl}/api/v1/auth/change-password`, request),
+        this.http.put<ChangePasswordResponseDto>(`${appConfig.baseUrl}/api/v1/auth/change-password`, request),
       ),
     );
   }

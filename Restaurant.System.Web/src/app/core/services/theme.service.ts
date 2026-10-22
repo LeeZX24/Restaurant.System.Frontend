@@ -2,7 +2,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { computed, inject, PLATFORM_ID, Service, signal } from '@angular/core';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
-type Theme = 'light' | 'dark';
 
 @Service()
 export class ThemeService {

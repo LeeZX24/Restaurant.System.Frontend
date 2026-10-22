@@ -4,9 +4,15 @@
   <form class="flex items-center border-b border-teal-50" [formGroup]="form">
     <div class="flex flex-wrap">
       <div class="w-full mb-1">
-        <rs-text-form-control [fc]="usernameFC" tabindex="0"></rs-text-form-control>
-        <rs-password-form-control [fc]="passwordFC" tabindex="1"></rs-password-form-control>
+        <div class="mt-1">
+          <rs-text-form-control [fc]="usernameFC" tabindex="0"></rs-text-form-control>
+        </div>
+        <div class="mt-1">
+          <rs-password-form-control [fc]="passwordFC" tabindex="1"></rs-password-form-control>
+        </div>
       </div>
+
+      <div class="flex m-1 text-sm"> Forgot Password? Please contact Administrator.</div>
 
       <div
         class="w-full btn-login"
@@ -20,6 +26,8 @@
           <span>Login</span>
         </div>
       </div>
+
+      
     </div>
   </form>
 </div>

@@ -10,6 +10,7 @@ import { DialogService } from '@LeeZX24/dialogs';
 import { MaintenanceFormGroup } from './maintenance.form-group';
 import { MaintenanceFormComponent } from './forms/form.component';
 import { MaintenanceService } from '../core/services/api/maintenance.service';
+import { BaseDto } from '../shared/models/dtos/base.dto';
 
 @Component({
   selector: 'rs-maintenance',
@@ -23,7 +24,7 @@ import { MaintenanceService } from '../core/services/api/maintenance.service';
   templateUrl: './maintenance.component.html',
   styleUrl: './maintenance.component.css',
 })
-export class MaintenanceComponent<TFormGroup extends MaintenanceFormGroup<T>, T> implements OnInit {
+export class MaintenanceComponent<TFormGroup extends MaintenanceFormGroup<T>, T extends BaseDto> implements OnInit {
   private layout = inject(LayoutService);
   private dialogService = inject(DialogService);
   protected maintenanceService = inject(MaintenanceService);
@@ -74,10 +75,14 @@ export class MaintenanceComponent<TFormGroup extends MaintenanceFormGroup<T>, T>
     });
   }
 
-  createItemForm() {
-    this.layout.open<MaintenanceFormComponent<TFormGroup, T>, unknown, T>(this.config().formComponent, {
+  async createItemForm() {
+    const ref = await this.layout.open<MaintenanceFormComponent<TFormGroup, T>, unknown, T>(this.config().formComponent, {
       config: this.config(),
       action: 'create',
+    });
+
+    ref.afterClosed().subscribe(() => {
+      this.fetch();
     });
   }
 
@@ -91,11 +96,15 @@ export class MaintenanceComponent<TFormGroup extends MaintenanceFormGroup<T>, T>
     }
   }
 
-  updateItemForm(row: T) {
-    this.layout.open<MaintenanceFormComponent<TFormGroup, T>, unknown, T>(this.config().formComponent, {
+  async updateItemForm(row: T) {
+    const ref = await this.layout.open<MaintenanceFormComponent<TFormGroup, T>, unknown, T>(this.config().formComponent, {
       config: this.config(),
       action: 'edit',
       item: row,
+    });
+
+    ref.afterClosed().subscribe(() => {
+      this.fetch();
     });
   }
 }

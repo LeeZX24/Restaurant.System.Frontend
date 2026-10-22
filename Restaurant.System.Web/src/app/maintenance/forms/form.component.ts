@@ -9,10 +9,12 @@ import { MaintenanceConfig } from "../maintenance.entity";
 import { MaintenanceFormGroup } from "../maintenance.form-group";
 import { LayoutData } from "../../shared/layouts/layout-data";
 import { MaintenanceService } from '../../core/services/api/maintenance.service';
-import { MaintenanceResponseDto } from '../../shared/models/dtos/maintenance.dto';
+import { BaseDto } from '../../shared/models/dtos/base.dto';
+import { DialogService, DialogVariant } from '@LeeZX24/dialogs';
+import { ref } from 'node:process';
 
 @Directive()
-export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFormGroup<T>, T> implements LayoutComponent<T>, OnInit {
+export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFormGroup<T>, T extends BaseDto> implements LayoutComponent<T>, OnInit {
   config!: MaintenanceConfig<TFormGroup, T>;
   controller!: LayoutRef<T>;
   data!: LayoutData<T>;
@@ -20,6 +22,7 @@ export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFor
   abstract prepareFormGroup(data: T): TFormGroup;
   abstract getConfig(): MaintenanceConfig<TFormGroup, T>;
   private maintenanceService = inject(MaintenanceService);
+  private dialogService = inject(DialogService);
 
   dialogData = inject(MAT_DIALOG_DATA, { optional: true });
   sheetData = inject(MAT_BOTTOM_SHEET_DATA, { optional: true });
@@ -34,21 +37,60 @@ export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFor
 
   async processSubmit()
   {
-    if (this.ValidateForm()) {
-      if (this.itemData().action == 'create')
-        await this.maintenanceService.addNewItem<T>(this.form.getRawValue())
-        .subscribe({
-          next: (res) => this.success(res.data as T),
-          error: () => this.error(),
-        });
+    const ref = await this.dialogService.showLoadingDialog('Loading ...', false, false, { loading: true });
 
-      if (this.itemData().action == 'edit')
-        await this.maintenanceService.updateCurrentItem<T>(this.form.getRawValue())
-        .subscribe({
-          next: (res) => this.success(res.data as T),
-          error: () => this.error(),
-        });
-    }
+    ref.afterOpened().subscribe(async () => {
+      if (this.ValidateForm()) {
+        if (this.itemData().action == 'create') {
+          ref.update({
+            message: 'Creating Item ...'
+          })
+
+          await this.maintenanceService.addNewItem<T>(this.form.getRawValue())
+          .subscribe({
+            next: (res) => {
+              
+              ref.update({
+                message: 'Create Item Successful.',
+                variant: DialogVariant.Success,
+                extraConfig: { loading: false, success: true }
+              });
+
+              this.success(res as T);
+            },
+            error: (error) => {
+              ref.update({
+                message: `Error - ${error}`,
+                variant: DialogVariant.Error,
+                extraConfig: { loading: false }
+              });
+
+              this.error()
+            },
+          });
+        }
+
+        if (this.itemData().action == 'edit') {
+          ref.update({
+            message: 'Updating Item ...'
+          })
+
+          await this.maintenanceService.updateCurrentItem<T>(this.form.getRawValue())
+          .subscribe({
+            next: (res) => {
+              ref.update({
+                message: 'Update Item Successful.',
+                variant: DialogVariant.Success,
+                extraConfig: { loading: false, success: true }
+              });
+              this.success(res as T)
+            },
+            error: () => this.error(),
+          });
+        }
+      }
+    });
+    
   }
 
   abstract ValidateForm(): boolean;
