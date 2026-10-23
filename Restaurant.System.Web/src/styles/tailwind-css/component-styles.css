@@ -11,7 +11,7 @@
 }
 
 .footer {
-  @apply h-8 w-full z-50 border-t border-slate-200 bg-[#2b2e33] text-xs;
+  @apply h-8 w-full z-50 border-t border-slate-200 bg-[#2b2e33] text-xs text-white;
 }
 
 .footer-content {

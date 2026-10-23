@@ -3,7 +3,7 @@ import { RSComboboxFormControl } from '../controls/custom-combobox-form-control/
 import { RSLabelDropdownFormControl, RSLabelDropdownFormControlOptions } from '../controls/custom-label-dropdown-form-control/custom-label-dropdown-form-control';
 import { DropdownService } from '../../core/services/api/dropdown.service';
 import { DropdownModel } from '../models/dropdown.model';
-import { RSLabelTextFormControl } from '@LeeZX24/forms';
+import { RSLabelTextFormControl, RSTextFormControl } from '@LeeZX24/forms';
 import { ValidatorFn, Validators } from '@angular/forms';
 
 @Service()
@@ -58,33 +58,7 @@ export class ControlService {
     return fc;
   }
 
-  LabelEmail(label: string, required: boolean, value: string, options?: { minLength?: number, maxLength?: number, enableAutoComplete?: boolean }) {
-    const { minLength, maxLength, enableAutoComplete = true } = options ?? {}
-    const validators: ValidatorFn[] = [];
-
-    if(required) validators.push(Validators.required);
-
-    if(options) {
-      if(minLength) validators.push(Validators.minLength(minLength));
-      if(maxLength) validators.push(Validators.minLength(maxLength));
-    }
-
-    validators.push(Validators.email);
-
-    const fc = new RSLabelTextFormControl(label, { 
-      required: required, 
-      minlength: minLength ? minLength : undefined, 
-      maxlength: maxLength ? maxLength : undefined, 
-      mask: 'A*@A*.A*',
-      inputType: 'email',
-      autoComplete: enableAutoComplete ? 'email' : undefined
-     }, value);
-    fc.setCustomValidators(validators);
-
-    return fc;
-  }
-
-  LabelText(label: string, required: boolean, value: string, options?: { minLength?: number, maxLength?: number, mask?: string  }) {
+  LabelText(label: string, required: boolean, value: string, options?: { minLength?: number, maxLength?: number, mask?: string, autocomplete?: string }) {
     const validators: ValidatorFn[] = [];
 
     if(required) validators.push(Validators.required);
@@ -106,11 +80,138 @@ export class ControlService {
     return fc;
   }
 
+  NonLabelText(label: string, required: boolean, value: string, options?: { minLength?: number, maxLength?: number, mask?: string, autocomplete?: string }) {
+    const validators: ValidatorFn[] = [];
+
+    if(required) validators.push(Validators.required);
+
+    if(options) {
+      if(options.minLength) validators.push(Validators.minLength(options.minLength));
+      if(options.maxLength) validators.push(Validators.minLength(options.maxLength));
+    }
+
+    const fc = new RSTextFormControl({ 
+      required: required, 
+      minlength: options && options.minLength ? options.minLength: undefined, 
+      maxlength: options && options.maxLength ? options.maxLength : undefined, 
+      mask: options && options.mask ? options.mask : undefined,
+      inputType: 'text',
+      placeholder: label
+     }, value);
+    fc.setCustomValidators(validators);
+
+    return fc;
+  }
+
+  LabelEmail(label: string, required: boolean, value: string, options?: { minLength?: number, maxLength?: number }) {
+    const validators: ValidatorFn[] = [];
+
+    if(required) validators.push(Validators.required);
+
+    if(options) {
+      if(options.minLength) validators.push(Validators.minLength(options.minLength));
+      if(options.maxLength) validators.push(Validators.maxLength(options.maxLength));
+    }
+
+    validators.push(Validators.email);
+
+    const fc = new RSLabelTextFormControl(label, { 
+      required: required, 
+      minlength: options && options.minLength ? options.minLength : undefined, 
+      maxlength: options && options.maxLength ? options.maxLength : undefined, 
+      inputType: 'email',
+      autoComplete: 'email'
+     }, value);
+    fc.setCustomValidators(validators);
+
+    return fc;
+  }
+
+  NonLabelEmail(label: string, required: boolean, value: string, options?: { minLength?: number, maxLength?: number }) {
+    const validators: ValidatorFn[] = [];
+
+    if(required) validators.push(Validators.required);
+
+    if(options) {
+      if(options.minLength) validators.push(Validators.minLength(options.minLength));
+      if(options.maxLength) validators.push(Validators.minLength(options.maxLength));
+    }
+
+    validators.push(Validators.email);
+
+    const fc = new RSTextFormControl({ 
+      required: required, 
+      minlength: options && options.minLength ? options.minLength : undefined, 
+      maxlength: options && options.maxLength ? options.maxLength : undefined, 
+      inputType: 'email',
+      autoComplete: 'email',
+      placeholder: label
+     }, value);
+    fc.setCustomValidators(validators);
+
+    return fc;
+  }
+
   LabelNumberText(label: string, required: boolean, value: string, options?: { minLength?: number, maxLength?: number }) {
     return this.LabelText(label, required, value, { 
       minLength: options && options.minLength ? options.minLength : undefined, 
       maxLength: options && options.minLength ? options.minLength: undefined, 
       mask: '0*' 
     });
+  }
+
+  NonLabelNumberText(label: string, required: boolean, value: string, options?: { minLength?: number, maxLength?: number }) {
+    return this.NonLabelText(label, required, value, { 
+      minLength: options && options.minLength ? options.minLength : undefined, 
+      maxLength: options && options.minLength ? options.minLength: undefined, 
+      mask: '0*' 
+    });
+  }
+
+  LabelPassword(label: string, required: boolean, value: string, options?: { minLength?: number, maxLength?: number, mask?: string, isNewPassword?: boolean }) {
+    const validators: ValidatorFn[] = [];
+
+    if(required) validators.push(Validators.required);
+
+    if(options) {
+      if(options.minLength) validators.push(Validators.minLength(options.minLength));
+      if(options.maxLength) validators.push(Validators.minLength(options.maxLength));
+    }
+
+    const fc = new RSLabelTextFormControl(label, { 
+      required: required, 
+      minlength: options && options.minLength ? options.minLength: undefined, 
+      maxlength: options && options.maxLength ? options.maxLength : undefined, 
+      mask: options && options.mask ? options.mask : undefined,
+      inputType: 'password',
+      autoComplete: options && options.isNewPassword ? 'new-password' : 'currentPassword'
+     }, value);
+    fc.setCustomValidators(validators);
+
+    return fc;
+  }
+
+  NonLabelPassword(label: string, required: boolean, value: string, options?: { minLength?: number, maxLength?: number, mask?: string, isNewPassword?: boolean }) {
+    const validators: ValidatorFn[] = [];
+
+    if(required) validators.push(Validators.required);
+
+    if(options) {
+      if(options.minLength) validators.push(Validators.minLength(options.minLength));
+      if(options.maxLength) validators.push(Validators.minLength(options.maxLength));
+    }
+
+    const fc = new RSTextFormControl({ 
+      required: required, 
+      minlength: options && options.minLength ? options.minLength: undefined, 
+      maxlength: options && options.maxLength ? options.maxLength : undefined, 
+      mask: options && options.mask ? options.mask : undefined,
+      inputType: 'password',
+      placeholder: label,
+      autoComplete: options && options.isNewPassword ? 'new-password' : 'currentPassword'
+     }, value);
+    fc.setCustomValidators(validators);
+
+    return fc;
   }
 }

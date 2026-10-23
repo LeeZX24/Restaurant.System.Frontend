@@ -1,27 +1,24 @@
 @reference "tailwindcss";
 
 .button {
-  @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;
-  @apply w-full max-w-md mx-auto;
+  @apply inline-block font-normal leading-5 text-center whitespace-nowrap align-middle select-none border border-transparent;
+  @apply px-4 py-2 text-base rounded transition-all duration-200 ease-in-out;
+  @apply bg-blue-500 text-white font-bold rounded;
 }
 
-.btnRegister {
-  @apply flex justify-center items-center px-6 py-3 mt-4 text-lg font-semibold;
+.btn-register {
+  @apply flex justify-center items-center text-lg font-semibold;
 }
 
-.btnRegister.disabled {
+.btn-register.disabled {
   @apply pointer-events-none bg-gray-500;
 }
 
-.btnRegister.disabled:hover {
+.btn-register.disabled:hover {
   @apply cursor-not-allowed;
 }
 
-.button {
-  @apply inline-block font-normal leading-5 text-center whitespace-nowrap align-middle select-none border border-transparent px-4 py-2 text-base rounded transition-all duration-200 ease-in-out;
-}
-
-.btnLabel {
+.btn-label {
   display: flex;
   justify-content: center;
   flex-grow: 1;

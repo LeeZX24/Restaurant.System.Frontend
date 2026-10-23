@@ -1,15 +1,11 @@
-import { Component } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {
-  CustomFormGroup,
-  RSPasswordFormControlComponent,
-  RSTextFormControl,
-  RSTextFormControlComponent,
-} from '@LeeZX24/forms';
+import { CustomFormGroup, RSPasswordFormControlComponent, RSTextFormControl, RSTextFormControlComponent } from '@LeeZX24/forms';
 import { BaseAuthComponent } from '../../../../shared/components/base-auth-component/base-auth-component';
 import { LoginRequestDto } from '../../../../shared/models/dtos/auth/login.dto';
 import { DialogVariant } from '@LeeZX24/dialogs';
+import { ControlService } from '../../../../shared/services/control.service';
 
 @Component({
   selector: 'rs-login',
@@ -25,24 +21,13 @@ import { DialogVariant } from '@LeeZX24/dialogs';
   ],
 })
 export class LoginComponent extends BaseAuthComponent {
+  private readonly controlService = inject(ControlService);
 
   createForm(): CustomFormGroup {
     const fg = new CustomFormGroup();
 
-    fg._addCustomControl(
-      'username',
-      new RSTextFormControl({ required: true, inputType: 'text', autoComplete: 'username' }, '', [
-        Validators.required,
-      ]),
-    );
-    fg._addCustomControl(
-      'password',
-      new RSTextFormControl(
-        { required: true, inputType: 'password', autoComplete: 'current-password' },
-        '',
-        [Validators.required],
-      ),
-    );
+    fg._addCustomControl('username', this.controlService.NonLabelText('Username', true, '', { autocomplete: 'username' }));
+    fg._addCustomControl('password', this.controlService.NonLabelPassword('Password', true, '', { isNewPassword:false }));
     return fg;
   }
 

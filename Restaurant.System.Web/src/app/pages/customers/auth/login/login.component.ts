@@ -1,14 +1,10 @@
-import { Component } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {
-  CustomFormGroup,
-  RSEmailFormControlComponent,
-  RSPasswordFormControlComponent,
-  RSTextFormControl,
-} from '@LeeZX24/forms';
+import { CustomFormGroup, RSEmailFormControlComponent, RSPasswordFormControlComponent, RSTextFormControl } from '@LeeZX24/forms';
 import { BaseAuthComponent } from '../../../../shared/components/base-auth-component/base-auth-component';
 import { LoginRequestDto } from '../../../../shared/models/dtos/auth/login.dto';
+import { ControlService } from '../../../../shared/services/control.service';
 
 
 
@@ -26,33 +22,17 @@ import { LoginRequestDto } from '../../../../shared/models/dtos/auth/login.dto';
   ],
 })
 export class LoginComponent extends BaseAuthComponent {
+  private readonly controlService = inject(ControlService);
+
   createForm(): CustomFormGroup {
     const fg = new CustomFormGroup();
-
-    fg._addCustomControl(
-      'email',
-      new RSTextFormControl({ required: true, inputType: 'email', autoComplete: 'username' }, '', [
-        Validators.required,
-        Validators.email,
-      ]),
-    );
-    fg._addCustomControl(
-      'password',
-      new RSTextFormControl(
-        { required: true, inputType: 'password', autoComplete: 'current-password' },
-        '',
-        [Validators.required],
-      ),
-    );
+    fg._addCustomControl('email',this.controlService.NonLabelEmail('Email', true, ''));
+    fg._addCustomControl('password', this.controlService.NonLabelPassword('Password', true, '', { isNewPassword: false }));
     return fg;
   }
 
-  get emailFC() {
-    return this.getFormControl('email') as RSTextFormControl;
-  }
-  get passwordFC() {
-    return this.getFormControl('password') as RSTextFormControl;
-  }
+  get emailFC() { return this.getFormControl('email') as RSTextFormControl; }
+  get passwordFC() { return this.getFormControl('password') as RSTextFormControl; }
 
   onValidateForm(): boolean {
     if (this.form.valid) {

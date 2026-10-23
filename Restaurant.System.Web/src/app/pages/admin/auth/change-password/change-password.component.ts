@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CustomFormGroup, RSLabelTextFormControl, RSLabelPasswordFormControlComponent } from '@LeeZX24/forms';
 import { BaseAuthComponent } from '../../../../shared/components/base-auth-component/base-auth-component';
-import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ChangePasswordRequestDto } from '../../../../shared/models/dtos/auth/change-password.dto';
 import { DialogVariant } from '@LeeZX24/dialogs';
+import { ControlService } from '../../../../shared/services/control.service';
 
 @Component({
   imports: [CommonModule, ReactiveFormsModule, FormsModule, RSLabelPasswordFormControlComponent],
@@ -13,6 +14,8 @@ import { DialogVariant } from '@LeeZX24/dialogs';
   templateUrl: './change-password.component.html',
 })
 export class ChangePasswordComponent extends BaseAuthComponent implements OnInit {
+  private readonly controlService = inject(ControlService);
+
   override ngOnInit(): void {
     super.ngOnInit();
 
@@ -24,8 +27,8 @@ export class ChangePasswordComponent extends BaseAuthComponent implements OnInit
   protected override createForm(): CustomFormGroup {
     const fg = new CustomFormGroup();
 
-    fg._addCustomControl('password', new RSLabelTextFormControl('New Password', { required: true, inputType: 'password', autoComplete: 'current-password' }, '', [Validators.required]));
-    fg._addCustomControl('confirmPassword', new RSLabelTextFormControl('Confirm Password', { required: true, inputType: 'password', autoComplete: 'current-password' }, '', [Validators.required]));
+    fg._addCustomControl('password', this.controlService.LabelPassword('New Password', true, '', { isNewPassword: true }));
+    fg._addCustomControl('confirmPassword', this.controlService.LabelPassword('Confirm Password', true, '', { isNewPassword: true }));
 
     return fg;
   }

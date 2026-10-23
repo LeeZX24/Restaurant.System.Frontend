@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BaseAuthComponent } from '../../../../shared/components/base-auth-component/base-auth-component';
 import { CustomFormGroup, RSLabelTextFormControlComponent, RSLabelEmailFormControlComponent, RSLabelPasswordFormControl, RSLabelPasswordFormControlComponent, RSLabelTextFormControl } from '@LeeZX24/forms';
 import { RegistrarDto, RegisterRequestDto } from '../../../../shared/models/dtos/auth/register.dto';
+import { ControlService } from '../../../../shared/services/control.service';
 
 @Component({
   selector: 'rs-register',
@@ -20,7 +21,7 @@ import { RegistrarDto, RegisterRequestDto } from '../../../../shared/models/dtos
   ],
 })
 export class RegisterComponent extends BaseAuthComponent implements OnInit {
-  fg = new CustomFormGroup();
+  private readonly controlService = inject(ControlService);
 
   override ngOnInit() {
     super.ngOnInit();
@@ -31,14 +32,16 @@ export class RegisterComponent extends BaseAuthComponent implements OnInit {
   }
 
   createForm(): CustomFormGroup {
-    this.fg._addCustomControl('email', new RSLabelTextFormControl('Email', { required: true, inputType: 'email', autoComplete: 'username' }, '', [Validators.required, Validators.email]));
-    this.fg._addCustomControl('lastName', new RSLabelTextFormControl('Last Name', { required: true, inputType: 'text' },'', [Validators.required]));
-    this.fg._addCustomControl('firstName', new RSLabelTextFormControl('First Name', { required: true, inputType: 'text' },'', []));
-    this.fg._addCustomControl('middleName', new RSLabelTextFormControl('Middle Name', { required: true, inputType: 'text' }, '', []));
-    this.fg._addCustomControl('password', new RSLabelPasswordFormControl('Password', { required: true, inputType: 'password', autoComplete: 'new-password' }, '', [Validators.required]));
-    this.fg._addCustomControl('confirmPassword', new RSLabelPasswordFormControl('Confirm Password', { required: true, inputType: 'password', autoComplete: 'new-password' }, '', [Validators.required]));
+    const fg = new CustomFormGroup();
 
-    return this.fg;
+    fg._addCustomControl('email', this.controlService.LabelEmail('Email', false, ''));
+    fg._addCustomControl('lastName', this.controlService.LabelText('Last Name', true, '', { autocomplete: 'family-name' }));
+    fg._addCustomControl('firstName', this.controlService.LabelText('First Name', false, '', { autocomplete: 'given-name' }));
+    fg._addCustomControl('middleName', this.controlService.LabelText('Middle Name', false, '', { autocomplete: 'additional-name' }));
+    fg._addCustomControl('password', this.controlService.LabelPassword('Password', true, '', { isNewPassword: true }));
+    fg._addCustomControl('confirmPassword', this.controlService.LabelPassword('Confirm Password', true, '', { isNewPassword: true }));
+
+    return fg;
   } 
 
   get emailFC() { return this.getFormControl('email') as RSLabelTextFormControl; }
