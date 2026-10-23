@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { provideNgxMask } from 'ngx-mask';
 import { CommonModule } from '@angular/common';
 import {
   CustomFormGroup,
@@ -24,7 +23,6 @@ import { DialogVariant } from '@LeeZX24/dialogs';
     RSPasswordFormControlComponent,
     RSTextFormControlComponent
   ],
-  providers: [provideNgxMask()],
 })
 export class LoginComponent extends BaseAuthComponent {
 

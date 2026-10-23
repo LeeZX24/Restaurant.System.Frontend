@@ -30,36 +30,40 @@ export class RouterService {
   );
 
   private getEntryPoint(path: string): AppEntryPoint {
-    if(path === '/' || path === '') return '/';
-    if(path.startsWith('/admin')) return '/admin';
-    if(path.startsWith('/member')) return '/member';
+    const pathname = path.split(/[?#]/)[0].replace(/\/+$/, '') || '/';
+
+    if (pathname === '/admin' || pathname.startsWith('/admin/')) {
+      return '/admin';
+    }
+
+    if (pathname === '/member' || pathname.startsWith('/member/')) {
+      return '/member';
+    }
 
     return '/';
   }
 
   public resolveEntryPoint(): Promise<boolean> {
-    const url = this.router.url;
+    const entryPoint = this.getEntryPoint(this.router.url);
     const user = this.authService.getCurrentUserValue();
+    const isLoggedIn = this.authService.isLoggedIn;
 
-    if(url === '/admin') {
-      this.entryPoint.set('/admin');
+    this.entryPoint.set(entryPoint);
 
-      return this.navigateTo(
-        !this.authService.isLoggedIn
-          ? '/admin/dashboard'
-          : '/admin/auth/login',
-      );
+    if (entryPoint === '/admin') {
+      if (!isLoggedIn || user?.userType !== UserType.Staff) {
+        return this.navigateTo('/admin/auth/login');
+      }
 
+      return this.navigateTo('/admin/dashboard');
     }
 
-    if (url === '/member') {
-      this.entryPoint.set('/member');
+    if (entryPoint === '/member') {
+      if (!isLoggedIn || user?.userType !== UserType.Member) {
+        return this.navigateTo('/member/auth/login');
+      }
 
-      return this.navigateTo(
-        user?.userType === UserType.Member
-          ? '/member/home'
-          : '/member/auth/login',
-      );
+      return this.navigateTo('/member/home');
     }
 
     return Promise.resolve(true);
@@ -105,8 +109,12 @@ export class RouterService {
     return success;
   }
 
-  public gotoLogin(): void {
-    this.navigateTo('/admin/auth/login');
+  public gotoLogin(): Promise<boolean> {
+    return this.navigateTo(
+      this.entryPoint() === '/member'
+        ? '/member/auth/login'
+        : '/admin/auth/login',
+    );
   }
 
   public gotoMemberLogin(): void {

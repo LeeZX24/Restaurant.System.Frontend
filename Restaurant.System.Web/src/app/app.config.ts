@@ -28,6 +28,7 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { loadAppConfig } from './utils/runtime-env';
 import { APP_CONFIG } from './shared/configs/app-config.state';
 import { ThemeService } from './core/services/theme.service';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -59,5 +60,6 @@ export const appConfig: ApplicationConfig = {
       fallbackLang: 'en',
       loader: provideTranslateHttpLoader({ prefix: './i18n/', suffix: '.json' }),
     }),
+    provideEnvironmentNgxMask(),
   ],
 };

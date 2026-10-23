@@ -34,7 +34,7 @@ export class AppInitializeService {
 
     const appConfig = await this.config;
 
-    const ref = this.dialogService.showLoadingDialog('Loading...', false, false, { loading: true });
+    const ref = this.dialogService.showLoadingDialog('Checking Backend...', false, false, { loading: true });
 
     await firstValueFrom(ref.afterOpened());
     
@@ -51,61 +51,23 @@ export class AppInitializeService {
           extraConfig: { success: true } 
         });
 
-        await this.wait(1000);
+        await this.wait(500);
 
-        if (!this.authService.isLoggedIn) {
-          await ref.update({ 
-            message: 'Redirect to Login Page ...', 
-            title: 'Redirect', 
-            variant: DialogVariant.Info, 
-            extraConfig: { loading: true } 
-          });
+        await ref.update({
+          message: 'Resolving application route...',
+          title: 'Initializing',
+          variant: DialogVariant.Info,
+          extraConfig: { loading: true },
+        });
 
-          await this.wait(1000);
+        await this.routerService.resolveEntryPoint();
 
-          await this.routerService.gotoLogin();
+        await this.wait(500);
 
-          ref.close();
-        } else {
-          await ref.update({ 
-            message: 'Redirect to Dashboard ...', 
-            title: 'Redirect', 
-            variant: DialogVariant.Info, 
-            extraConfig: { loading: true } 
-          });
-
-          await this.wait(1000);
-
-          await this.routerService.navigateTo('/admin/dashboard');
-          ref.close();
-        }
+        ref.close();
       }
     } catch (error) {
       this.showErrorDialog(ref, error);
-
-      // if(backendOnline) {
-        
-
-      //   await this.wait(1000);
-
-      //   const path = !this.authService.isLoggedIn ? 'Login' : 'Admin Dashboard';
-
-      //   this.dialogConfig = {
-      //     message: `Redirect to ${path} ...`,
-      //     title: 'Redirect',
-      //     variant: DialogVariant.Info,
-      //     extraConfig:{ loading: true }
-      //   };
-
-      //   ref.update(this.dialogConfig);
-
-      //   await this.wait(1000);
-
-      //   ref.ref.close();
-        
-        
-      // }
-      
     }
   }
 

@@ -13,7 +13,6 @@ import { RSTextFormControl, RSTextFormControlComponent } from '@LeeZX24/forms';
 import { CustomComboboxFormControlComponent } from '../custom-combobox-form-control/custom-combobox-form-control.component';
 import { RSComboboxFormControl } from '../custom-combobox-form-control/custom-combobox-form-control';
 import { RSListOptions } from './custom-list-form-control';
-import { provideNgxMask } from 'ngx-mask';
 import { CastPipe } from '../cast.pipe';
 @Component({
   selector: 'rs-list-control',
@@ -28,7 +27,6 @@ import { CastPipe } from '../cast.pipe';
   ],
   templateUrl: './custom-list-form-control.component.html',
   styleUrl: './custom-list-form-control.component.css',
-  providers: [provideNgxMask()],
 })
 export class CustomListFormControlComponent<TItem extends object> {
   labelSize = input<string>();

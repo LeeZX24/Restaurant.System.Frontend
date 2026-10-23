@@ -2,7 +2,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Component, computed, ElementRef, input, output, signal, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { provideNgxMask } from 'ngx-mask';
 import { RSComboboxFormControl } from './custom-combobox-form-control';
 import { DropDownItem } from '../custom-label-dropdown-form-control/dropdown';
 
@@ -11,7 +10,6 @@ import { DropDownItem } from '../custom-label-dropdown-form-control/dropdown';
   imports: [CommonModule, ReactiveFormsModule, FormsModule, MatIconModule],
   templateUrl: './custom-combobox-form-control.component.html',
   styleUrl: './custom-combobox-form-control.component.css',
-  providers: [provideNgxMask()],
 })
 export class CustomComboboxFormControlComponent<
   TData extends Record<string, unknown>,

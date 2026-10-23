@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { provideNgxMask } from 'ngx-mask';
 import { CommonModule } from '@angular/common';
 import {
   CustomFormGroup,
@@ -8,7 +7,6 @@ import {
   RSPasswordFormControlComponent,
   RSTextFormControl,
 } from '@LeeZX24/forms';
-import { v7 as uuidv7 } from 'uuid';
 import { BaseAuthComponent } from '../../../../shared/components/base-auth-component/base-auth-component';
 import { LoginRequestDto } from '../../../../shared/models/dtos/auth/login.dto';
 
@@ -26,7 +24,6 @@ import { LoginRequestDto } from '../../../../shared/models/dtos/auth/login.dto';
     RSEmailFormControlComponent,
     RSPasswordFormControlComponent,
   ],
-  providers: [provideNgxMask()],
 })
 export class LoginComponent extends BaseAuthComponent {
   createForm(): CustomFormGroup {

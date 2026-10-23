@@ -5,30 +5,28 @@
   <form class="flex items-center border-b border-teal-50 justify-center p-6" [formGroup]="form">
     <div class="flex flex-col w-full mb-1 max-w-md">
       <rs-label-email-form-control 
-        [fc]="emailFC" [inputSize]="'col-input' "tabindex="0"></rs-label-email-form-control>
+        [fc]="emailFC" [inputSize]="'col-input' "></rs-label-email-form-control>
       <rs-label-text-form-control
-        [fc]="lastNameFC" [inputSize]="'col-input'" tabindex="1"></rs-label-text-form-control>
+        [fc]="lastNameFC" [inputSize]="'col-input'"></rs-label-text-form-control>
       <rs-label-text-form-control 
-        [fc]="firstNameFC" [inputSize]="'col-input'" tabindex="2"></rs-label-text-form-control>
+        [fc]="firstNameFC" [inputSize]="'col-input'"></rs-label-text-form-control>
       <rs-label-text-form-control 
-        [fc]="middleNameFC" [inputSize]="'col-input'" tabindex="3"></rs-label-text-form-control>
+        [fc]="middleNameFC" [inputSize]="'col-input'"></rs-label-text-form-control>
       <rs-label-password-form-control 
-        [fc]="passwordFC" [inputSize]="'col-input'" tabindex="4"></rs-label-password-form-control>
+        [fc]="passwordFC" [inputSize]="'col-input'"></rs-label-password-form-control>
       <rs-label-password-form-control
-        [fc]="confirmPasswordFC" [inputSize]="'col-input'" tabindex="5"></rs-label-password-form-control>
+        [fc]="confirmPasswordFC" [inputSize]="'col-input'"></rs-label-password-form-control>
 
-      <div
+      <button
         class="button btnRegister"
         [class.disabled]="form.invalid"
         (click)="form.invalid ? null : onSubmitRegister()"
         (keyup.enter)="onSubmitRegister()"
-        role="button"
-        tabindex="2"
-      >
-        <div class="btnLabel">
+        role="button">
+        <span class="btnLabel">
           <span>Register</span>
-        </div>
-      </div>
+        </span>
+      </button>
     </div>
   </form>
 

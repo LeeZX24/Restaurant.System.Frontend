@@ -31,7 +31,6 @@
               @for(item of filteredItems(); track item.value) {
                 <li class="w-full hover:bg-gray-400 dark:bg-gray-400 dark:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300"
                   (mousedown)="onItemSelected(item)"
-                  [tabIndex]="items().length - 1"
                 >
                   <div class="p-3 flex gap-2">
                     <span> {{ item.title }} </span>

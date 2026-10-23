@@ -5,14 +5,12 @@ import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ChangePasswordRequestDto } from '../../../../shared/models/dtos/auth/change-password.dto';
 import { DialogVariant } from '@LeeZX24/dialogs';
-import { provideNgxMask } from 'ngx-mask';
 
 @Component({
   imports: [CommonModule, ReactiveFormsModule, FormsModule, RSLabelPasswordFormControlComponent],
   selector: 'app-change-password',
   styleUrl: './change-password.component.css',
   templateUrl: './change-password.component.html',
-  providers: [ provideNgxMask() ]
 })
 export class ChangePasswordComponent extends BaseAuthComponent implements OnInit {
   override ngOnInit(): void {

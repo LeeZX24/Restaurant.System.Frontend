@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
-import { provideNgxMask } from 'ngx-mask';
 import { BaseAuthComponent } from '../../../../shared/components/base-auth-component/base-auth-component';
 import { CustomFormGroup, RSLabelTextFormControlComponent, RSLabelEmailFormControlComponent, RSLabelPasswordFormControl, RSLabelPasswordFormControlComponent, RSLabelTextFormControl } from '@LeeZX24/forms';
 import { RegistrarDto, RegisterRequestDto } from '../../../../shared/models/dtos/auth/register.dto';
@@ -19,7 +18,6 @@ import { RegistrarDto, RegisterRequestDto } from '../../../../shared/models/dtos
     RSLabelEmailFormControlComponent,
     RSLabelPasswordFormControlComponent
   ],
-  providers: [provideNgxMask()],
 })
 export class RegisterComponent extends BaseAuthComponent implements OnInit {
   fg = new CustomFormGroup();

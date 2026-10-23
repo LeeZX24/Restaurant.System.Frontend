@@ -6,7 +6,6 @@ import { ControlService } from '../../../shared/services/control.service';
 import { MaintenanceFormComponent } from '../form.component';
 import { CustomButtonControl } from "../../../shared/controls/custom-button-control/custom-button-control";
 import { RSLabelTextFormControlComponent } from "@LeeZX24/forms";
-import { provideNgxMask } from 'ngx-mask';
 import { RSLabelDropdownFormControlComponent } from '../../../shared/controls/custom-label-dropdown-form-control/custom-label-dropdown-form-control.component';
 import { CustomLabelToggleFormControl } from '../../../shared/controls/custom-label-toggle-control/custom-label-toggle-form-control.component';
 
@@ -37,7 +36,6 @@ import { CustomLabelToggleFormControl } from '../../../shared/controls/custom-la
   </div>
   `,
   imports: [CustomButtonControl, RSLabelTextFormControlComponent, RSLabelDropdownFormControlComponent, CustomLabelToggleFormControl],
-  providers: [provideNgxMask()]
 })
 export class DropdownMaintenanceFormComponent extends MaintenanceFormComponent<DropdownMaintenanceFormGroup, DropdownDto> implements OnInit {
   protected ctrlService = inject(ControlService);

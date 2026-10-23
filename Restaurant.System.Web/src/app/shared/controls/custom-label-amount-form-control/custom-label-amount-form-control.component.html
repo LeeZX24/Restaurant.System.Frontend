@@ -1,0 +1,30 @@
+<rs-label-form-control-base [fc]="fc()" [labelSize]="labelSize()" [inputSize]="inputSize()">
+    <input
+        [id]="fc().inputId()"
+        class="form-control text-right"
+        [formControl]="fc()"
+        [class]="fc().elementCssClass()"
+        type="text"
+        (input)="onChangeAmount($event)"
+        [mask]="'separator.2'"
+        [decimalMarker]="fc().decimal"
+        [thousandSeparator]="fc().thousands"
+        [prefix]="fc().prefix"
+        [typeFromDecimals]="true"
+        [leadZero]="true"
+        defaultValueOnBlur="0.00"
+        [allowNegativeNumbers]="fc().allowNegative"
+        [maxlength]="fc().maxLength"
+        [minlength]="fc().minLength"
+        [placeholder]="fc().placeholder"
+        [readonly]="fc().readonly"
+        (blur)="onBlurAmount()"
+        #input
+    />
+
+    <ng-container attach>
+        <ng-content select="[attach]"></ng-content>
+    </ng-container>
+
+    <ng-content></ng-content>
+</rs-label-form-control-base>

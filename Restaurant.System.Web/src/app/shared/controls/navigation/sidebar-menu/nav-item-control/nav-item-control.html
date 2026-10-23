@@ -1,16 +1,15 @@
 <div class="relative">
-  <div class="nav-item-link"
+  <button class="nav-item-link"
     (mouseenter)="onMouseEnter()"
     (mouseleave)="onMouseLeave()"
     (click)="handleNavigate()"
     (keydown.enter)="handleNavigate()"
-    tabindex="0"
     [class.font-bold]="isActive()"
     [class.hovered]="isHovered()">
     <div class="relative z-10 flex items-center">
       <rs-nav-item [item]="item()!" [isExpanded]="isExpanded()" [isGroupExpanded]="navService.isExpanded(getKey(item()!))"></rs-nav-item>
     </div>
-  </div>
+  </button>
 
   @if(!isExpanded() && depth() === 0 && isHovered()) {
     <div

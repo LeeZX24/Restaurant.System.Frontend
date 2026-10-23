@@ -6,7 +6,6 @@ import { ControlService } from '../../../shared/services/control.service';
 import { MaintenanceFormComponent } from '../form.component';
 import { CustomButtonControl } from '../../../shared/controls/custom-button-control/custom-button-control';
 import { RSLabelTextFormControlComponent, RSLabelEmailFormControlComponent } from '@LeeZX24/forms';
-import { provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'rs-staff-maintenance-form',
@@ -28,7 +27,6 @@ import { provideNgxMask } from 'ngx-mask';
     </div>
   `,
   styles: ``,
-  providers: [provideNgxMask()]
 })
 export class StaffMaintenanceFormComponent extends MaintenanceFormComponent<StaffMaintenanceFormGroup, StaffDto> {
   protected ctrlService = inject(ControlService);

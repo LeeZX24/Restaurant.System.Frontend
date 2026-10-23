@@ -22,19 +22,12 @@ export class DropdownService {
     const cacheKey = 'category';
     const cached = this.dropdownCache$.value[cacheKey];
 
-    console.log('[Dropdown] cache:', cached);
-
-    if(cached) { console.log('[Dropdown] RETURN CACHE'); return of(cached); }
-
-    console.log('[Dropdown] LOAD API');
+    if(cached) return of(cached);
 
     return this.api.get<DropdownDto[]>(this.route, 'get')
       .pipe(
         map(x => { return this.toCategoryModel(x)}),
         tap(models => {
-
-          console.log('[Dropdown] SET CACHE', models);
-
           this.dropdownCache$.next({
             ...this.dropdownCache$.value,
             [cacheKey]: models
@@ -44,11 +37,37 @@ export class DropdownService {
   }
 
   getDropdownListByCategory(category: string) {
-    return this.api.post<string, DropdownDto[]>(this.route, 'getbycategory', category);
+    const cacheKey = 'code';
+    const cached = this.dropdownCache$.value[cacheKey];
+
+    if(cached) { return of(cached); }
+
+    return this.api.post<string, DropdownDto[]>(this.route, 'getbycategory', category).pipe(
+        map(x => { return this.toCategoryModel(x)}),
+        tap(models => {
+          this.dropdownCache$.next({
+            ...this.dropdownCache$.value,
+            [cacheKey]: models
+          })
+        })
+      );
   }
 
   getDropdownListByCategoryTags(category: string, tags: string) {
-    return this.api.post<{ category: string, tags: string }, DropdownDto[]>(this.route, 'getbycategorytags', {category: category, tags: tags});
+    const cacheKey = 'code';
+    const cached = this.dropdownCache$.value[cacheKey];
+
+    if(cached) { return of(cached); }
+
+    return this.api.post<{ category: string, tags: string }, DropdownDto[]>(this.route, 'getbycategorytags', {category: category, tags: tags}).pipe(
+        map(x => { return this.toCategoryModel(x)}),
+        tap(models => {
+          this.dropdownCache$.next({
+            ...this.dropdownCache$.value,
+            [cacheKey]: models
+          })
+        })
+      );
   }
 
   private toDropdownModels(dtos: DropdownDto[]): DropdownModel[] {

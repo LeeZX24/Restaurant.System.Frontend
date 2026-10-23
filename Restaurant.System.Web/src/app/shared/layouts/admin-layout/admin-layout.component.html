@@ -6,12 +6,12 @@
     <rs-nav-menu-control [isExpanded]="isExpanded()" (toggle)="toggle()"></rs-nav-menu-control>
 
     @if (isExpanded()) {
-      <div
+      <button
         class="menu-backdrop"
         (click)="isExpanded.set(!isExpanded())"
-        (keyup.enter)="isExpanded.set(!isExpanded())"
-        tabindex="0"
-      ></div>
+        (keyup.enter)="isExpanded.set(!isExpanded())">
+        <span class="sr-only">Close menu</span>
+      </button>
     }
 
     <main class="flex-1 p-6 md:p-10 md:pl-23 transition-[padding] overflow-y-scroll">
