@@ -53,11 +53,11 @@
 
             <div class="min-w-0">
               <p class="truncate font-semibold text-gray-900 dark:text-white">
-                {{ user.customerId }}
+                {{ `${ user.profileInfo?.lastName } ${ user.profileInfo?.firstName } ${ user.profileInfo?.middleName }`.trim() }}
               </p>
 
               <p class="truncate text-sm text-gray-500 dark:text-gray-400">
-                {{ user.accountInfo?.emailAddress }}
+                {{ user.accountInfo?.email }}
               </p>
             </div>
           </div>
@@ -68,7 +68,7 @@
           <div class="space-y-1 text-sm">
             <p class="text-gray-600 dark:text-gray-300">
               <span class="font-medium text-gray-900 dark:text-white">Role:</span>
-              Administrator
+              {{ user.roles?.at(0) }}
             </p>
 
             <p class="text-gray-600 dark:text-gray-300">

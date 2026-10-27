@@ -32,16 +32,25 @@ export class RSLabelAmountFormControlComponent implements OnInit {
     const inputElement = event.target as HTMLInputElement;
 
     if (!inputElement.value || inputElement.value.trim() === '') {
-      fc.setValue(0.00);
+      fc.setValue(Number(0).toFixed(2)); 
     }
+
+    
   }
 
   onBlurAmount() {
-    const fc = this.fc();
-
-    if(fc.value === null || fc.value === '') {
-      fc.setValue(0.00, { emitEvent: true });
-      fc.markAsTouched();
-    }
+    this.fc().markAsTouched();
   }
+
+  readonly amountOutputTransform = (
+    value: string | number | null | undefined,
+  ): number | null => {
+    if (value === null || value === undefined || value === '') {
+      return null;
+    }
+
+    const amount = Number(String(value).replace(/,/g, ''));
+
+    return Number.isFinite(amount) ? amount : null;
+  };
 }

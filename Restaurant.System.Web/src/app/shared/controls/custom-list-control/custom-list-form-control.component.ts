@@ -29,8 +29,8 @@ import { CastPipe } from '../cast.pipe';
   styleUrl: './custom-list-form-control.component.css',
 })
 export class CustomListFormControlComponent<TItem extends object> {
-  labelSize = input<string>();
-  inputSize = input<string>();
+  labelSize = input<string>('w-4/12');
+  inputSize = input<string>('w-8/12');
   fc = input<FormControl>();
   options = input.required<RSListOptions<TItem>>();
 
@@ -52,29 +52,24 @@ export class CustomListFormControlComponent<TItem extends object> {
   }
 
   getRowFG(row: TItem): FormGroup {
-    if (!row) return new FormGroup({});
-
-    if (this.fgCache.has(row)) {
-      const fg = this.fgCache.get(row)!;
-      return fg;
-    }
-
-    const fg = this.options()?.createFormGroup?.(row) ?? new FormGroup({});
-    fg.patchValue(row);
-    this.fgCache.set(row, fg);
-    return fg;
+    return this.fgCache.get(row) ?? new FormGroup({}); 
   }
 
   onAddClick() {
     const newRow = this.options()?.createEmptyRow?.() ?? ({} as TItem);
-    const fg = this.getRowFG(newRow);
-    this.rows.update((rows) => [...rows, newRow]);
 
-    console.log(fg.get('type')?.value);
-    console.log((fg.get('type') as RSComboboxFormControl<DropdownDto, string>).searchTerm$());
+    this.initializeRow(newRow)
+    this.rows.update((rows) => [...rows, newRow]);
   }
 
   removeListItem(index: number) {
     this.rows.update((rows) => rows.filter((_, i) => i !== index));
+  }
+
+  private initializeRow(row: TItem) {
+    if(this.fgCache.has(row)) return;
+    const fg = this.options()?.createFormGroup?.(row) ?? new FormGroup({});
+    fg.patchValue(row);
+    this.fgCache.set(row, fg);
   }
 }

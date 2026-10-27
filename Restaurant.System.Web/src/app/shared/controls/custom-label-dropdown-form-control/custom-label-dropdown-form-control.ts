@@ -23,7 +23,7 @@ export class RSLabelDropDownValidators {
   static required<TValue>(emptyValue?: TValue): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const value = control.value;
-      return value === null || value === undefined || value === '' || value === emptyValue
+      return value === null || value === undefined || value === '' || value === emptyValue || value === '-1' || value === -1
         ? { require: true }: null;
     }
   }
@@ -40,7 +40,7 @@ export class RSLabelDropdownFormControl<TData, TValue> extends RSLabelFormContro
     validator: RSFormValidators = null,
   ) {
     super(label, options, value, validator);
-    this._initialize();
+    this.refresh();
   }
 
   selectedTitle = computed(() => {
@@ -60,6 +60,8 @@ export class RSLabelDropdownFormControl<TData, TValue> extends RSLabelFormContro
 
   refresh() {
     this._initialize();
+    this.getValidationMessages();
+    this.updateValueAndValidity();
   }
 
   override reset(formState: unknown = null, options?: { onlySelf?: boolean; emitEvent?: boolean; }) {

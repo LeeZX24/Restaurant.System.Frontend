@@ -22,9 +22,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@LeeZX24/forms@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "@LeeZX24/forms@npm:0.0.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40LeeZX24%2Fforms%2F0.0.1%2Fb09f24082816bb6e93c368b86988acf1ea7a9db0"
+"@LeeZX24/forms@npm:^0.0.4":
+  version: 0.0.4
+  resolution: "@LeeZX24/forms@npm:0.0.4::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40LeeZX24%2Fforms%2F0.0.4%2F7e1eaa4bd64c2687d6d521eb1646ae8871a833ef"
   dependencies:
     tslib: "npm:^2.8.1"
   peerDependencies:
@@ -35,7 +35,7 @@ __metadata:
     "@ngx-translate/core": ^18.0.0
     "@ngx-translate/http-loader": ^18.0.0
     rxjs: ^7.8.2
-  checksum: 10c0/34ea0da53df8f31bf3a43b9ff47f8908d0c48a8b39ec10e76e0c1e860ea8bc16d464295725515ebf66404e73f7d1e06019f8148bf0dc5efd3256ced9ece1fe5d
+  checksum: 10c0/a9964bb76eced1aeaef7d06d2187de7109ae5cabe274df5b4e60a20485a382eb9e830edd94cbfe29c0a07ae473ebe1424cc97ad15de16722ab7b831bcf40f2d8
   languageName: node
   linkType: hard
 
@@ -9528,7 +9528,7 @@ __metadata:
   resolution: "restaurant.system.web@workspace:."
   dependencies:
     "@LeeZX24/dialogs": "npm:0.0.10"
-    "@LeeZX24/forms": "npm:^0.0.1"
+    "@LeeZX24/forms": "npm:^0.0.4"
     "@angular-eslint/eslint-plugin": "npm:^22.6.0"
     "@angular-eslint/eslint-plugin-template": "npm:^22.6.0"
     "@angular-eslint/schematics": "npm:^22.6.0"

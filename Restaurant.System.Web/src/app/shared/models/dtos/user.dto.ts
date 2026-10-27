@@ -10,7 +10,7 @@ export interface UserDto {
 export interface AccountDto {
   identifier?: string;
   username?: string;
-  emailAddress?: string;
+  email?: string;
   userType?: UserType;
 }
 

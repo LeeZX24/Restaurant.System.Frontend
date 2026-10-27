@@ -12,12 +12,12 @@
         [prefix]="fc().prefix"
         [typeFromDecimals]="true"
         [leadZero]="true"
-        defaultValueOnBlur="0.00"
         [allowNegativeNumbers]="fc().allowNegative"
         [maxlength]="fc().maxLength"
         [minlength]="fc().minLength"
         [placeholder]="fc().placeholder"
         [readonly]="fc().readonly"
+        [outputTransformFn]="amountOutputTransform"
         (blur)="onBlurAmount()"
         #input
     />

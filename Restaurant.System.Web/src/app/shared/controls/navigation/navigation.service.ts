@@ -3,39 +3,61 @@ import { NavItem } from './navigation';
 
 @Service()
 export class NavigationService {
-  private expanded = signal<Set<string>>(new Set());
-  private hovered = signal<NavItem | null>(null);
+  private readonly expandedKeys = signal<Set<string>>(new Set());
+  private readonly hovered = signal<NavItem | null>(null);
+
+  readonly hoveredItem = this.hovered.asReadonly();
 
   isExpanded(key: string): boolean {
-    return this.expanded().has(key);
+    return this.expandedKeys().has(key);
   }
 
   toggle(key: string) {
-    console.log('TOGGLE BEFORE:', key, this.expanded());
+    this.expandedKeys.update(current => {
+      const next = new Set(current);
 
-    const set = new Set(this.expanded());
+      if (next.has(key)) {
+        next.delete(key);
+      } else {
+        next.add(key);
+      }
 
-    if (set.has(key)) {
-      set.delete(key);
-    } else {
-      set.add(key);
-    }
+      return next;
+    });
+  }
 
-    this.expanded.set(set);
+  expand(key: string) {
+    this.expandedKeys.update(current => {
+      if(current.has(key)) return current;
 
-    console.log('TOGGLE AFTER:', this.expanded());
+      const next = new Set(current);
+      next.add(key);
+      return next;
+    });
+  }
+
+  collapse(key: string) {
+    this.expandedKeys.update(current => {
+      if(!current.has(key)) return current;
+      
+      const next = new Set(current);
+      next.delete(key);
+      return next;
+    });
   }
 
   collapseAll() {
-    this.expanded.set(new Set());
+    this.expandedKeys.set(new Set());
   }
 
   setHovered(item: NavItem | null) {
     this.hovered.set(item);
   }
 
-  hoveredItem() {
-    return this.hovered.asReadonly();
+  clearHovered(item: NavItem) {
+    if(this.hovered() === item) {
+      this.hovered.set(null);
+    }
   }
 
   findRoutePath(
@@ -48,7 +70,7 @@ export class NavigationService {
       const nextPath = node.route ? [...path, node.route] : path;
 
       if (node === target) {
-        return base + '/' + nextPath.join('/');
+        return `${base}/${nextPath.join('/')}`;
       }
 
       for (const child of node.children ?? []) {

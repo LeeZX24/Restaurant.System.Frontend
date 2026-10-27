@@ -75,57 +75,32 @@
 }
 
 .nav-item-link {
-  @apply relative flex items-center h-12 w-full overflow-hidden transition-all duration-200;
+  @apply relative isolate flex items-center h-12 w-full
+         overflow-hidden rounded-r-xl
+         transition-all duration-200;
 }
 
 .nav-item-link::before {
   content: '';
   @apply absolute inset-0 origin-left scale-x-0
-         bg-blue-500 rounded-r-xl
-         transition-transform duration-200
-         z-[-1];
+         rounded-r-xl transition-transform duration-200
+         bg-transparent;
+  z-index: -1;
 }
 
-/* ONLY hovered item */
-.nav-item-link.hovered {
-  @apply text-white;
-}
-
+/* Hover: blue */
 .nav-item-link.hovered::before {
-  @apply scale-x-100;
+  @apply scale-x-100 bg-blue-500;
 }
 
-/* ONLY active route */
-.nav-item-link.font-bold::before {
-  @apply bg-blue-600 scale-x-100;
+.nav-item-link.is-active,
+.nav-item-link.active-ancestor {
+  background-color: #047857 !important;
+  color: white !important;
 }
 
-.nav-item-link.is-active {
-  @apply text-white font-bold;
-}
-
-.nav-item-link.is-active::before {
-  @apply scale-x-100 bg-blue-600;
-}
-
-.is-active div {
-  @apply cursor-default pointer-events-none bg-transparent;
-}
-
-.is-active mat-icon {
-  @apply font-bold text-white bg-blue-600;
-}
-
-.is-active span {
-  @apply font-bold text-white bg-blue-600;
-}
-
-.is-active .nav-item {
-  @apply w-full bg-blue-600 rounded-r-xl;
-}
-
-.chevron {
-  @apply items-center;
+.nav-item-link.hovered:not(.is-active):not(.active-ancestor) {
+  background-color: #3b82f6 !important;
 }
 
 .nav-tooltip {

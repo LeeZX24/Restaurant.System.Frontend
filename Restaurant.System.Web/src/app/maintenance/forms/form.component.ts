@@ -88,6 +88,15 @@ export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFor
             error: () => this.error(),
           });
         }
+      } else {
+        ref.update({
+          message: 'Error creating item!',
+          title: 'Error - Maintenance',
+          variant: DialogVariant.Error,
+          extraConfig: { loading: false },
+          hasFooter: true,
+          hasHeader: true,
+        })
       }
     });
     

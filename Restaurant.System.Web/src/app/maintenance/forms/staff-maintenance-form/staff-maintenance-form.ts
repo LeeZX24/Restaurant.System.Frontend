@@ -1,4 +1,3 @@
-import { Validators } from "@angular/forms";
 import { RSLabelTextFormControl } from "@LeeZX24/forms";
 import { StaffDto } from "../../../shared/models/dtos/staff.dto";
 import { ControlService } from "../../../shared/services/control.service";
@@ -10,11 +9,11 @@ export class StaffMaintenanceFormGroup extends MaintenanceFormGroup<StaffDto> {
         formControlValue?: StaffDto
     ) {
         super();
-        this._addCustomControl('username', new RSLabelTextFormControl('Username',{ required: true, inputType: 'text', autoComplete: 'username' }, formControlValue?.username ?? '', [Validators.required]));
-        this._addCustomControl('email',new RSLabelTextFormControl('Email',{ required: true, inputType: 'email', autoComplete: 'username' },formControlValue?.email ?? '',[Validators.required, Validators.email]));
-        this._addCustomControl('lastName',new RSLabelTextFormControl('Last Name', { required: true, inputType: 'text', }, formControlValue?.lastName ?? '', [Validators.required]));
-        this._addCustomControl('firstName',new RSLabelTextFormControl('First Name',{ required: false, inputType: 'text' },formControlValue?.firstName ?? '',[Validators.required]));
-        this._addCustomControl('middleName',new RSLabelTextFormControl('Last Name', { required: false, inputType: 'text', }, formControlValue?.lastName ?? ''));
+        this._addCustomControl(this.controlKeys.username, ctrlService.LabelText('Username', true, formControlValue?.username ?? '', { autocomplete: 'username' }));
+        this._addCustomControl(this.controlKeys.email, ctrlService.LabelEmail('Email', true, formControlValue?.email ?? ''));
+        this._addCustomControl(this.controlKeys.lastName, ctrlService.LabelText('Last Name', true, formControlValue?.lastName ?? ''));
+        this._addCustomControl(this.controlKeys.firstName, ctrlService.LabelText('First Name', true, formControlValue?.firstName ?? ''));
+        this._addCustomControl(this.controlKeys.middleName, ctrlService.LabelText('Middle Name', true, formControlValue?.middleName ?? ''));
     }
 
     get usernameFC() { return this.get(this.controlKeys.username) as RSLabelTextFormControl; }

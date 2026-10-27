@@ -44,11 +44,11 @@ export class StaffMaintenanceFormComponent extends MaintenanceFormComponent<Staf
   }
 
   override ValidateForm(): boolean {
-    this.form.markAllAsTouched();
-    if(this.form.invalid) {
-
+    if(this.form.valid) {
+      return true;
+    } else {
+      this.form.markAllAsTouched();
       return false;
     }
-    return true;
   }
 }

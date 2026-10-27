@@ -22,6 +22,8 @@ import { RSLabelDropdownFormControlComponent } from '../../../shared/controls/cu
 import { RSLabelDropdownFormControl } from '../../../shared/controls/custom-label-dropdown-form-control/custom-label-dropdown-form-control';
 import { RSLabelAmountFormControl } from '../../../shared/controls/custom-label-amount-form-control/custom-label-amount-form-control';
 import { RSLabelAmountFormControlComponent } from '../../../shared/controls/custom-label-amount-form-control/custom-label-amount-form-control.component';
+import { RSCheckboxFormControl } from '../../../shared/controls/custom-checkbox-form-control/custom-checkbox-form-control';
+import { CustomCheckboxFormControlComponent } from '../../../shared/controls/custom-checkbox-form-control/custom-checkbox-form-control.component';
 
 @Component({
   selector: 'app-settings',
@@ -34,7 +36,8 @@ import { RSLabelAmountFormControlComponent } from '../../../shared/controls/cust
     FormField,
     CheckboxFormControlComponent,
     RSLabelDropdownFormControlComponent,
-    RSLabelAmountFormControlComponent
+    RSLabelAmountFormControlComponent,
+    CustomCheckboxFormControlComponent
 ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css',
@@ -55,14 +58,19 @@ export class SettingsComponent extends CustomBaseComponent implements AfterViewI
     this.darkModeFC.valueChanges.subscribe((theme) => {
       this.themeService.setTheme(theme);
     });
+
+    this.amountFC.valueChanges.subscribe((amount) => {
+      console.log('Amount Value -> ', amount);
+    })
   }
 
   protected override createForm(): CustomFormGroup {
     const fg = new CustomFormGroup();
 
     fg._addCustomControl('darkMode', this.ctrlSerivce.LabelDropdownControl('Dark Mode', false, this.themeService.current(), this.darkModeDD));
-    fg._addCustomControl('amount', new RSLabelAmountFormControl('Amount', { required: true, prefix: 'RM', decimal: '.', thousands: ',', placeholder: '100.00' }, 0), true)
-    fg.addControl('list', new FormControl());
+    fg._addCustomControl('amount', new RSLabelAmountFormControl('Amount', { required: true, prefix: 'RM', decimal: '.', thousands: ',', placeholder: '100.00', allowZeroValue: false }, 0))
+    fg._addCustomControl('list', new FormControl());
+    fg._addCustomControl('checkbox', new RSCheckboxFormControl({ title: 'why', required: true }, false));
 
     return fg;
   }
@@ -78,6 +86,8 @@ export class SettingsComponent extends CustomBaseComponent implements AfterViewI
   get listFG() {
     return this.getFormControl('list') as FormControl<PhoneDto[]>;
   }
+
+  get checkboxFC() { return this.getFormControl('checkbox') as RSCheckboxFormControl; }
 
   public override get request(): undefined {
     throw new Error('Method not implemented.');
@@ -125,7 +135,7 @@ export class SettingsComponent extends CustomBaseComponent implements AfterViewI
 
   testingConfig = signal<CheckboxFormControl>({
     key: 'testing',
-    label: 'Testing',
+    label: 'Testing (Signal)',
     type: 'checkbox',
     options: { required: true },
   });
@@ -234,21 +244,8 @@ export class SettingsComponent extends CustomBaseComponent implements AfterViewI
   createListFormGroup(item: PhoneDto) {
     const fg = new ObjectFormGroup<PhoneDto>();
 
-    fg._addCustomControl(
-      this.listKeys.type,
-      this.ctrlSerivce.ComboboxFormControl(
-        false,
-        !!item && item.type ? item.type : undefined,
-        this.items,
-      ),
-    );
-    fg._addCustomControl(
-      this.listKeys.number,
-      new RSTextFormControl(
-        { required: false, placeholder: 'phone number', inputType: 'text' },
-        !!item && item.number ? item.number : undefined,
-      ),
-    );
+    fg._addCustomControl(this.listKeys.type, this.ctrlSerivce.ComboboxFormControl(false, !!item && item.type ? item.type : undefined, this.items));
+    fg._addCustomControl(this.listKeys.number,new RSTextFormControl({ required: false, placeholder: 'phone number', inputType: 'text' }, !!item && item.number ? item.number : undefined));
 
     return fg;
   }

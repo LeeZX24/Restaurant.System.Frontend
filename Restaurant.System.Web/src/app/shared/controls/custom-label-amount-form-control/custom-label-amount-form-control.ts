@@ -1,4 +1,4 @@
-import { Validators } from '@angular/forms';
+import { AbstractControl, Validators } from '@angular/forms';
 import { RSLabelFormControlBase, RSLabelFormControlBaseOption, RSLabelFormControlBaseOptions, RSFormValidators } from '@LeeZX24/forms';
 import { DecimalMarkerChar } from 'ngx-mask';
 
@@ -35,15 +35,13 @@ export interface RSLabelAmountFormControlOption extends RSLabelFormControlBaseOp
     readonly?: boolean;
 }
 
-// export class RSLabelDropDownValidators {
-//   static required<TValue>(emptyValue?: TValue): ValidatorFn {
-//     return (control: AbstractControl): ValidationErrors | null => {
-//       const value = control.value;
-//       return value === null || value === undefined || value === '' || value === emptyValue
-//         ? { require: true }: null;
-//     }
-//   }
-// }
+export class RSLabelAmountValidators {
+  static NoZero() {
+    return (control: AbstractControl): Record<string, boolean> | null => {
+      return !!control &&  control.value === '0' ? { nozero: true } : null;
+    };
+  }
+}
 
 export class RSLabelAmountFormControl extends RSLabelFormControlBase {
     min!: number;
@@ -63,16 +61,17 @@ export class RSLabelAmountFormControl extends RSLabelFormControlBase {
   constructor(
     label: string,
     options: RSLabelAmountFormControlOption,
-    value: unknown,
-    validator: RSFormValidators = null,
+    value: unknown
   ) {
-    super(label, options, value, validator);
-    this._setOptions();
+    super(label, options, value, null);
+    this.refresh();
   }
 
   override refresh(): void {
     this._setOptions();
     this._setValidators();
+    this.getValidationMessages();
+    this.updateValueAndValidity();
   }
 
   private _setOptions() {
@@ -94,6 +93,7 @@ export class RSLabelAmountFormControl extends RSLabelFormControlBase {
   private _setValidators() {
     this.validators.set(this.getCustomValidators());
     if (this.isRequired()) this.validators().push(Validators.required);
+    if (!this.allowZeroValue) this.validators().push(RSLabelAmountValidators.NoZero());
     if (this.maxLength) this.validators().push(Validators.maxLength(this.maxLength));
     if (this.minLength) this.validators().push(Validators.minLength(this.minLength));
 

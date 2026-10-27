@@ -109,17 +109,24 @@
 }
 
 .custom-toggle:disabled {
-  @apply cursor-none;
+  @apply cursor-not-allowed;
 }
 
 .toggle-track {
-  @apply w-[51px] h-[31px] rounded-full;
+  @apply relative flex items-center;
+  @apply w-[51px] h-[31px] p-[2px] rounded-full;
   @apply transition-colors duration-300 ease-in-out;
-  @apply relative flex items-center px-[2px];
+  @apply box-border;
 }
 
 .toggle-thumb {
-  @apply pt-1 w-[27px] h-[27px] bg-white dark:bg-gray-700 rounded-full transition-all duration-300 ease-in-out shadow-[0_3px_8px_rgba(0,0,0,0.15),0_3px_1px_rgba(0,0,0,0.06)] peer-checked:translate-x-[20px] flex items-center justify-center pointer-events-none;
+  @apply relative flex shrink-0 items-center justify-center;
+  @apply w-[27px] h-[27px] rounded-full;
+  @apply bg-white dark:bg-gray-700;
+  @apply shadow-[0_3px_8px_rgba(0,0,0,0.15),0_3px_1px_rgba(0,0,0,0.06)];
+  @apply transition-transform duration-300 ease-in-out;
+  @apply pointer-events-none;
+  @apply box-border;
 }
 
 .toggle-off {

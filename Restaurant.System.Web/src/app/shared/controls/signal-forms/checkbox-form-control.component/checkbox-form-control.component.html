@@ -7,18 +7,21 @@
       @if (isBrowser) {
         <div class="grow">
           <div class="form-control gap-2">
-            <input
-              class="absolute mt-1 -ml-5"
-              [class]="this.config().options.elementCssClass"
-              [attr.id]="config().key"
-              [checked]="checked()"
-              type="checkbox"
-              [disabled]="disabled()"
-              (blur)="onBlur()"
-              (change)="onItemChecked()"
-              #input
-            />
-            <label [attr.for]="config().key" class="pl-5 mb-0 cursor-pointer">why</label>
+            <div>
+              <input
+                class="shrink-0"
+                [class]="this.config().options.elementCssClass"
+                [attr.id]="config().key"
+                [checked]="checked()"
+                type="checkbox"
+                [disabled]="disabled()"
+                (blur)="onBlur()"
+                (change)="onItemChecked()"
+                #input
+              />
+              <span class="mb-0 cursor-pointer">why</span>
+            </div>
+            
           </div>
         </div>
       }

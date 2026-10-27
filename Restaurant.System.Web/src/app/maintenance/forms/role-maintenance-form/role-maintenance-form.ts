@@ -1,4 +1,3 @@
-import { Validators } from "@angular/forms";
 import { ControlService } from "../../../shared/services/control.service";
 import { MaintenanceFormGroup } from "../../maintenance.form-group";
 import { RoleDto } from "../../../shared/models/dtos/role.dto";
@@ -10,7 +9,10 @@ export class RoleMaintenanceFormGroup extends MaintenanceFormGroup<RoleDto> {
         formControlValue?: RoleDto
     ) {
         super();
-        this._addCustomControl(this.controlKeys.roleCode, new RSLabelTextFormControl('Code', { required: true, inputType: 'text' }, formControlValue?.roleCode, [Validators.required,]),);
-        this._addCustomControl(this.controlKeys.roleName, new RSLabelTextFormControl('Name', { required: false, inputType: 'text' }, formControlValue?.roleName),);
+        this._addCustomControl(this.controlKeys.roleCode, ctrlService.LabelText('Code', true, formControlValue?.roleCode ?? ''));
+        this._addCustomControl(this.controlKeys.roleName, ctrlService.LabelText('Name', true, formControlValue?.roleName ?? ''));
     }
+
+    get roleCodeFC() { return this.get(this.controlKeys.roleCode) as RSLabelTextFormControl; }
+    get roleNameFC() { return this.get(this.controlKeys.roleName) as RSLabelTextFormControl; }
 }

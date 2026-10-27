@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, signal } from '@angular/core';
 import { DropdownMaintenanceFormGroup } from './dropdown-maintenance-form';
 import { MaintenanceConfig } from '../../maintenance.entity';
 import { DropdownDto } from '../../../shared/models/dtos/dropdown.dto';
@@ -33,11 +33,11 @@ import { CustomLabelToggleFormControl } from '../../../shared/controls/custom-la
         <rs-button-control [cssClass]="'btn-primary'" [label]="this.itemData().action === 'create' ? 'Create' : 'Update'" (buttonClicked)="processSubmit()"></rs-button-control>
         <rs-button-control [cssClass]="'btn-secondary'"[label]="'Close'"  (buttonClicked)="close()"></rs-button-control>
       </div>
-  </div>
+    </div>
   `,
   imports: [CustomButtonControl, RSLabelTextFormControlComponent, RSLabelDropdownFormControlComponent, CustomLabelToggleFormControl],
 })
-export class DropdownMaintenanceFormComponent extends MaintenanceFormComponent<DropdownMaintenanceFormGroup, DropdownDto> implements OnInit {
+export class DropdownMaintenanceFormComponent extends MaintenanceFormComponent<DropdownMaintenanceFormGroup, DropdownDto> implements OnInit, AfterViewInit {
   protected ctrlService = inject(ControlService);
 
   isNewCategory = signal(false);
@@ -54,13 +54,19 @@ export class DropdownMaintenanceFormComponent extends MaintenanceFormComponent<D
     this.form = this.prepareFormGroup(this.itemData().item);
   }
 
-  override ValidateForm(): boolean {
-    this.form.markAllAsTouched();
-    if(this.form.invalid) {
+  ngAfterViewInit() {
+    this.form.categoryDDFC.valueChanges.subscribe((value) => {
+      console.log('Selected Value => ', value);
+    });
+  }
 
-      return false;
+  override ValidateForm(): boolean {
+    if(this.form.valid) {
+      return true;
+    } else {
+      this.form.markAllAsTouched();
+      return false
     }
-    return true;
   }
   
   OnToggleNewCategory() {
