@@ -1,23 +1,24 @@
 import { Validators } from '@angular/forms';
-import { RSFormControlBaseOptions, RSFormControlBaseOption, RSFormControlBase, RSFormValidators } from '@LeeZX24/forms';
+import { RSFormControlBaseOptions, RSFormControlBaseOption, RSFormValidators, RSLabelFormControlBase } from '@LeeZX24/forms';
 
-export class RSCheckboxFormControlOptions extends RSFormControlBaseOptions {
+export class RSLabelCheckboxFormControlOptions extends RSFormControlBaseOptions {
   static readonly title = 'title';
 }
 
-export interface RSCheckboxFormControlOption extends RSFormControlBaseOption {
+export interface RSLabelCheckboxFormControlOption extends RSFormControlBaseOption {
   title?: string;
 }
 
-export class RSCheckboxFormControl extends RSFormControlBase {
+export class RSLabelCheckboxFormControl extends RSLabelFormControlBase {
   title!: string;
 
   constructor(
-    options: RSCheckboxFormControlOption,
+    label: string,
+    options: RSLabelCheckboxFormControlOption,
     value: unknown,
     validator: RSFormValidators = null,
   ) {
-    super(options, value, validator);
+    super(label, options, value, validator);
     this.refresh();
   }
 
@@ -29,7 +30,7 @@ export class RSCheckboxFormControl extends RSFormControlBase {
   }
 
   private _setOptions() {
-    this.title = this.getOptionItem(RSCheckboxFormControlOptions.title)!;
+    this.title = this.getOptionItem(RSLabelCheckboxFormControlOptions.title)!;
   }
 
   private _setValidators() {

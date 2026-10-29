@@ -36,7 +36,6 @@ export class CustomRadioGroupComponent<TData extends Record<string, unknown>, TV
   isRequired = computed(() => !!this.config().options.required);
 
   isErrorToShow = computed(() => {
-    console.log(!!(this.touched() && this.invalid() && !this.disabled()));
     return !!(this.touched() && this.invalid() && !this.disabled());
   });
 
@@ -90,7 +89,6 @@ export class CustomRadioGroupComponent<TData extends Record<string, unknown>, TV
   }
 
   OnButtonClicked() {
-    console.log(this.value());
     if(this.value()) this.value.set(null);
     this._input.nativeElement.value = '';
     this.focus();
@@ -128,7 +126,6 @@ export class CustomRadioGroupComponent<TData extends Record<string, unknown>, TV
     valueField: keyof TData | undefined,
     errorMessage: string,
     compositeTitle: (x: TData) => string) : { value: TValue; title: string }[] | null {
-    console.log('(!titleField && !compositeTitle) || !valueField', (!titleField && !compositeTitle) || !valueField);
     if ((!titleField && !compositeTitle) || !valueField) {
       throw new Error(errorMessage);
     }

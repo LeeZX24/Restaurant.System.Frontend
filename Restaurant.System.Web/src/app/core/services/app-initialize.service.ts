@@ -37,18 +37,16 @@ export class AppInitializeService {
     const ref = this.dialogService.showLoadingDialog('Checking Backend...', false, false, { loading: true });
 
     await firstValueFrom(ref.afterOpened());
-    
+
     try {
       const backendOnline = await this.checkBackend(appConfig);
 
       if(backendOnline) {
-        console.log('Backend Online');
-
-        ref.update({ 
-          message: 'Backend Online!', 
-          title: 'Success', 
-          variant: DialogVariant.Success, 
-          extraConfig: { success: true } 
+        ref.update({
+          message: 'Backend Online!',
+          title: 'Success',
+          variant: DialogVariant.Success,
+          extraConfig: { success: true }
         });
 
         await this.wait(500);

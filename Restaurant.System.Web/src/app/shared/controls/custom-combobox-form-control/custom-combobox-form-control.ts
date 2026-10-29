@@ -1,7 +1,8 @@
 import { computed, signal } from '@angular/core';
-import { AbstractControl, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, Validators } from '@angular/forms';
 import { RSFormControlBase, RSFormControlBaseOption, RSFormControlBaseOptions, RSFormValidators } from '@LeeZX24/forms';
-import { DropDownItem } from '../custom-label-dropdown-form-control/dropdown';
+import { DropdownModel } from '../../models/dropdown.model';
+import { ComboboxItem } from './combobox';
 
 export class RSComboboxFormControlOptions extends RSFormControlBaseOptions {
   static readonly items = 'items';
@@ -10,45 +11,37 @@ export class RSComboboxFormControlOptions extends RSFormControlBaseOptions {
   static readonly compositeTitle = 'compositeTitle';
 }
 
-export interface RSComboboxFormControlOption<
-  TData extends Record<string, unknown>,
-  TValue = unknown,
-> extends RSFormControlBaseOption {
-  items?: TData[];
-  titleField?: keyof TData & string;
-  valueField?: keyof TData & string;
-  emptyItem?: DropDownItem<TValue>;
-  compositeTitle?: (x: TData) => string;
+export interface RSComboboxFormControlOption extends RSFormControlBaseOption {
+  items?: unknown[];
+  titleField?: string;
+  valueField?: string;
+  emptyItem?: ComboboxItem<DropdownModel>;
+  compositeTitle?: (x: unknown) => string;
 }
 
 export class RSComboboxValidators {
-  static Required(): ValidatorFn {
-    const fn = (ctrl: AbstractControl): Record<string, boolean> | null => {
-      return !!ctrl && ctrl.value == '-1' ? { required: true } : null;
-    };
-
-    return fn;
+  static Required() {
+    return (control: AbstractControl): Record<string, boolean> | null => {
+      return (!!control && control.value  === '-1' ? { required: true } : null);
+    }
   }
 }
 
-export class RSComboboxFormControl<
-  TData extends Record<string, unknown>,
-  TValue = unknown,
-> extends RSFormControlBase {
+export class RSComboboxFormControl extends RSFormControlBase {
   readonly searchTerm$ = signal('');
-  readonly items$ = signal<DropDownItem<TValue>[]>([]);
+  readonly items$ = signal<ComboboxItem<DropdownModel>[]>([]);
   items = this.items$.asReadonly();
 
   public filteredItems$ = computed(() => {
     const search = this.searchTerm$().trim().toLowerCase();
     if (!search) return this.items$();
-    return this.items$().filter((item) => item.title.toLowerCase().includes(search));
+    return this.items$().filter((item) => item.title?.toLowerCase().includes(search));
   });
 
   readonly filteredItems = this.filteredItems$;
 
   constructor(
-    options: RSComboboxFormControlOption<TData, TValue>,
+    options: RSComboboxFormControlOption,
     value: unknown,
     validator: RSFormValidators = null,
   ) {
@@ -71,8 +64,8 @@ export class RSComboboxFormControl<
   });
 
   selectedData = computed(() => {
-    const origItem = this.getOptionItem<TData[]>(RSComboboxFormControlOptions.items)!;
-    const valueField = this.getOptionItem<keyof TData>(RSComboboxFormControlOptions.valueField)!;
+    const origItem = this.getOptionItem<DropdownModel[]>(RSComboboxFormControlOptions.items)!;
+    const valueField = this.getOptionItem<string>(RSComboboxFormControlOptions.valueField)!;
 
     return origItem ? origItem.find((item) => item[valueField] === this.value) : undefined;
   });
@@ -86,12 +79,10 @@ export class RSComboboxFormControl<
     this.items$.set(this._getComboboxItems());
   }
 
-  private _getComboboxItems(): DropDownItem<TValue>[] {
-    const titleField = this.getOptionItem<keyof TData>(RSComboboxFormControlOptions.titleField)!;
-    const valueField = this.getOptionItem<keyof TData>(RSComboboxFormControlOptions.valueField)!;
-    const compositeField = this.getOptionItem<(x: TData) => string>(
-      RSComboboxFormControlOptions.compositeTitle,
-    )!;
+  private _getComboboxItems(): ComboboxItem<DropdownModel>[] {
+    const titleField = this.getOptionItem<string>(RSComboboxFormControlOptions.titleField)!;
+    const valueField = this.getOptionItem<string>(RSComboboxFormControlOptions.valueField)!;
+    const compositeField = this.getOptionItem<(x: unknown) => string>(RSComboboxFormControlOptions.compositeTitle,)!;
 
     let data = this.getDataItems(
       titleField,
@@ -123,32 +114,27 @@ export class RSComboboxFormControl<
     this.updValsAndValidities();
   }
 
-  protected getDataItems(
-    titleField: keyof TData | undefined,
-    valueField: keyof TData | undefined,
-    errorMessage: string,
-    dataField: string,
-    compositeTitle: (x: TData) => string,
-  ): { value: TValue; title: string }[] | null {
+  protected getDataItems(titleField: string, valueField: string, errorMessage: string, dataField: string, compositeTitle: (x: unknown) => string,): ComboboxItem<DropdownModel>[] | null {
     if ((!titleField && !compositeTitle) || !valueField) {
       throw new Error(errorMessage);
     }
 
-    const data = this.getOptionItem<TData[]>(dataField)!;
+    const data = this.getOptionItem<DropdownModel[]>(dataField)!;
 
     if (!data) return null;
 
-    const safeTitleField = titleField as keyof TData;
-    const safeValueField = valueField as keyof TData;
+    const safeTitleField = titleField;
+    const safeValueField = valueField;
 
     return data.map((x) => ({
-      value: x[safeValueField] as TValue,
+      value: x[safeValueField],
       title: compositeTitle ? compositeTitle(x) : String(x[safeTitleField]),
+      selectedData: x
     }));
   }
 
   clear() {
-    this.setValue(null, { emitEvent: false });
+    this.setValue('');
     this.searchTerm$.set('');
   }
 }

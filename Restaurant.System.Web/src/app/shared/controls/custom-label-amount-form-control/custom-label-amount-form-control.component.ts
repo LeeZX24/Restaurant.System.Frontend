@@ -15,7 +15,7 @@ export class RSLabelAmountFormControlComponent implements OnInit {
   fc = input.required<RSLabelAmountFormControl>();
   labelSize = input<string>('w-4/12');
   inputSize = input<string>('w-8/12');
-  
+
   private readonly _input = viewChild.required<ElementRef>('input');
 
   ngOnInit() {
@@ -32,10 +32,8 @@ export class RSLabelAmountFormControlComponent implements OnInit {
     const inputElement = event.target as HTMLInputElement;
 
     if (!inputElement.value || inputElement.value.trim() === '') {
-      fc.setValue(Number(0).toFixed(2)); 
+      fc.setValue(Number(0).toFixed(2));
     }
-
-    
   }
 
   onBlurAmount() {

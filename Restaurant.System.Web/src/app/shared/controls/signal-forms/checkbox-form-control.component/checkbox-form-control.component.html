@@ -21,7 +21,7 @@
               />
               <span class="mb-0 cursor-pointer">why</span>
             </div>
-            
+
           </div>
         </div>
       }
@@ -38,8 +38,10 @@
     @if (isErrorToShow()) {
       <ul class="text-red-500 pl-0 list-none space-y-1 mt-1">
         @for (error of validationMessage(); track error) {
-          <li class="flex align-items-start gap-2">
-            <span class="flex-none w-4 h-4 shrink-0">
+          <li class="flex align-items-start gap-2 items-center">
+            <mat-icon class="text-sm">info</mat-icon>
+            <!-- <span class="flex-none w-4 h-4 shrink-0">
+
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 16 16"
@@ -52,8 +54,8 @@
                   clip-rule="evenodd"
                 />
               </svg>
-            </span>
-            <p class="flex-1 m-0 text-sm leading-tight">{{ error | errorConverter }}</p>
+            </span> -->
+            <p class="flex text-sm leading-tight">{{ error | errorConverter }}</p>
           </li>
         }
       </ul>

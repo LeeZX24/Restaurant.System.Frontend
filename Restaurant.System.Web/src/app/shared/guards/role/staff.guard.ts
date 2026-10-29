@@ -8,7 +8,6 @@ const canActivate = (): boolean => {
 
   if (authService.getCurrentUserValue()) {
     const user = authService.getCurrentUserValue();
-    console.log('User => ', user);
     if (user?.userType === UserType.Staff) {
       return true;
     }

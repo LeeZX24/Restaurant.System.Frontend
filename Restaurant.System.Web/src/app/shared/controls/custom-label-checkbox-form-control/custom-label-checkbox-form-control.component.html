@@ -1,9 +1,10 @@
-<rs-form-control-base [fc]="fc()">
-    <div class="form-control" [ngClass]="fc().elementCssClass()">
+<rs-label-form-control-base [fc]="fc()" [labelSize]="labelSize()" [inputSize]="inputSize()">
+    <div class="form-control-check" >
         <div class="flex items-center gap-2">
             <input
                 class="shrink-0"
-                [formControl]="fc()" 
+                [formControl]="fc()"
+                [class]="fc().elementCssClass()"
                 type="checkbox"
                 (change)="onInputChange($event)"
                 #input
@@ -11,8 +12,4 @@
             <span class=" mb-0 cursor-pointer">{{ fc().title }}</span>
         </div>
     </div>
-</rs-form-control-base>
-
-
-
-          
+</rs-label-form-control-base>

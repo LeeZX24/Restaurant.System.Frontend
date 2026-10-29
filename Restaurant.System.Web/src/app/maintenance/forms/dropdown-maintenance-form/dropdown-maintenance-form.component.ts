@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { DropdownMaintenanceFormGroup } from './dropdown-maintenance-form';
 import { MaintenanceConfig } from '../../maintenance.entity';
 import { DropdownDto } from '../../../shared/models/dtos/dropdown.dto';
@@ -18,8 +18,8 @@ import { CustomLabelToggleFormControl } from '../../../shared/controls/custom-la
           <rs-label-toggle-form-control [fc]="form.isNewCategoryFC" (change)="OnToggleNewCategory()"></rs-label-toggle-form-control>
             @if(!isNewCategory()) { <rs-label-dropdown-form-control [fc]="form.categoryDDFC"></rs-label-dropdown-form-control> }
             @if(isNewCategory()) { <rs-label-text-form-control [fc]="form.categoryTextFC"></rs-label-text-form-control> }
-        } 
-        
+        }
+
         @if(this.itemData().action === 'edit') {
           <rs-label-text-form-control [fc]="form.categoryTextFC"></rs-label-text-form-control>
         }
@@ -37,7 +37,7 @@ import { CustomLabelToggleFormControl } from '../../../shared/controls/custom-la
   `,
   imports: [CustomButtonControl, RSLabelTextFormControlComponent, RSLabelDropdownFormControlComponent, CustomLabelToggleFormControl],
 })
-export class DropdownMaintenanceFormComponent extends MaintenanceFormComponent<DropdownMaintenanceFormGroup, DropdownDto> implements OnInit, AfterViewInit {
+export class DropdownMaintenanceFormComponent extends MaintenanceFormComponent<DropdownMaintenanceFormGroup, DropdownDto> implements OnInit {
   protected ctrlService = inject(ControlService);
 
   isNewCategory = signal(false);
@@ -54,12 +54,6 @@ export class DropdownMaintenanceFormComponent extends MaintenanceFormComponent<D
     this.form = this.prepareFormGroup(this.itemData().item);
   }
 
-  ngAfterViewInit() {
-    this.form.categoryDDFC.valueChanges.subscribe((value) => {
-      console.log('Selected Value => ', value);
-    });
-  }
-
   override ValidateForm(): boolean {
     if(this.form.valid) {
       return true;
@@ -68,7 +62,7 @@ export class DropdownMaintenanceFormComponent extends MaintenanceFormComponent<D
       return false
     }
   }
-  
+
   OnToggleNewCategory() {
     this.isNewCategory.set(this.form.isNewCategoryFC.value);
     // this.form.categoryDDFC.setOptionItem(RSLabelDropdownFormControlOptions.required, !this.isNewCategory());

@@ -40,7 +40,7 @@ export class AuthService {
       this.clearSession();
       return;
     }
-    
+
     try {
       const parsedUser = JSON.parse(user) as UserDto;
       this.currentUser$.next(parsedUser);
@@ -93,7 +93,7 @@ export class AuthService {
   getCurrentUserValue(): UserDto | null {
     return this.currentUser$.value;
   }
-  
+
   clearSession(): void {
     this.expirySubscription?.unsubscribe();
     this.expirySubscription = undefined;
@@ -105,7 +105,6 @@ export class AuthService {
   }
 
   login(login: LoginRequestDto): Observable<LoginResponseDto> {
-    console.log('Login Details -> ', login);
     return from(this.config).pipe(
       switchMap((appConfig) =>
         this.http.post<LoginResponseDto>(`${appConfig.baseUrl}/api/v1/auth/login`, login),
@@ -143,7 +142,6 @@ export class AuthService {
   }
 
   changePassword(request: ChangePasswordRequestDto): Observable<ChangePasswordResponseDto> {
-    console.log('Change Password Details -> ', request);
     return from(this.config).pipe(
       switchMap((appConfig) =>
         this.http.put<ChangePasswordResponseDto>(`${appConfig.baseUrl}/api/v1/auth/change-password`, request),

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, computed, inject, signal } from '@angular/core';
 import { ThemeService } from '../../../core/services/theme.service';
 import { CustomToggle } from '../../../shared/controls/custom-toggle-control/custom-toggle';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomListFormControlComponent } from '../../../shared/controls/custom-list-control/custom-list-form-control.component';
 import { RSListOptions } from '../../../shared/controls/custom-list-control/custom-list-form-control';
 import { form, FormField, validate } from '@angular/forms/signals';
@@ -15,15 +15,14 @@ import { CustomFormGroup, RSTextFormControl } from '@LeeZX24/forms';
 import { PhoneDto } from './settings';
 import { CustomBaseComponent } from '../../../shared/components/custom-base-component/custom-base-component';
 import { ControlService } from '../../../shared/services/control.service';
-import { ObjectFormGroup } from '../../../shared/models/obj-form-group';
 import { ObjectUtils } from '../../../utils/object-utils';
 import { DropdownModel } from '../../../shared/models/dropdown.model';
 import { RSLabelDropdownFormControlComponent } from '../../../shared/controls/custom-label-dropdown-form-control/custom-label-dropdown-form-control.component';
 import { RSLabelDropdownFormControl } from '../../../shared/controls/custom-label-dropdown-form-control/custom-label-dropdown-form-control';
 import { RSLabelAmountFormControl } from '../../../shared/controls/custom-label-amount-form-control/custom-label-amount-form-control';
 import { RSLabelAmountFormControlComponent } from '../../../shared/controls/custom-label-amount-form-control/custom-label-amount-form-control.component';
-import { RSCheckboxFormControl } from '../../../shared/controls/custom-checkbox-form-control/custom-checkbox-form-control';
-import { CustomCheckboxFormControlComponent } from '../../../shared/controls/custom-checkbox-form-control/custom-checkbox-form-control.component';
+import { RSLabelCheckboxFormControlComponent } from '../../../shared/controls/custom-label-checkbox-form-control/custom-label-checkbox-form-control.component';
+import { RSLabelCheckboxFormControl } from '../../../shared/controls/custom-label-checkbox-form-control/custom-label-checkbox-form-control';
 
 @Component({
   selector: 'app-settings',
@@ -37,7 +36,7 @@ import { CustomCheckboxFormControlComponent } from '../../../shared/controls/cus
     CheckboxFormControlComponent,
     RSLabelDropdownFormControlComponent,
     RSLabelAmountFormControlComponent,
-    CustomCheckboxFormControlComponent
+    RSLabelCheckboxFormControlComponent,
 ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css',
@@ -54,14 +53,12 @@ export class SettingsComponent extends CustomBaseComponent implements AfterViewI
 
   readonly listKeys = ObjectUtils.getKeysAsString<PhoneDto>();
 
+  phoneList: PhoneDto[] = [];
+
   ngAfterViewInit() {
     this.darkModeFC.valueChanges.subscribe((theme) => {
       this.themeService.setTheme(theme);
     });
-
-    this.amountFC.valueChanges.subscribe((amount) => {
-      console.log('Amount Value -> ', amount);
-    })
   }
 
   protected override createForm(): CustomFormGroup {
@@ -69,25 +66,16 @@ export class SettingsComponent extends CustomBaseComponent implements AfterViewI
 
     fg._addCustomControl('darkMode', this.ctrlSerivce.LabelDropdownControl('Dark Mode', false, this.themeService.current(), this.darkModeDD));
     fg._addCustomControl('amount', new RSLabelAmountFormControl('Amount', { required: true, prefix: 'RM', decimal: '.', thousands: ',', placeholder: '100.00', allowZeroValue: false }, 0))
-    fg._addCustomControl('list', new FormControl());
-    fg._addCustomControl('checkbox', new RSCheckboxFormControl({ title: 'why', required: true }, false));
+    fg._addCustomControl('list', new FormControl(this.phoneList));
+    fg._addCustomControl('checkbox', new RSLabelCheckboxFormControl('Testing (FormControl)', { title: 'why', required: true }, false, [Validators.required]));
 
     return fg;
   }
 
-  get amountFC() {
-    return this.getFormControl('amount') as RSLabelAmountFormControl;
-  }
-
-  get darkModeFC() {
-    return this.getFormControl('darkMode') as RSLabelDropdownFormControl<DropdownModel, string>;
-  }
-
-  get listFG() {
-    return this.getFormControl('list') as FormControl<PhoneDto[]>;
-  }
-
-  get checkboxFC() { return this.getFormControl('checkbox') as RSCheckboxFormControl; }
+  get amountFC() { return this.getFormControl('amount') as RSLabelAmountFormControl; }
+  get darkModeFC() { return this.getFormControl('darkMode') as RSLabelDropdownFormControl; }
+  get listFG() { return this.getFormControl('list') as FormControl<PhoneDto[]>; }
+  get checkboxFC() { return this.getFormControl('checkbox') as RSLabelCheckboxFormControl; }
 
   public override get request(): undefined {
     throw new Error('Method not implemented.');
@@ -108,7 +96,7 @@ export class SettingsComponent extends CustomBaseComponent implements AfterViewI
       { key: this.listKeys.number, isMain: true },
     ],
     createEmptyRow: () => ({ ...this.emptyItem }),
-    createFormGroup: (item) => this.createListFormGroup(item),
+    createFormGroup: () => this.createListFormGroup(),
   };
 
   getFormControl(name: string) {
@@ -116,7 +104,7 @@ export class SettingsComponent extends CustomBaseComponent implements AfterViewI
   }
 
   emptyItem: PhoneDto = {
-    type: '',
+    type: { title: '', value: '-1', selectedData: undefined },
     number: '',
   };
 
@@ -241,11 +229,11 @@ export class SettingsComponent extends CustomBaseComponent implements AfterViewI
     });
   }
 
-  createListFormGroup(item: PhoneDto) {
-    const fg = new ObjectFormGroup<PhoneDto>();
+  createListFormGroup() {
+    const fg = new CustomFormGroup();
 
-    fg._addCustomControl(this.listKeys.type, this.ctrlSerivce.ComboboxFormControl(false, !!item && item.type ? item.type : undefined, this.items));
-    fg._addCustomControl(this.listKeys.number,new RSTextFormControl({ required: false, placeholder: 'phone number', inputType: 'text' }, !!item && item.number ? item.number : undefined));
+    fg._addCustomControl(this.listKeys.type, this.ctrlSerivce.ComboboxFormControl(false, undefined, this.items));
+    fg._addCustomControl(this.listKeys.number,new RSTextFormControl({ required: false, placeholder: 'phone number', inputType: 'text' }, undefined));
 
     return fg;
   }

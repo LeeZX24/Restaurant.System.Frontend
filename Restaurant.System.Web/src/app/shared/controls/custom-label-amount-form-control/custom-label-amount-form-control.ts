@@ -1,5 +1,5 @@
 import { AbstractControl, Validators } from '@angular/forms';
-import { RSLabelFormControlBase, RSLabelFormControlBaseOption, RSLabelFormControlBaseOptions, RSFormValidators } from '@LeeZX24/forms';
+import { RSLabelFormControlBase, RSLabelFormControlBaseOption, RSLabelFormControlBaseOptions } from '@LeeZX24/forms';
 import { DecimalMarkerChar } from 'ngx-mask';
 
 export class RSLabelAmountFormControlOptions extends RSLabelFormControlBaseOptions {

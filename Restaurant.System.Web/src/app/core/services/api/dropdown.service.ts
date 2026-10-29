@@ -17,8 +17,6 @@ export class DropdownService {
   }
 
   getCategoryList() {
-    console.log('[Dropdown] getCategoryList called', new Date().toISOString());
-
     const cacheKey = 'category';
     const cached = this.dropdownCache$.value[cacheKey];
 

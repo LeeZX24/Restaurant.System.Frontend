@@ -11,7 +11,7 @@ export class ControlService {
   private ddService= inject(DropdownService);
 
   ComboboxFormControl(required: boolean, value: unknown, data?: DropdownModel[]) {
-    return new RSComboboxFormControl<DropdownModel, string>(
+    return new RSComboboxFormControl(
       { required: required, titleField: 'value', valueField: 'key', items: data },
       value,
     );
@@ -68,10 +68,10 @@ export class ControlService {
       if(options.maxLength) validators.push(Validators.minLength(options.maxLength));
     }
 
-    const fc = new RSLabelTextFormControl(label, { 
-      required: required, 
-      minlength: options && options.minLength ? options.minLength: undefined, 
-      maxlength: options && options.maxLength ? options.maxLength : undefined, 
+    const fc = new RSLabelTextFormControl(label, {
+      required: required,
+      minlength: options && options.minLength ? options.minLength: undefined,
+      maxlength: options && options.maxLength ? options.maxLength : undefined,
       mask: options && options.mask ? options.mask : undefined,
       inputType: 'text',
      }, value);
@@ -90,10 +90,10 @@ export class ControlService {
       if(options.maxLength) validators.push(Validators.minLength(options.maxLength));
     }
 
-    const fc = new RSTextFormControl({ 
-      required: required, 
-      minlength: options && options.minLength ? options.minLength: undefined, 
-      maxlength: options && options.maxLength ? options.maxLength : undefined, 
+    const fc = new RSTextFormControl({
+      required: required,
+      minlength: options && options.minLength ? options.minLength: undefined,
+      maxlength: options && options.maxLength ? options.maxLength : undefined,
       mask: options && options.mask ? options.mask : undefined,
       inputType: 'text',
       placeholder: label
@@ -115,10 +115,10 @@ export class ControlService {
 
     validators.push(Validators.email);
 
-    const fc = new RSLabelTextFormControl(label, { 
-      required: required, 
-      minlength: options && options.minLength ? options.minLength : undefined, 
-      maxlength: options && options.maxLength ? options.maxLength : undefined, 
+    const fc = new RSLabelTextFormControl(label, {
+      required: required,
+      minlength: options && options.minLength ? options.minLength : undefined,
+      maxlength: options && options.maxLength ? options.maxLength : undefined,
       inputType: 'email',
       autoComplete: 'email'
      }, value);
@@ -139,10 +139,10 @@ export class ControlService {
 
     validators.push(Validators.email);
 
-    const fc = new RSTextFormControl({ 
-      required: required, 
-      minlength: options && options.minLength ? options.minLength : undefined, 
-      maxlength: options && options.maxLength ? options.maxLength : undefined, 
+    const fc = new RSTextFormControl({
+      required: required,
+      minlength: options && options.minLength ? options.minLength : undefined,
+      maxlength: options && options.maxLength ? options.maxLength : undefined,
       inputType: 'email',
       autoComplete: 'email',
       placeholder: label
@@ -153,18 +153,18 @@ export class ControlService {
   }
 
   LabelNumberText(label: string, required: boolean, value: string, options?: { minLength?: number, maxLength?: number }) {
-    return this.LabelText(label, required, value, { 
-      minLength: options && options.minLength ? options.minLength : undefined, 
-      maxLength: options && options.minLength ? options.minLength: undefined, 
-      mask: '0*' 
+    return this.LabelText(label, required, value, {
+      minLength: options && options.minLength ? options.minLength : undefined,
+      maxLength: options && options.minLength ? options.minLength: undefined,
+      mask: '0*'
     });
   }
 
   NonLabelNumberText(label: string, required: boolean, value: string, options?: { minLength?: number, maxLength?: number }) {
-    return this.NonLabelText(label, required, value, { 
-      minLength: options && options.minLength ? options.minLength : undefined, 
-      maxLength: options && options.minLength ? options.minLength: undefined, 
-      mask: '0*' 
+    return this.NonLabelText(label, required, value, {
+      minLength: options && options.minLength ? options.minLength : undefined,
+      maxLength: options && options.minLength ? options.minLength: undefined,
+      mask: '0*'
     });
   }
 
@@ -178,10 +178,10 @@ export class ControlService {
       if(options.maxLength) validators.push(Validators.minLength(options.maxLength));
     }
 
-    const fc = new RSLabelTextFormControl(label, { 
-      required: required, 
-      minlength: options && options.minLength ? options.minLength: undefined, 
-      maxlength: options && options.maxLength ? options.maxLength : undefined, 
+    const fc = new RSLabelTextFormControl(label, {
+      required: required,
+      minlength: options && options.minLength ? options.minLength: undefined,
+      maxlength: options && options.maxLength ? options.maxLength : undefined,
       mask: options && options.mask ? options.mask : undefined,
       inputType: 'password',
       autoComplete: options && options.isNewPassword ? 'new-password' : 'currentPassword'
@@ -201,10 +201,10 @@ export class ControlService {
       if(options.maxLength) validators.push(Validators.minLength(options.maxLength));
     }
 
-    const fc = new RSTextFormControl({ 
-      required: required, 
-      minlength: options && options.minLength ? options.minLength: undefined, 
-      maxlength: options && options.maxLength ? options.maxLength : undefined, 
+    const fc = new RSTextFormControl({
+      required: required,
+      minlength: options && options.minLength ? options.minLength: undefined,
+      maxlength: options && options.maxLength ? options.maxLength : undefined,
       mask: options && options.mask ? options.mask : undefined,
       inputType: 'password',
       placeholder: label,

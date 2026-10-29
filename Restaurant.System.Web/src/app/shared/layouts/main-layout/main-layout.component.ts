@@ -17,7 +17,7 @@ export class MainLayoutComponent implements OnInit {
   private translate = inject(TranslateService);
   private appInitializeService = inject(AppInitializeService);
   private routerService = inject(RouterService);
-  
+
   readonly isInitialized = signal(false);
 
   private readonly initializeApp = afterNextRender(()=> {
@@ -25,8 +25,6 @@ export class MainLayoutComponent implements OnInit {
   });
 
   ngOnInit() {
-    console.log('[MainLayout] created', window.location.pathname);
-    
     this.version = this.metaService.meta.version;
     this.translate.setFallbackLang('en');
     this.translate.use('en');

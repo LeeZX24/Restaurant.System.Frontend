@@ -1,7 +1,8 @@
 import { computed, signal } from '@angular/core';
-import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, Validators } from '@angular/forms';
 import { RSLabelFormControlBase, RSLabelFormControlBaseOption, RSLabelFormControlBaseOptions, RSFormValidators } from '@LeeZX24/forms';
 import { DropDownItem } from '../custom-label-dropdown-form-control/dropdown';
+import { DropdownModel } from '../../models/dropdown.model';
 
 export class RSLabelDropdownFormControlOptions extends RSLabelFormControlBaseOptions {
   static readonly dropdownData = 'dropdownData';
@@ -11,36 +12,34 @@ export class RSLabelDropdownFormControlOptions extends RSLabelFormControlBaseOpt
   static readonly dropdownCompositeTitle = 'dropdownCompositeTitle';
 }
 
-export interface RSLabelDropdownFormControlOption<TData = unknown, TValue = string> extends RSLabelFormControlBaseOption {
-  dropdownData?: TData[];
-  dropdownTitleField?: keyof TData;
-  dropdownValueField?: keyof TData;
-  dropdownEmptyItem?: { title: string, value: TValue };
-  dropdownCompositeTitle?: (x: TData) => string;
+export interface RSLabelDropdownFormControlOption extends RSLabelFormControlBaseOption {
+  dropdownData?: unknown[];
+  dropdownTitleField?: string;
+  dropdownValueField?: string;
+  dropdownEmptyItem?: DropDownItem;
+  dropdownCompositeTitle?: (x: unknown) => string;
 }
 
 export class RSLabelDropDownValidators {
-  static required<TValue>(emptyValue?: TValue): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const value = control.value;
-      return value === null || value === undefined || value === '' || value === emptyValue || value === '-1' || value === -1
-        ? { require: true }: null;
+  static Required() {
+    return (control: AbstractControl): Record<string, boolean> | null => {
+      return (!!control && control.value  === '-1' ? { required: true } : null);
     }
   }
 }
 
-export class RSLabelDropdownFormControl<TData, TValue> extends RSLabelFormControlBase {
-  private readonly _dropdownData = signal<DropDownItem<TValue>[]>([]);
+export class RSLabelDropdownFormControl extends RSLabelFormControlBase {
+  private readonly _dropdownData = signal<DropDownItem[]>([]);
   readonly dropdownData = this._dropdownData.asReadonly();
 
   constructor(
     label: string,
-    options: RSLabelDropdownFormControlOption<TData, TValue>,
-    value: TValue,
+    options: RSLabelDropdownFormControlOption,
+    value: unknown,
     validator: RSFormValidators = null,
   ) {
     super(label, options, value, validator);
-    this.refresh();
+    this._initialize();
   }
 
   selectedTitle = computed(() => {
@@ -49,9 +48,9 @@ export class RSLabelDropdownFormControl<TData, TValue> extends RSLabelFormContro
     return selectedItem ? selectedItem.title : '';
   });
 
-  selectedData = computed<TData | undefined>(() => {
-    const dropdownOriData = this.getOptionItem<TData[]>(RSLabelDropdownFormControlOptions.dropdownData);
-    const dropdownValueField = this.getOptionItem<keyof TData>(RSLabelDropdownFormControlOptions.dropdownValueField);
+  selectedData = computed(() => {
+    const dropdownOriData = this.getOptionItem<DropdownModel[]>(RSLabelDropdownFormControlOptions.dropdownData);
+    const dropdownValueField = this.getOptionItem<string>(RSLabelDropdownFormControlOptions.dropdownValueField);
 
     if(!dropdownOriData || !dropdownValueField) return undefined;
 
@@ -60,21 +59,19 @@ export class RSLabelDropdownFormControl<TData, TValue> extends RSLabelFormContro
 
   refresh() {
     this._initialize();
-    this.getValidationMessages();
-    this.updateValueAndValidity();
   }
 
   override reset(formState: unknown = null, options?: { onlySelf?: boolean; emitEvent?: boolean; }) {
     super.reset(formState, options);
-
-    this._applyEmptyValue(options);
+    this._resetDropDownValue(options);
   }
 
   private _initialize() {
     this._validateOptions();
     this._setItems();
-    this._setValidators();
+
     this._applyEmptyValue();
+    this._setValidators();
   }
 
   private _setItems() {
@@ -83,74 +80,73 @@ export class RSLabelDropdownFormControl<TData, TValue> extends RSLabelFormContro
     )
   }
 
-  private _buildItems(): DropDownItem<TValue>[] {
-    const dropdownTitleField = this.getOptionItem<keyof TData>(RSLabelDropdownFormControlOptions.dropdownTitleField);
-    const dropdownValueField = this.getOptionItem<keyof TData>(RSLabelDropdownFormControlOptions.dropdownValueField);
-    const dropdownCompositeTitle = this.getOptionItem<(item: TData) => string>(RSLabelDropdownFormControlOptions.dropdownCompositeTitle);
+  private _buildItems() {
+    const dropdownTitleField = this.getOptionItem<string>(RSLabelDropdownFormControlOptions.dropdownTitleField);
+    const dropdownValueField = this.getOptionItem<string>(RSLabelDropdownFormControlOptions.dropdownValueField);
+    const dropdownCompositeTitle = this.getOptionItem<(item: unknown) => string>(RSLabelDropdownFormControlOptions.dropdownCompositeTitle);
 
-    const dropdownData = this.getOptionItem<TData[]>(RSLabelDropdownFormControlOptions.dropdownData) ?? [];
+    const dropdownData = this.getOptionItem<DropdownModel[]>(RSLabelDropdownFormControlOptions.dropdownData) ?? [];
 
     const items = dropdownData.map(item => ({
-      value: item[dropdownValueField!] as TValue,
+      value: item[dropdownValueField!],
       title: dropdownCompositeTitle
       ? dropdownCompositeTitle(item)
       : String(item[dropdownTitleField!])
-    }));
+    }) as DropDownItem);
 
-    let finalItems = items;
+    const finalItems = items ? items : [];
 
-    const emptyItem = this.getOptionItem<DropDownItem<TValue>>(RSLabelDropdownFormControlOptions.dropdownEmptyItem);
-    
-    if(emptyItem) { finalItems = [emptyItem, ...items]; }
+    const emptyItem = this.getOptionItem<DropDownItem>(RSLabelDropdownFormControlOptions.dropdownEmptyItem);
+    if(emptyItem) finalItems.splice(0, 0, emptyItem);
 
-    console.log(this.getOptionItem(RSLabelFormControlBaseOptions.required));
-    console.log(this.isRequired());
-
-    if(this.isRequired()) { finalItems = [{ value: '-1' as TValue, title: 'Please select an option' }, ...items]; }
-
-    console.log('Loaded Items =>', finalItems);
+    if(this.isRequired()) { finalItems.splice(0, 0, { value: '-1', title: 'select value...' }); }
 
     return finalItems;
   }
 
   private _validateOptions() {
-    const titleField = this.getOptionItem<keyof TData>(RSLabelDropdownFormControlOptions.dropdownTitleField);
-    const valueField = this.getOptionItem<keyof TData>(RSLabelDropdownFormControlOptions.dropdownValueField);
-    const compositeTitle = this.getOptionItem<(item: TData) => string>(RSLabelDropdownFormControlOptions.dropdownCompositeTitle);
+    const titleField = this.getOptionItem<string>(RSLabelDropdownFormControlOptions.dropdownTitleField);
+    const valueField = this.getOptionItem<string>(RSLabelDropdownFormControlOptions.dropdownValueField);
+    const compositeTitle = this.getOptionItem<(item: unknown) => string>(RSLabelDropdownFormControlOptions.dropdownCompositeTitle);
 
     if ((!titleField && !compositeTitle) || !valueField) {
-      throw new Error('To use Combobox, you should specify both "ComboboxTitleField or ComboboxCompositeTitle" and "ComboboxValueField"');
+      throw new Error('To use Dropdown, you should specify both "dropdownTitleField or dropdownCompositeTitle" and "dropdownValueField"');
     }
   }
 
   private _resetDropDownValue(options?: { onlySelf?: boolean; emitEvent?: boolean; }) {
     if (this.isRequired()) {
-      this.setValue('-1' as TValue, options);
+      this.setValue('-1', options);
     } else {
-      const emptyItem = this.getOptionItem<DropDownItem<TValue>>(RSLabelDropdownFormControlOptions.dropdownEmptyItem);
+      const emptyItem = this.getOptionItem<DropDownItem>(RSLabelDropdownFormControlOptions.dropdownEmptyItem);
       if (emptyItem)
         this.setValue(emptyItem['value'], options);
     }
   }
 
   private _setValidators(): void {
-    const validators = [...this.getCustomValidators()];
+    this.validators.set(this.getCustomValidators());
+
     if (this.isRequired()) {
-      this.validators().push(RSLabelDropDownValidators.required(-1 as TValue));
+      this.validators().push(RSLabelDropDownValidators.Required());
     }
-    this.validators.set(validators)
+
     this.clearValidators();
     this.setValidators(Validators.compose(this.validators()));
 
     this.updValsAndValidities();
   }
 
-  private _applyEmptyValue(options?: { onlySelf?: boolean; emitEvent?: boolean;}): void {
-    if (this.value !== null && this.value !== undefined && this.value !== '') return;
+  private _applyEmptyValue(): void {
+    const emptyItem = this.getOptionItem<DropDownItem>(RSLabelDropdownFormControlOptions.dropdownEmptyItem);
+    if (!!emptyItem && this.isRequired()) throw new Error('You cannot set an empty value for a required dropdown');
 
-    const emptyItem = this.getOptionItem<DropDownItem<TValue>>(RSLabelDropdownFormControlOptions.dropdownEmptyItem);
+    if(!this.value) {
+      if (this.isRequired()) this.setValue('-1');
+      else if (emptyItem) this.setValue(emptyItem['value']);
+    }
 
-    if (emptyItem) this.setValue(emptyItem.value, { ...options, emitEvent: false });
+    this.updateValueAndValidity();
   }
 }
 

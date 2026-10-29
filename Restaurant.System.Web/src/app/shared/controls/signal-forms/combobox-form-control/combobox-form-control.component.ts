@@ -46,7 +46,6 @@ export class ComboboxFormControlComponent<TData extends Record<string, unknown>,
   isRequired = computed(() => !!this.config().options.required);
 
   isErrorToShow = computed(() => {
-    console.log(!!(this.touched() && this.invalid() && !this.disabled()));
     return !!(this.touched() && this.invalid() && !this.disabled());
   });
 
@@ -111,7 +110,6 @@ export class ComboboxFormControlComponent<TData extends Record<string, unknown>,
   }
 
   OnButtonClicked() {
-    console.log(this.value());
     if(this.value()) this.value.set(null);
     this._input.nativeElement.value = '';
     this.focus();
@@ -149,16 +147,12 @@ export class ComboboxFormControlComponent<TData extends Record<string, unknown>,
     valueField: keyof TData | undefined,
     errorMessage: string,
     compositeTitle: (x: TData) => string) : { value: TValue; title: string }[] | null {
-    console.log('(!titleField && !compositeTitle) || !valueField', (!titleField && !compositeTitle) || !valueField);
     if ((!titleField && !compositeTitle) || !valueField) {
       throw new Error(errorMessage);
     }
 
     const data = this.config().options.comboboxItems;
-    if (!data)
-        return null;
-
-    console.log('drop down items (?) => ', this.config().options.comboboxItems);
+    if (!data) return null;
 
     const safeTitleField = titleField as keyof TData;
     const safeValueField = valueField as keyof TData;

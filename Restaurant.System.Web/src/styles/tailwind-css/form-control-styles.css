@@ -13,14 +13,14 @@
 .form-control {
   @apply block w-full py-2 px-3 text-base leading-5 text-gray-600 bg-white;
   @apply border border-gray-400 rounded transition duration-150 ease-in-out;
-  @apply dark:text-white dark:bg-transparent dark:border-gray-600;
+  @apply dark:text-gray-200 dark:bg-gray-700 dark:border-gray-400;
   @apply dark:placeholder:text-gray-600;
 }
 
 .form-control:focus {
   @apply border rounded-md focus:ring-2 ring-blue-600;
   @apply border-blue-600 bg-white text-gray-600;
-  @apply dark:bg-transparent dark:text-white dark:ring-gray-400;
+  @apply dark:bg-gray-800 dark:text-white dark:ring-gray-400;
   @apply border-gray-400 dark:placeholder:text-gray-400;
 }
 
@@ -29,37 +29,64 @@
   @apply dark:outline-none dark:border-none;
 }
 
-.form-control:invalid {
-  @apply required:border-red-500;
+.form-control.is-invalid,
+.combobox-input:has(.combobox-form-control.is-invalid) {
+  @apply border-red-500 bg-red-50;
+  @apply dark:bg-red-950;
+}
+
+.form-control.is-invalid:focus,
+.combobox-input:has(.combobox-form-control.is-invalid):focus-within,
+.form-control-check.is-invalid:focus {
+  @apply border-blue-600 bg-white;
+  @apply dark:bg-gray-800;
+}
+
+.form-control-check {
+  @apply block w-full py-2 px-3 text-base leading-5 text-gray-600 bg-white;
+  @apply transition duration-150 ease-in-out;
+  @apply dark:text-white dark:bg-gray-700;
+  @apply dark:placeholder:text-gray-600;
+}
+
+.form-control-check:focus {
+  @apply border rounded-md focus:ring-2 ring-blue-600;
+  @apply bg-white text-gray-600;
+  @apply dark:bg-gray-800 dark:text-white dark:ring-gray-400;
+  @apply dark:placeholder:text-gray-400;
+}
+
+.combobox-input {
+  @apply flex items-center w-full;
+  @apply border-0 border-b border-gray-400 rounded-b-md rounded-t-none;
+  @apply transition duration-150 ease-in-out;
+  @apply dark:border-gray-600 dark:placeholder:text-gray-600;
+}
+
+.combobox-input:focus-within {
+  @apply border-b-2 border-blue-600 ring-0 rounded-b-md rounded-t-none bg-white;
+  @apply dark:bg-gray-800 dark:text-white border-gray-400 dark:placeholder:text-gray-400;
 }
 
 .combobox-form-control {
   @apply block w-full py-2 px-3 text-base leading-5 text-gray-600 bg-white;
-  @apply transition duration-150 ease-in-out outline-none border-none;
-  @apply dark:text-white dark:bg-transparent dark:border-gray-600;
+  @apply outline-none border-none;
+  @apply dark:text-white dark:bg-gray-700 dark:border-gray-600;
   @apply dark:placeholder:text-gray-600;
 }
 
-.combobox-input {
-  @apply flex items-center gap-1 border-b border-gray-400 rounded transition duration-150 ease-in-out;
+.combobox-form-control:focus {
+  @apply border-0 outline-none ring-0;
 }
 
-.combobox-input :focus {
-  @apply border-none rounded-b-none;
-}
-
-.combobox-form-control :disabled {
+.combobox-input:has(.combobox-form-control):disabled {
   @apply bg-gray-200 opacity-100 cursor-not-allowed;
-}
-
-.combobox-form-control :invalid {
-  @apply required:border-red-500;
 }
 
 .datepicker-form-control {
   @apply block w-full py-2 px-3 text-base leading-5 text-gray-600 bg-white;
   @apply transition duration-150 ease-in-out outline-none border-none;
-  @apply dark:text-white dark:bg-transparent dark:border-gray-600;
+  @apply dark:text-white dark:bg-gray-800 dark:border-gray-600;
   @apply dark:placeholder:text-gray-600;
 }
 
@@ -100,6 +127,15 @@
 /* btn-secondary */
 .btn-secondary {
   @apply bg-gray-600 text-white font-semibold;
+}
+
+/* btn-secondary */
+.btn-danger {
+  @apply text-red-500 transition-all duration-300 ease-in-out;
+}
+
+.btn-danger:hover {
+  @apply dark:hover:text-white! text-white bg-red-500;
 }
 
 /* custom toggle */

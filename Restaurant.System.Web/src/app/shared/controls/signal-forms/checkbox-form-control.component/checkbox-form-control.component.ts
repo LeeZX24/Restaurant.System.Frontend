@@ -4,10 +4,11 @@ import { FormCheckboxControl, ValidationError, WithOptionalFieldTree } from '@an
 import { TranslateService } from '@ngx-translate/core';
 import { CheckboxFormControl } from '../signal-form-control';
 import { ErrorConverterPipe } from '@LeeZX24/forms';
+import { MatIconModule } from "@angular/material/icon";
 
 @Component({
   selector: 'rs-custom-checkbox-form-control',
-  imports: [ErrorConverterPipe],
+  imports: [ErrorConverterPipe, MatIconModule],
   templateUrl: './checkbox-form-control.component.html',
   styleUrl: './checkbox-form-control.component.css',
 })

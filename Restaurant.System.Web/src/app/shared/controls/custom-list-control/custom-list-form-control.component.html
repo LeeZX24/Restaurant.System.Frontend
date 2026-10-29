@@ -1,31 +1,31 @@
 <div class="form-group">
-  <span [class]="labelSize()" class="form-label">Role List</span>
-  <div [class]="inputSize()" class="relative">
+  <span [class]="labelSize()" class="form-label" [hidden]="label() === ''">{{ label() }}</span>
+  <div [class]="label() !== '' ? inputSize() : 'w-full'" class="relative">
     <div class="flex">
       <ul class="grow space-y-1">
-        @for(row of rows(); track $index) {
+        @for(row of rows(); track row; let rowIndex = $index) {
           <li>
             @let rowFG = getRowFG(row);
 
-            <div class="flex items-center gap-2">
-              @for(access of this.options().accessType; track $index) {
-                @let control = rowFG.get(access.key)!;
+            <div class="flex items-center gap-1">
+              @for(access of this.options().accessType; track access.key) {
+                @let control = rowFG.get(access.key);
 
                 <div class="flex" [class.grow]="access.isMain">
-                  @if (this.isComboboxFormControl(control)) {
+                  @if (control && this.isComboboxFormControl(control)) {
                     <div class="w-full">
                       <rs-combobox-form-control [fc]=" control | cast: CustomControlType.Combobox"></rs-combobox-form-control>
                     </div>
                   }
-                  @if (this.isTextboxFormControl(control)) {
+                  @if (control && this.isTextboxFormControl(control)) {
                     <div class="w-full">
                       <rs-text-form-control [fc]="control | cast:CustomControlType.Textbox"></rs-text-form-control>
                     </div>
                   }
                 </div>
               }
-              <div>
-                <rs-button-control [icon]="'do_not_disturb_on'" (buttonClicked)="removeListItem($index)"></rs-button-control>
+              <div class="mb-4 hover:rounded hover:bg-gray-800/50 hover: transition-all duration-150 ease-in-out">
+                <rs-button-control [icon]="'do_not_disturb_on'" [cssClass]="'btn-danger'" (buttonClicked)="removeListItem(rowIndex)"></rs-button-control>
               </div>
             </div>
           </li>
@@ -33,9 +33,6 @@
 
         <li>
           <rs-button-control [icon]="'add'" [label]="'Add Item'" [cssClass]="'w-full flex items-center justify-center p-1 rounded hover:bg-gray-400 transition-all duration-300 dark:hover:bg-white/50'" (buttonClicked)="onAddClick()"></rs-button-control>
-          <!-- <div class="flex items-center justify-center p-1 rounded hover:bg-gray-400 transition-all duration-300 dark:hover:bg-white/50">
-            
-          </div> -->
         </li>
       </ul>
     </div>

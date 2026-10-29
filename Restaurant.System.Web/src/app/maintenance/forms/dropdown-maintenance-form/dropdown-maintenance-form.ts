@@ -3,7 +3,6 @@ import { DropdownDto } from "../../../shared/models/dtos/dropdown.dto";
 import { ControlService } from "../../../shared/services/control.service";
 import { MaintenanceFormGroup } from "../../maintenance.form-group";
 import { RSLabelDropdownFormControl } from "../../../shared/controls/custom-label-dropdown-form-control/custom-label-dropdown-form-control";
-import { DropdownModel } from "../../../shared/models/dropdown.model";
 import { RSLabelToggleFormControl } from "../../../shared/controls/custom-label-toggle-control/custom-label-toggle-form-control";
 import { Toggle } from "../../../shared/models/toggle.model";
 
@@ -24,7 +23,7 @@ export class DropdownMaintenanceFormGroup extends MaintenanceFormGroup<DropdownD
     }
 
     get isNewCategoryFC() { return this.get(this.controlKeys.isNewCategory) as RSLabelToggleFormControl; }
-    get categoryDDFC() { return this.get(this.controlKeys.categoryDD) as RSLabelDropdownFormControl<DropdownModel, string>; }
+    get categoryDDFC() { return this.get(this.controlKeys.categoryDD) as RSLabelDropdownFormControl; }
     get categoryTextFC() { return this.get(this.controlKeys.category) as RSLabelTextFormControl; }
     get codeFC() { return this.get(this.controlKeys.code) as RSLabelTextFormControl; }
     get descriptionFC() { return this.get(this.controlKeys.description) as RSLabelTextFormControl; }

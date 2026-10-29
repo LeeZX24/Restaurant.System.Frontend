@@ -15,7 +15,6 @@ export class RedirectComponent {
 
   constructor() {
     const redirectPath = this.activatedRoute.snapshot.data['redirectTo'] as string;
-    console.log('Navigate to -> ', redirectPath);
     this.routerService.navigateTo(redirectPath);
   }
 }

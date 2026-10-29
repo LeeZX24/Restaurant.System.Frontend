@@ -33,7 +33,6 @@ export class DropdownFormControlComponent<TData extends Record<string, unknown>,
   isRequired = computed(() => !!this.config().options.required);
 
   isErrorToShow = computed(() => {
-    console.log(!!(this.touched() && this.invalid() && !this.disabled()));
     return !!(this.touched() && this.invalid() && !this.disabled());
   });
 
@@ -81,11 +80,8 @@ export class DropdownFormControlComponent<TData extends Record<string, unknown>,
 
   onSelectionChange(event: Event): void {
     const select = event.target as HTMLSelectElement;
-    console.log(select);
     this.value.set({value: select.value as TValue});
     this.touched.set(true);
-
-    console.log(this.value());
   }
 
   private _getDropDownItems(): DropDownItem<TValue>[] {
@@ -139,16 +135,12 @@ export class DropdownFormControlComponent<TData extends Record<string, unknown>,
     valueField: keyof TData | undefined,
     errorMessage: string,
     compositeTitle: (x: TData) => string) : DropDownItem<TValue>[] | null {
-    console.log('(!titleField && !compositeTitle) || !valueField', (!titleField && !compositeTitle) || !valueField);
     if ((!titleField && !compositeTitle) || !valueField) {
       throw new Error(errorMessage);
     }
 
     const data = this.config().options.dropdownItems;
-    if (!data)
-        return null;
-
-    console.log('drop down items (?) => ', this.config().options.dropdownItems);
+    if (!data) return null;
 
     const safeTitleField = titleField as keyof TData;
     const safeValueField = valueField as keyof TData;

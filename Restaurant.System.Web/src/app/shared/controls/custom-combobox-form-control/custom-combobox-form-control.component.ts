@@ -3,29 +3,31 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, ElementRef, input, output, signal, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RSComboboxFormControl } from './custom-combobox-form-control';
-import { DropDownItem } from '../custom-label-dropdown-form-control/dropdown';
+import { CustomFormControlBaseComponent } from '@LeeZX24/forms';
+import { DropdownModel } from '../../models/dropdown.model';
+import { ComboboxItem } from './combobox';
 
 @Component({
   selector: 'rs-combobox-form-control',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatIconModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatIconModule, CustomFormControlBaseComponent],
   templateUrl: './custom-combobox-form-control.component.html',
   styleUrl: './custom-combobox-form-control.component.css',
 })
-export class CustomComboboxFormControlComponent<
-  TData extends Record<string, unknown>,
-  TValue = unknown,
-> {
-  fc = input.required<RSComboboxFormControl<TData, TValue>>();
-  items = input<TData[]>([]);
+export class RSComboboxFormControlComponent {
+  fc = input.required<RSComboboxFormControl>();
+  inputSize = input<string>('w-full');
+  items = input<DropdownModel[]>([]);
   isOpen = signal(false);
 
   term = signal('');
   valueChange = output<string>();
 
+  readonly selectedItem = signal<ComboboxItem<DropdownModel> | null>(null);
+
   @ViewChild('input') private _input!: ElementRef;
 
   isSelected = computed(() => {
-    return this.fc().selectedData() ? true : false;
+    return this.selectedItem() ? true : false;
   });
 
   focus(): void {
@@ -39,9 +41,23 @@ export class CustomComboboxFormControlComponent<
     this.fc().searchTerm$.set(event.target.value);
   }
 
-  onItemSelected(item: DropDownItem<TValue>) {
-    this.fc().setValue(item.value, { emitEvent: false });
-    this.fc().searchTerm$.set(item.title);
+  onItemSelected(item: ComboboxItem<DropdownModel>) {
+    const selectedItem = item;
+    if(!selectedItem) return;
+    this.selectedItem.set(selectedItem);
+
+    this.fc().setValue(selectedItem);
+
+    const title = selectedItem.title;
+    if(!title) return;
+    this.fc().searchTerm$.set(title);
+
+
     this.isOpen.set(false);
+  }
+
+  clearSelected() {
+    this.selectedItem.set(null);
+    this.fc().clear();
   }
 }

@@ -88,23 +88,12 @@ export class RouterService {
   private async go(path: string, options: NavigationExtras = this.navOptn) {
     const entryPoint = this.getEntryPoint(path);
 
-    console.log('[RouterService] Requested path:', path);
-    console.log('[RouterService] Entry point:', entryPoint);
-    console.log('[RouterService] Before navigation:', window.location.pathname);
-
-
     const success = await this.router.navigateByUrl(path, { ...options, skipLocationChange: true });
-
-    console.log('[RouterService] Navigation success:', success);
-    console.log('[RouterService] Angular URL:', this.router.url);
 
     if(success) {
       this.currentPath.set(path);
       this.entryPoint.set(entryPoint);
-      // this.location.replaceState(entryPoint);
     }
-
-    console.log('[RouterService] Final browser URL:', window.location.pathname);
 
     return success;
   }

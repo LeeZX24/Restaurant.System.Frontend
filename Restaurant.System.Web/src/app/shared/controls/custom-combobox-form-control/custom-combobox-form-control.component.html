@@ -1,26 +1,26 @@
-
-<div class="relative flex flex-col w-full">
+<rs-form-control-base [fc]="fc()" [inputSize]="inputSize()">
   <div class="combobox-input">
     <input [id]="fc().inputId()"
-      [formControl]="fc()" 
-      [class]="fc().elementCssClass()" 
-      class="combobox-form-control" 
+      [value]="fc().searchTerm$()"
+      [class]="fc().elementCssClass()"
+      class="combobox-form-control"
       [placeholder]="'Select items....'"
       (input)="onInputChange($event)"
       (focus)="isOpen.set(true)"
       (blur)="isOpen.set(false)"
+      type="text"
       #input/>
-    <button type="button" 
-      [class.hidden]="!isSelected()" 
-      (click)="fc().clear()">
+    <button type="button"
+      [class.hidden]="!isSelected()"
+      (click)="clearSelected()">
       <mat-icon>close_small</mat-icon>
     </button>
   </div>
 
-  <ul class="absolute left-0 top-full z-50 mt-1 w-full border rounded-md shadow-lg bg-white text-black dark:bg-gray-700 dark:text-white" 
+  <ul class="absolute left-0 top-full z-50 mt-1 w-full border rounded-md shadow-lg bg-white text-black dark:bg-gray-700 dark:text-white"
     [class.hidden]="!isOpen()">
     @for(item of fc().filteredItems(); track item.value) {
-      <li class="w-full hover:bg-gray-400 dark:bg-gray-400 dark:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300" 
+      <li class="w-full hover:bg-gray-400 dark:bg-gray-400 dark:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300 first:border-t-none"
         (mousedown)="onItemSelected(item)">
         <div class="p-3 flex gap-2">
           <span> {{ item.title }} </span>
@@ -29,4 +29,4 @@
       </li>
     }
   </ul>
-</div>
+</rs-form-control-base>
