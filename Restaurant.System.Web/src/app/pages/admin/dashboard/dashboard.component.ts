@@ -16,9 +16,7 @@ export class DashboardComponent {
   private dialogService = inject(DialogService);
 
   logout() {
-    const ref = this.dialogService.showLoadingDialog('Logout User ...', false, false, {
-      loading: true,
-    });
+    const ref = this.dialogService.showLoadingDialog('Logout User ...');
 
     ref.afterOpened().subscribe(() => {
       setTimeout(() => {

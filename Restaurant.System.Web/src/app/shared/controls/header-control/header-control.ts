@@ -48,9 +48,7 @@ export class HeaderControl {
   }
 
   signOut() {
-    const ref = this.dialogService.showLoadingDialog('Logout User ...', false, false, {
-      loading: true,
-    });
+    const ref = this.dialogService.showLoadingDialog('Logout User ...');
 
     ref.afterOpened().subscribe(() => {
       setTimeout(() => {

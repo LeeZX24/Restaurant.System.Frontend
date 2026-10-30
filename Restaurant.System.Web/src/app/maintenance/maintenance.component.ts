@@ -6,7 +6,7 @@ import { LayoutService } from '../core/services/layout.service';
 import { CONFIG_REGISTRY, MaintenanceConfig } from './maintenance.entity';
 import { DataGridComponent } from '../shared/controls/data-grid-component/data-grid.component';
 import { DataGridActionEvent } from '../shared/controls/data-grid-component/data-grid';
-import { DialogService } from '@LeeZX24/dialogs';
+import { DialogService, DialogVariant } from '@LeeZX24/dialogs';
 import { MaintenanceFormGroup } from './maintenance.form-group';
 import { MaintenanceFormComponent } from './forms/form.component';
 import { MaintenanceService } from '../core/services/api/maintenance.service';
@@ -58,17 +58,22 @@ export class MaintenanceComponent<TFormGroup extends MaintenanceFormGroup<T>, T 
   }
 
   async onDelete(item: T) {
-    const ref = this.dialogService.showWarningDialog(`Are you sure to delete this item?`, 'Delete Item' , false, true);
-    
+    const ref = this.dialogService.showWarningDialog('Delete Item', `Are you sure to delete this item?`);
+
     ref.afterClosed().subscribe(async (result)=> {
       if(result) {
         await this.maintenanceService.removeItem<T>(item).subscribe({
-          next: () => {
-            this.dialogService.showSuccessDialog('Item deleted success.', 'Success - Delete', false, true, { success: true });
-             this.fetch();
+          next: async () => {
+            const deleteSuccessConfig = this.dialogService.getDialogConfig(DialogVariant.Success, { success: true })
+
+            await this.dialogService.updateDialog(ref, { ...deleteSuccessConfig, message: 'Item deleted success.', title: 'Success - Delete' });
+
+            await this.fetch();
           },
-          error: (error) => {
-            this.dialogService.showErrorDialog(`Error - ${error}`, 'Error - Delete', false, true, { error: true });
+          error: async (error) => {
+            const deleteErrorConfig = this.dialogService.getDialogConfig(DialogVariant.Error);
+
+            await this.dialogService.updateDialog(ref, { ...deleteErrorConfig, message: `Error - ${error}`, title: 'Error - Delete' });
           }
         });
       }

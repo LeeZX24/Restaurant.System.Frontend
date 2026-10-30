@@ -22,9 +22,7 @@ export class ActivityService implements OnDestroy {
   }
 
   async _submit(req: BaseDto) {
-    const ref = this.dialogService.showLoadingDialog('Submitting request ...', false, false, {
-      loading: true,
-    });
+    const ref = this.dialogService.showLoadingDialog('Submitting request ...');
 
     // Wait for the dialog to open, then trigger the URL resolution and POST
     ref.afterOpened().subscribe(() => {

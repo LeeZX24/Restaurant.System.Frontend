@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Service, signal } from '@angular/core';
-import { CustomDialogConfig, DialogService, DialogVariant, ErrorDialogComponent, UpdatableDialogRef } from '@LeeZX24/dialogs';
+import { CustomDialogConfig, DialogService, DialogVariant, UpdatableDialogRef } from '@LeeZX24/dialogs';
 import { firstValueFrom } from 'rxjs';
 import { AppConfig } from '../../shared/configs/app-config.model';
 import { APP_CONFIG } from '../../shared/configs/app-config.state';
@@ -34,7 +34,7 @@ export class AppInitializeService {
 
     const appConfig = await this.config;
 
-    const ref = this.dialogService.showLoadingDialog('Checking Backend...', false, false, { loading: true });
+    const ref = await this.dialogService.showLoadingDialog('Checking Backend...');
 
     await firstValueFrom(ref.afterOpened());
 
@@ -42,21 +42,15 @@ export class AppInitializeService {
       const backendOnline = await this.checkBackend(appConfig);
 
       if(backendOnline) {
-        ref.update({
-          message: 'Backend Online!',
-          title: 'Success',
-          variant: DialogVariant.Success,
-          extraConfig: { success: true }
-        });
+        const successConfig = this.dialogService.getDialogConfig(DialogVariant.Success, { success: true, footerEnable: false });
+
+        await this.dialogService.updateDialog(ref, { ...successConfig, title: 'Success', message: 'Backend Online!', });
 
         await this.wait(500);
 
-        await ref.update({
-          message: 'Resolving application route...',
-          title: 'Initializing',
-          variant: DialogVariant.Info,
-          extraConfig: { loading: true },
-        });
+        const loadingConfig = this.dialogService.getDialogConfig(DialogVariant.Info, { loading: true });
+
+        await this.dialogService.updateDialog(ref, { ...loadingConfig, title: 'Initializing', message: 'Resolving application route...' });
 
         await this.routerService.resolveEntryPoint();
 
@@ -100,20 +94,13 @@ export class AppInitializeService {
           ? error.error.message
           : error.message;
 
-      return {
-        title: `Error (${error.status})`,
-        message,
-        variant: DialogVariant.Error,
-        component: ErrorDialogComponent
-      };
+      return this.dialogService.getDialogConfig(DialogVariant.Error, { title: `Error (${error.status})`, message });
     }
 
-    return {
+    return this.dialogService.getDialogConfig(DialogVariant.Error, {
       title: 'Initialization Error',
       message: 'An unexpected error occurred during startup.',
-      variant: DialogVariant.Error,
-      component: ErrorDialogComponent
-    };
+    });
   }
 
   private wait(ms: number) {
@@ -122,11 +109,6 @@ export class AppInitializeService {
 
   private showErrorDialog(ref: UpdatableDialogRef, error: unknown) {
     const errorConfig = this.openErrorDialog(error);
-    ref.update({
-      title: errorConfig.title,
-      message: errorConfig.message,
-      variant: errorConfig.variant,
-      extraConfig: errorConfig.extraConfig,
-    });
+    this.dialogService.updateDialog(ref, errorConfig);
   }
 }

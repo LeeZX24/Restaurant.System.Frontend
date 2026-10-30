@@ -11,7 +11,6 @@ import { LayoutData } from "../../shared/layouts/layout-data";
 import { MaintenanceService } from '../../core/services/api/maintenance.service';
 import { BaseDto } from '../../shared/models/dtos/base.dto';
 import { DialogService, DialogVariant } from '@LeeZX24/dialogs';
-import { ref } from 'node:process';
 
 @Directive()
 export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFormGroup<T>, T extends BaseDto> implements LayoutComponent<T>, OnInit {
@@ -37,69 +36,64 @@ export abstract class MaintenanceFormComponent<TFormGroup extends MaintenanceFor
 
   async processSubmit()
   {
-    const ref = await this.dialogService.showLoadingDialog('Loading ...', false, false, { loading: true });
+    const ref = await this.dialogService.showLoadingDialog('Loading ...');
 
     ref.afterOpened().subscribe(async () => {
       if (this.ValidateForm()) {
         if (this.itemData().action == 'create') {
-          ref.update({
-            message: 'Creating Item ...'
-          })
+          const addLoadingConfig = this.dialogService.getDialogConfig(DialogVariant.Info, { loading: true });
+
+          await this.dialogService.updateDialog(ref, { ...addLoadingConfig, message: 'Creating Item ...', title: 'Create New Item - Maintenance' });
 
           await this.maintenanceService.addNewItem<T>(this.form.getRawValue())
           .subscribe({
-            next: (res) => {
-              
-              ref.update({
-                message: 'Create Item Successful.',
-                variant: DialogVariant.Success,
-                extraConfig: { loading: false, success: true }
-              });
+            next: async (res) => {
+
+              const addSuccessConfig = this.dialogService.getDialogConfig(DialogVariant.Success, { success: true });
+
+              await this.dialogService.updateDialog(ref, { ...addSuccessConfig, message: 'Create Item Successful.', title: 'Create New Item Success - Maintenance' });
 
               this.success(res as T);
             },
-            error: (error) => {
-              ref.update({
-                message: `Error - ${error}`,
-                variant: DialogVariant.Error,
-                extraConfig: { loading: false }
-              });
+            error: async (error) => {
+              const addErrorConfig = this.dialogService.getDialogConfig(DialogVariant.Error);
 
-              this.error()
+              await this.dialogService.updateDialog(ref, { ...addErrorConfig, message: `Error - ${error}`, title: 'Create New Item Error - Maintenance' });
+              this.error();
             },
           });
         }
 
         if (this.itemData().action == 'edit') {
-          ref.update({
-            message: 'Updating Item ...'
-          })
+          const updateLoadingConfig = this.dialogService.getDialogConfig(DialogVariant.Info, { loading: true });
+
+          await this.dialogService.updateDialog(ref, { ...updateLoadingConfig, message: 'Updating Item ...', title: 'Update Existing Item - Maintenance' });
 
           await this.maintenanceService.updateCurrentItem<T>(this.form.getRawValue())
           .subscribe({
-            next: (res) => {
-              ref.update({
-                message: 'Update Item Successful.',
-                variant: DialogVariant.Success,
-                extraConfig: { loading: false, success: true }
-              });
-              this.success(res as T)
+            next: async (res) => {
+              const updateSuccessConfig = this.dialogService.getDialogConfig(DialogVariant.Success, {success: true });
+
+              await this.dialogService.updateDialog(ref, { ...updateSuccessConfig, message: 'Update Item Successful.', title: 'Update Existing Item Success - Maintenance' });
+
+              this.success(res as T);
             },
-            error: () => this.error(),
+            error: async (error) => {
+              const updateErrorConfig = this.dialogService.getDialogConfig(DialogVariant.Error);
+
+              await this.dialogService.updateDialog(ref, { ...updateErrorConfig, message: `Error - ${error}`, title: 'Create New Item Error - Maintenance' });
+
+              this.error();
+            }
           });
         }
       } else {
-        ref.update({
-          message: 'Error creating item!',
-          title: 'Error - Maintenance',
-          variant: DialogVariant.Error,
-          extraConfig: { loading: false },
-          hasFooter: true,
-          hasHeader: true,
-        })
+        const errorConfig = this.dialogService.getDialogConfig(DialogVariant.Error);
+
+        await this.dialogService.updateDialog(ref, { ...errorConfig, message: 'Error creating and updating item!', title: 'Error - Maintenance' });
       }
     });
-    
+
   }
 
   abstract ValidateForm(): boolean;

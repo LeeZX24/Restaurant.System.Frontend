@@ -35,7 +35,7 @@ export class ChangePasswordComponent extends BaseAuthComponent implements OnInit
 
   get passwordFC() { return this.getFormControl('password') as RSLabelTextFormControl; }
   get confirmPasswordFC() { return this.getFormControl('confirmPassword') as RSLabelTextFormControl; }
-  
+
   protected override onValidateForm(): boolean {
     if (
       !this.passwordFC.value ||
@@ -80,8 +80,8 @@ export class ChangePasswordComponent extends BaseAuthComponent implements OnInit
     if (!this.onValidateForm) return;
     const user = this.authService.getCurrentUserValue();
     const request = { userInfo: user, newPassword: this.passwordFC.value } as ChangePasswordRequestDto;
-    
-    const ref = this.dialogService.showLoadingDialog('Changing Password ...', false, false, { loading: true })
+
+    const ref = this.dialogService.showLoadingDialog('Changing Password ...');
 
     ref.afterOpened().subscribe(() => {
       this.authService.changePassword(request).subscribe({
@@ -91,12 +91,12 @@ export class ChangePasswordComponent extends BaseAuthComponent implements OnInit
           // if(response.passwordChanged) {
 
           //   await ref.update({
-          //     message: 'Redirect to Dashboard', 
-          //     title: 'Info - Login', 
+          //     message: 'Redirect to Dashboard',
+          //     title: 'Info - Login',
           //     variant: DialogVariant.Info,
           //     extraConfig: { loading: true }
           //   })
-            
+
           //   await this.routerService.navigateTo('/admin/dashboard');
 
           //   await this.wait(1000);
@@ -104,24 +104,17 @@ export class ChangePasswordComponent extends BaseAuthComponent implements OnInit
           //   ref.close();
           // }
 
-          await ref.update({
-            message: 'Logging out...', 
-            title: 'Info - Login', 
-            variant: DialogVariant.Info,
-            extraConfig: { loading: true }
-          })
-          
-          await this.authService.logout();
+          const loggingOutConfig = this.dialogService.getDialogConfig(DialogVariant.Info, { loading: true });
 
+          this.dialogService.updateDialog(ref, { ...loggingOutConfig, message: 'Logging out...', title: 'Info - Login' });
+
+          await this.authService.logout();
 
           await this.wait(1000);
 
-          await ref.update({
-            message: 'Redirect to Login...', 
-            title: 'Info - Login', 
-            variant: DialogVariant.Info,
-            extraConfig: { loading: true }
-          })
+          const redirectConfig = this.dialogService.getDialogConfig(DialogVariant.Info, { loading: true });
+
+          this.dialogService.updateDialog(ref, { ...redirectConfig, message: 'Redirect to Login...', title: 'Info - Login' });
 
           await this.wait(1000);
 

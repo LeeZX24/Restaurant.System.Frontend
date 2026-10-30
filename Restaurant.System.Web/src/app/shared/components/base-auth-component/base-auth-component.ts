@@ -12,7 +12,7 @@ import { BaseResponseDto } from '../../models/dtos/base/response.dto';
 export abstract class BaseAuthComponent extends SubscriptionBase implements OnInit, OnDestroy
 {
   form!: FormGroup;
-  
+
   protected routerService = inject(RouterService);
   protected authService = inject(AuthService);
   protected dialogService = inject(DialogService);
@@ -30,14 +30,12 @@ export abstract class BaseAuthComponent extends SubscriptionBase implements OnIn
   protected abstract onValidateForm(): boolean;
 
   handleSuccess(ref: UpdatableDialogRef, response: BaseResponseDto, successMessage?: string, successTitle?: string) {
-    ref.update({
-      message: response.message ?  response.message : successMessage ? successMessage : 'Success.',
-      title: successTitle ? successTitle : 'Success - Login',
-      hasHeader: false,
-      hasFooter: false,
-      variant: DialogVariant.Success,
-      extraConfig: { success: true } 
-    });
+    const message = response.message ?  response.message : successMessage ? successMessage : 'Success.';
+    const title = successTitle ? successTitle : 'Success - Login';
+
+    const config = this.dialogService.getDialogConfig(DialogVariant.Success, { success: true, footerEnable: false });
+
+    this.dialogService.updateDialog(ref, { ...config, title: title, message: message });
   }
 
   handleError(ref: UpdatableDialogRef, err: unknown, errorTitle?: string) {
@@ -47,13 +45,9 @@ export abstract class BaseAuthComponent extends SubscriptionBase implements OnIn
       errorMessage = err.error.message;
     }
 
-    ref.update({
-      message: errorMessage, 
-      title: errorTitle ? errorTitle : 'Error - Login', 
-      hasHeader: false,
-      hasFooter: true,
-      variant: DialogVariant.Error
-    });
+    const config = this.dialogService.getDialogConfig(DialogVariant.Error);
+
+    this.dialogService.updateDialog(ref, { ...config, message: errorMessage, title: errorTitle ? errorTitle : 'Error - Login' });
   }
 
   showFormControlsValidationErrors(): void {
@@ -74,7 +68,7 @@ export abstract class BaseAuthComponent extends SubscriptionBase implements OnIn
       }
     }
   }
-  
+
   public wait(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }

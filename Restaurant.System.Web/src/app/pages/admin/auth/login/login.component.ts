@@ -48,33 +48,28 @@ export class LoginComponent extends BaseAuthComponent {
 
     const request = { identifier: this.usernameFC.value, password: this.passwordFC.value } as LoginRequestDto;
 
-    const ref = this.dialogService.showLoadingDialog('Login User ...', false, false, { loading: true });
+    const ref = this.dialogService.showLoadingDialog('Login User ...');
 
     ref.afterOpened().subscribe(() => {
       this.authService.login(request).subscribe({
         next: async (response) => {
+
           await this.handleSuccess(ref, response, 'Login successful.', 'Success');
 
           await this.wait(1000);
-          
+
           await this.authService.setAuthSession(response);
-          
-          await ref.update({
-            message: 'Check First Time Login ...', 
-            title: 'Info - Login', 
-            variant: DialogVariant.Info,
-            extraConfig: { loading: true }
-          })
-          
+
+          const firstTimeLoginConfig = this.dialogService.getDialogConfig(DialogVariant.Info, { loading: true });
+
+          await this.dialogService.updateDialog(ref, { ...firstTimeLoginConfig, message: 'Check First Time Login ...', title: 'Info - Login' });
+
           await this.wait(1000);
 
           if(response.userInfo?.securityInfo?.mustChangePassword){
-            await ref.update({
-              message: 'Redirect to Change Password', 
-              title: 'Info - Login', 
-              variant: DialogVariant.Info,
-              extraConfig: { loading: true }
-            })
+            const redirectConfig = this.dialogService.getDialogConfig(DialogVariant.Info, { loading: true });
+
+            await this.dialogService.updateDialog(ref, { ...redirectConfig, message: 'Redirect to Change Password', title: 'Info - Login' });
 
             await this.wait(1000);
 
@@ -82,14 +77,11 @@ export class LoginComponent extends BaseAuthComponent {
 
             ref.close();
           }
-            
+
           else {
-            await ref.update({
-              message: 'Redirect to Dashboard', 
-              title: 'Info - Login', 
-              variant: DialogVariant.Info,
-              extraConfig: { loading: true }
-            })
+            const redirectConfig = this.dialogService.getDialogConfig(DialogVariant.Info, { loading: true });
+
+            await this.dialogService.updateDialog(ref, { ...redirectConfig, message: 'Redirect to Dashboard', title: 'Info - Login' });
 
             await this.wait(1000);
 
@@ -97,7 +89,7 @@ export class LoginComponent extends BaseAuthComponent {
 
             ref.close();
           }
-            
+
         },
         error: (error) => {
           this.handleError(ref, error, 'Login failed.');

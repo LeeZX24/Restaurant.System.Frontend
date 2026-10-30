@@ -12,7 +12,8 @@ import { RSLabelTextFormControlComponent, RSLabelEmailFormControlComponent } fro
   imports: [CustomButtonControl, RSLabelTextFormControlComponent, RSLabelEmailFormControlComponent],
   template: `
     <div class="form-container">
-      <div class="form-content"> 
+      <div class="form-title"><h2>Create - Staff</h2></div>
+      <div class="form-content">
         <rs-label-text-form-control [fc]="form.usernameFC"></rs-label-text-form-control>
         <rs-label-email-form-control [fc]="form.emailFC" [labelSize]="'w-4/12'" [inputSize]="'w-8/12'"></rs-label-email-form-control>
         <rs-label-text-form-control [fc]="form.lastNameFC"></rs-label-text-form-control>

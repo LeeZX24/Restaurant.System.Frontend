@@ -48,7 +48,7 @@ export class LoginComponent extends BaseAuthComponent {
 
     const request = { identifier: this.emailFC.value, password: this.passwordFC.value } as LoginRequestDto;
 
-    const ref = this.dialogService.showLoadingDialog('Login User ...', false, false, { loading: true });
+    const ref = this.dialogService.showLoadingDialog('Login User ...');
 
     ref.afterOpened().subscribe(() => {
       this.authService.login(request).subscribe({
